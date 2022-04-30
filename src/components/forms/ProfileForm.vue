@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { IUserProfile } from 'src/api';
+import { notificationHelper } from 'src/helpers';
 import { injectStrict, _user } from 'src/injectables';
 import { ref } from 'vue';
 /**
@@ -56,6 +57,7 @@ const avatar = ref();
  * -----------------------------------------
  */
 async function onSubmit() {
+  notificationHelper.loading();
   const formData = new FormData();
   const { first_name, last_name, address, phone } = form.value;
   if (avatar.value) formData.append('avatar', avatar.value);
@@ -64,6 +66,8 @@ async function onSubmit() {
   formData.append('address', address as string);
   formData.append('phone', phone as string);
   await $user.update(formData);
+  notificationHelper.loading(false);
+
   $emits('completed');
 }
 /**

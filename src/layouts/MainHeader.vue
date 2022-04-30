@@ -11,26 +11,29 @@
       />
 
       <q-toolbar-title>
-        <q-input
-          v-model="search"
-          type="search"
-          placeholder="Buscar"
-          bg-color="white"
-          outlined
-          dense
-        >
-          <template v-slot:after>
-            <q-btn
-              class="text-white"
-              icon="mdi-magnify"
-              flat
-              dense
-              round
-              aria-label="Search"
-              @click="searchAction"
-            />
-          </template>
-        </q-input>
+        <q-form @submit.prevent="onSubmit">
+          <q-input
+            v-model="search"
+            type="search"
+            placeholder="Buscar"
+            bg-color="white"
+            outlined
+            dense
+          >
+            <template v-slot:after>
+              <q-btn
+                class="text-white"
+                icon="mdi-magnify"
+                flat
+                dense
+                round
+                aria-label="Search"
+                type="submit"
+                @click="onSubmit"
+              />
+            </template>
+          </q-input>
+        </q-form>
       </q-toolbar-title>
     </q-toolbar>
   </q-header>
@@ -60,7 +63,7 @@ const search = ref('');
  *	Methods
  * -----------------------------------------
  */
-function searchAction() {
+function onSubmit() {
   void $router.push({
     name: ROUTE_NAME.SHOP_SEARCH,
     query: { search: search.value },

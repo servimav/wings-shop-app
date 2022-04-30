@@ -76,10 +76,10 @@ function goToOffer() {
 
 function remove() {
   Dialog.create({
-    cancel: true,
-    ok: true,
+    cancel: 'No',
+    ok: 'Sí',
     title: 'Eliminar Oferta',
-    message: 'Desea eliminar la oferta?',
+    message: '¿Desea eliminar la oferta del carrito?',
   }).onOk(() => {
     $cart.removeOrderOffer(Number(orderOffer.value.offer_id));
   });

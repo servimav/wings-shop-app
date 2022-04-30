@@ -177,7 +177,7 @@ function cancelOrder() {
   Dialog.create({
     cancel: 'No',
     ok: 'Si',
-    message: 'Desea cancelar el pedido?',
+    message: '¿Desea cancelar el pedido?',
     title: 'Cancelar Pedido',
     color: 'negative',
   }).onOk(async () => {

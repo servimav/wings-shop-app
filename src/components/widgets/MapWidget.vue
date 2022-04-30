@@ -16,8 +16,8 @@
     <l-control>
       <q-btn
         color="primary"
-        icon="mdi-check"
-        label="Confirmar"
+        :icon="`${readonly ? 'mdi-arrow-left' : 'mdi-check'}`"
+        :label="`${readonly ? 'Regresar' : 'Confirmar'}`"
         @click="confirm"
         v-if="markers.length"
       />

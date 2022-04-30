@@ -10,7 +10,7 @@
     </div>
     <q-list class="rounded-borders text-grey-9">
       <!-- HOME -->
-      <q-item clickable  :to="{ name: ROUTE_NAME.HOME }">
+      <q-item clickable :to="{ name: ROUTE_NAME.HOME }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-home" text-color="primary" />
         </q-item-section>
@@ -54,12 +54,7 @@
       <!-- / Categories -->
 
       <!-- Orders -->
-      <q-item
-        clickable
-
-        :to="{ name: ROUTE_NAME.SHOP_ORDERS }"
-        v-if="isAuth()"
-      >
+      <q-item clickable :to="{ name: ROUTE_NAME.SHOP_ORDERS }" v-if="isAuth()">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-gift" text-color="primary" />
         </q-item-section>
@@ -70,12 +65,7 @@
       </q-item>
       <!-- / Orders -->
       <!-- Profile -->
-      <q-item
-        clickable
-
-        :to="{ name: ROUTE_NAME.PROFILE }"
-        v-if="isAuth()"
-      >
+      <q-item clickable :to="{ name: ROUTE_NAME.PROFILE }" v-if="isAuth()">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-account" text-color="primary" />
         </q-item-section>
@@ -85,13 +75,19 @@
         </q-item-section>
       </q-item>
       <!-- / Profile -->
-      <!-- About -->
-      <q-item
-        clickable
+      <!-- Logout -->
+      <q-item clickable v-if="isAuth()" @click="logout">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-exit-to-app" text-color="primary" />
+        </q-item-section>
 
-        :to="{ name: ROUTE_NAME.ABOUT }"
-        v-if="isAuth()"
-      >
+        <q-item-section>
+          <q-item-label lines="1">Salir</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Logout -->
+      <!-- About -->
+      <q-item clickable :to="{ name: ROUTE_NAME.ABOUT }" v-if="isAuth()">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-information" text-color="primary" />
         </q-item-section>
@@ -111,11 +107,20 @@ import { injectStrict, _app, _shopCategory, _user } from 'src/injectables';
 import { ROUTE_NAME } from 'src/router';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-
+/**
+ * -----------------------------------------
+ *	Injectables
+ * -----------------------------------------
+ */
 const $app = injectStrict(_app);
 const $categories = injectStrict(_shopCategory);
 const $router = useRouter();
 const $user = injectStrict(_user);
+/**
+ * -----------------------------------------
+ *	Data
+ * -----------------------------------------
+ */
 
 const categories = computed(() => $categories.available);
 const drawerLeft = computed(() => $app.drawerLeft);
@@ -128,6 +133,13 @@ const name = computed(() => `${$user.profile?.first_name}`);
 function goToctegory(cat: string) {
   void $router.push({ name: ROUTE_NAME.SHOP_CATEGORY, query: { tag: cat } });
   updateDrawerleft(false);
+}
+/**
+ * logout
+ */
+function logout() {
+  void $router.push({ name: ROUTE_NAME.HOME });
+  $user.logout();
 }
 /**
  * updateDrawerleft

@@ -78,7 +78,7 @@ async function login() {
     notificationHelper.success([`Bienvenido ${$user.profile?.first_name}`]);
     $emit('auth');
   } catch (error) {
-    notificationHelper.error(['Credenciales incorrectas']);
+    notificationHelper.axiosError(error, 'Credenciales incorrectas');
   }
   notificationHelper.loading(false);
 }
