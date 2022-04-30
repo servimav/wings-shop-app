@@ -11,22 +11,27 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "axios": "^0.21.1",
     "@quasar/extras": "^1.0.0",
+    "@vue-leaflet/vue-leaflet": "^0.6.1",
+    "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "vue3-carousel": "^0.1.36"
   },
   "devDependencies": {
+    "@mdi/font": "^6.6.96",
+    "@quasar/app-webpack": "^3.4.0",
+    "@types/leaflet": "^1.7.9",
+    "@types/node": "^12.20.21",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^8.10.0",
-    "eslint-plugin-vue": "^8.5.0",
     "eslint-config-prettier": "^8.1.0",
-    "prettier": "^2.5.1",
-    "@types/node": "^12.20.21",
-    "@quasar/app-webpack": "^3.0.0"
+    "eslint-plugin-vue": "^8.5.0",
+    "leaflet": "^1.8.0",
+    "prettier": "^2.5.1"
   },
   "browserslist": [
     "last 10 Chrome versions",

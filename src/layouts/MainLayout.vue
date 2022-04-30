@@ -1,116 +1,62 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+  <q-layout view="lHh Lpr lFF">
+    <app-header />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
+    <drawer-left />
+    <q-pull-to-refresh @refresh="init">
+      <q-page-container class="text-grey-9">
+        <router-view />
+      </q-page-container>
+    </q-pull-to-refresh>
+    <app-footer />
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
+<script lang="ts" setup>
+import AppFooter from './MainFooter.vue';
+import AppHeader from './MainHeader.vue';
+import DrawerLeft from './MainDrawerLeft.vue';
+import { provide } from 'vue';
+import {
+  _shopCategory,
+  $shopCategory,
+  _shopCart,
+  $shopCartInjectable,
+  $mapInjectable,
+  _map,
+  _shopOrder,
+  $shopOrderInjectable,
+  injectStrict,
+  _app,
+} from 'src/injectables';
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
+const $app = injectStrict(_app);
+/**
+ * -----------------------------------------
+ *	Setup
+ * -----------------------------------------
+ */
+provide(_map, $mapInjectable);
+provide(_shopCategory, $shopCategory);
+provide(_shopOrder, $shopOrderInjectable);
+provide(_shopCart, $shopCartInjectable);
+/**
+ * -----------------------------------------
+ *	Init
+ * -----------------------------------------
+ */
+async function init(done: CallableFunction) {
+  Promise.all([
+    await $shopCategory.availableAction(),
+    await $shopCategory.allAction(),
+    await $app.loadOffers(),
+    await $app.loadStores(),
+    await $app.loadAnnouncements(),
+  ]).finally(() => {
+    done();
+  });
+}
+init(() => {
+  console.log('Refresh');
 });
 </script>
