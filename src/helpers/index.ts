@@ -1,8 +1,13 @@
 import { $router } from 'src/boot/router';
 import { $user } from 'src/injectables';
 import { ROUTE_NAME } from 'src/router';
+import { CapacitorHelper } from './capacitor';
 
 export * from './notification';
+/**
+ * CapacitorHelper Instance
+ */
+export const $capacitor = new CapacitorHelper();
 /**
  * goTo
  * @param route
