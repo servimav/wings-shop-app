@@ -1,8 +1,6 @@
 import { IShopOrder, IShopOrderCreateRequest } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
-import { $router } from 'src/boot/router';
 import { notificationHelper } from 'src/helpers';
-import { ROUTE_NAME } from 'src/router';
 import { InjectionKey, ref } from 'vue';
 import { $shopCartInjectable } from './cart';
 /**
@@ -49,15 +47,9 @@ class OrderInjectable {
    * @param order
    */
   async createMassAction(order: Omit<IShopOrderCreateRequest, 'store_id'>) {
-    try {
-      const resp = await $nairdaApi.ShopOrder.createMass(order);
-      this.myOrders.push(...resp.data);
-      $shopCartInjectable.order_offers = [];
-      notificationHelper.success(['Su orden ha sido guardada']);
-      void $router.push({ name: ROUTE_NAME.HOME });
-    } catch (error) {
-      notificationHelper.axiosError(error, 'No se pudo crear la orden');
-    }
+    const resp = await $nairdaApi.ShopOrder.createMass(order);
+    this.myOrders.push(...resp.data);
+    $shopCartInjectable.order_offers = [];
   }
 }
 

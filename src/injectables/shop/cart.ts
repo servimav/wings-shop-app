@@ -17,6 +17,13 @@ class ShopCartInjectable {
   set order_offers(of: IShopOrderOffer[]) {
     this._order_offers.value = of;
   }
+  get totalPrice() {
+    let total = 0;
+    this.order_offers.forEach((of) => {
+      total += of.qty * Number(of.offer?.sell_price);
+    });
+    return total;
+  }
   /**
    * -----------------------------------------
    *	Methods

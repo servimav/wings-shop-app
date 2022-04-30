@@ -19,35 +19,6 @@
         <auth-widget @auth="nextStep()" />
       </q-step>
       <!-- / Auth -->
-      <!-- Details -->
-      <q-step
-        name="details"
-        title="Detalles"
-        icon="mdi-cube"
-        :done="isDone('details')"
-      >
-        <div class="q-py-sm">
-          <div
-            v-for="(of, oKey) in orderOffers"
-            :key="`cart-order-offer-${of.offer_id}-${oKey}`"
-          >
-            <order-offer-widget dense :order-offer="of" />
-          </div>
-        </div>
-
-        <q-stepper-navigation>
-          <q-btn
-            @click="nextStep(false)"
-            color="primary"
-            label="Siguiente"
-            icon-right="mdi-arrow-right-bold"
-            rounded
-            outline
-            :disable="!canNext()"
-          />
-        </q-stepper-navigation>
-      </q-step>
-      <!-- / Details -->
 
       <!-- shipping_address -->
       <q-step
@@ -90,21 +61,21 @@
         title="Horario"
         icon="mdi-timer"
         :done="isDone('shipping_time')"
-        class="dense q-py-sm"
+        class="dense"
       >
         <q-toggle
           v-model="toggleDateTime"
           label="Ajustar Hora de entrega"
           color="primary"
         />
-        <template v-if="toggleDateTime">
+        <div class="q-pl-sm" v-if="toggleDateTime">
           <q-date
             v-model="form.shipping_time"
             :options="calendarMinDate"
             mask="YYYY-MM-DD HH:mm"
           />
           <q-time v-model="form.shipping_time" mask="YYYY-MM-DD HH:mm" />
-        </template>
+        </div>
 
         <q-stepper-navigation class="q-gutter-x-sm">
           <q-btn
@@ -164,16 +135,28 @@
           />
         </q-stepper-navigation>
       </q-step>
-      <!-- / summary -->
+      <!-- / message -->
 
-      <!-- summary -->
+      <!-- Details -->
       <q-step
-        name="summary"
-        title="Finalizar"
-        icon="mdi-timer"
-        :done="isDone('summary')"
+        name="details"
+        title="Resumen"
+        icon="mdi-cube"
+        :done="isDone('details')"
       >
-        <q-stepper-navigation class="q-gutter-x-sm">
+        <!-- <div class="q-py-sm">
+          <div
+            v-for="(of, oKey) in orderOffers"
+            :key="`cart-order-offer-${of.offer_id}-${oKey}`"
+          >
+            <order-offer-widget dense :order-offer="of" />
+          </div>
+        </div> -->
+        <p>Subtotal: ${{ Number(subtotal).toFixed(2) }}</p>
+        <p>Tarifa Servicio: ${{ Number(subtotal).toFixed(2) }}</p>
+        <p>Total: ${{ Number(subtotal * 2).toFixed(2) }}</p>
+        {{ response }}
+        <q-stepper-navigation>
           <q-btn
             @click="prevStep"
             color="primary"
@@ -185,15 +168,15 @@
           <q-btn
             @click="finish"
             color="primary"
-            label="Comprar"
-            icon-right="mdi-arrow-right-bold"
-            :disable="!canNext()"
+            label="Finalizar"
+            icon-right="mdi-check"
             rounded
             outline
+            :disable="!canNext()"
           />
         </q-stepper-navigation>
       </q-step>
-      <!-- / summary -->
+      <!-- / Details -->
     </q-stepper>
     <!-- Map Dialog -->
     <q-dialog v-model="mapPopup" maximized>
@@ -206,7 +189,7 @@
 </template>
 
 <script setup lang="ts">
-import OrderOfferWidget from 'components/widgets/shop/OrderOfferWidget.vue';
+// import OrderOfferWidget from 'components/widgets/shop/OrderOfferWidget.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import AuthWidget from 'src/components/widgets/AuthWidget.vue';
 import { computed, ref } from 'vue';
@@ -214,7 +197,9 @@ import { injectStrict, _shopCart, _shopOrder } from 'src/injectables';
 import { IShopOrderCreateRequest } from 'src/api';
 import { LatLng } from 'leaflet';
 import { date } from 'quasar';
-import { isAuth } from 'src/helpers';
+import { isAuth, notificationHelper } from 'src/helpers';
+import { ROUTE_NAME } from 'src/router';
+import { useRouter } from 'vue-router';
 /**
  * -----------------------------------------
  *	Setup
@@ -226,11 +211,11 @@ type IStepName =
   | 'details'
   | 'shipping_address'
   | 'shipping_time'
-  | 'message'
-  | 'summary';
+  | 'message';
 
 const $cart = injectStrict(_shopCart);
 const $order = injectStrict(_shopOrder);
+const $router = useRouter();
 /**
  * -----------------------------------------
  *	Data
@@ -251,18 +236,19 @@ const form = ref<IShopOrderCreateRequest>({
 const mapPopup = ref(false);
 const orderOffers = computed(() => $cart.order_offers);
 const step = ref<IStepName>('auth');
-if (isAuth()) step.value = 'details';
+if (isAuth()) step.value = 'shipping_address';
 
 const stepOrder: IStepName[] = [
   'auth',
-  'details',
   'shipping_address',
   'shipping_time',
   'message',
-  'summary',
+  'details',
 ];
+const subtotal = computed(() => $cart.totalPrice);
 const toggleDateTime = ref(false);
 const toggleMessage = ref(false);
+const response = ref();
 /**
  * -----------------------------------------
  *	Methods
@@ -302,7 +288,15 @@ async function finish() {
       shipping_time: form.value.shipping_time,
       message: form.value.message,
     };
-    await $order.createMassAction(orderMass);
+    notificationHelper.loading();
+    try {
+      await $order.createMassAction(orderMass);
+      notificationHelper.success(['Hemos recibido su orden']);
+      void $router.push({ name: ROUTE_NAME.SHOP_ORDERS });
+    } catch (error) {
+      notificationHelper.axiosError(error, 'No se pudo completar la orden');
+    }
+    notificationHelper.loading(false);
   }
 }
 /**

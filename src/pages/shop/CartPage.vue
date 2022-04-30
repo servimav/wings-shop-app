@@ -28,7 +28,7 @@
             text-color="dark"
             class="full-width"
             icon="mdi-cart"
-            label="Completar Pedido"
+            label="Comprar"
             @click="goToCheckout"
             rounded
           />
