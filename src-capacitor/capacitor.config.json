@@ -1,0 +1,7 @@
+{
+  "appId": "com.servimav.shop.app",
+  "appName": "EnTuKsa",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}
