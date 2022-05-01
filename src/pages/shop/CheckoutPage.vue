@@ -40,12 +40,14 @@
             label="Atras"
             rounded
             outline
+            dense
             icon="mdi-arrow-left-bold"
           />
           <q-btn
             @click="nextStep(false)"
             color="primary"
             label="Siguiente"
+            dense
             rounded
             outline
             icon-right="mdi-arrow-right-bold"
@@ -85,6 +87,7 @@
             icon="mdi-arrow-left-bold"
             rounded
             outline
+            dense
           />
           <q-btn
             @click="nextStep(false)"
@@ -94,6 +97,7 @@
             :disable="!canNext()"
             rounded
             outline
+            dense
           />
         </q-stepper-navigation>
       </q-step>
@@ -123,6 +127,7 @@
             icon="mdi-arrow-left-bold"
             rounded
             outline
+            dense
           />
           <q-btn
             @click="nextStep(false)"
@@ -132,6 +137,7 @@
             :disable="!canNext()"
             rounded
             outline
+            dense
           />
         </q-stepper-navigation>
       </q-step>
@@ -156,7 +162,7 @@
         <p>Tarifa Servicio: ${{ Number(subtotal).toFixed(2) }}</p>
         <p>Total: ${{ Number(subtotal * 2).toFixed(2) }}</p>
         {{ response }}
-        <q-stepper-navigation>
+        <q-stepper-navigation class="q-gutter-x-sm">
           <q-btn
             @click="prevStep"
             color="primary"
@@ -164,6 +170,7 @@
             icon="mdi-arrow-left-bold"
             rounded
             outline
+            dense
           />
           <q-btn
             @click="finish"
@@ -173,6 +180,7 @@
             rounded
             outline
             :disable="!canNext()"
+            dense
           />
         </q-stepper-navigation>
       </q-step>
@@ -193,7 +201,7 @@
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import AuthWidget from 'src/components/widgets/AuthWidget.vue';
 import { computed, ref } from 'vue';
-import { injectStrict, _shopCart, _shopOrder } from 'src/injectables';
+import { injectStrict, _map, _shopCart, _shopOrder } from 'src/injectables';
 import { IShopOrderCreateRequest } from 'src/api';
 import { LatLng } from 'leaflet';
 import { date } from 'quasar';
@@ -214,6 +222,7 @@ type IStepName =
   | 'message';
 
 const $cart = injectStrict(_shopCart);
+const $map = injectStrict(_map);
 const $order = injectStrict(_shopOrder);
 const $router = useRouter();
 /**
@@ -291,10 +300,10 @@ async function finish() {
     notificationHelper.loading();
     try {
       await $order.createMassAction(orderMass);
-      notificationHelper.success(['Hemos recibido su orden']);
+      notificationHelper.success(['Hemos recibido su pedido']);
       void $router.push({ name: ROUTE_NAME.SHOP_ORDERS });
     } catch (error) {
-      notificationHelper.axiosError(error, 'No se pudo completar la orden');
+      notificationHelper.axiosError(error, 'No se pudo completar el pedido');
     }
     notificationHelper.loading(false);
   }
@@ -341,6 +350,10 @@ function prevStep() {
   const currentIndex = stepOrder.findIndex((_s) => _s === step.value);
   step.value = currentIndex > 0 ? stepOrder[currentIndex - 1] : step.value;
 }
+/**
+ * Init map gps
+ */
+void $map.getGpsPosition();
 </script>
 
 <style>

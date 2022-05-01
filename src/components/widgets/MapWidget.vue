@@ -25,7 +25,7 @@
         color="white"
         :text-color="`${gpsPosition ? 'info' : 'black'}`"
         :icon="`${gpsPosition ? 'mdi-crosshairs-gps' : 'mdi-crosshairs'}`"
-        @click="getCurrentGPSPosition"
+        @click="markCurrentGPSPosition"
       />
     </l-control>
 
@@ -155,8 +155,8 @@ export default defineComponent({
     /**
      * getCurrentGPSPosition
      */
-    function getCurrentGPSPosition() {
-      $mapStore.getGpsPosition();
+    async function markCurrentGPSPosition() {
+      await $mapStore.markGpsPosition();
       emit('current-gps', gpsPosition.value);
     }
 
@@ -173,7 +173,7 @@ export default defineComponent({
       confirm,
       doMoveCenter,
       doMoveZoom,
-      getCurrentGPSPosition,
+      markCurrentGPSPosition,
     };
   },
 });

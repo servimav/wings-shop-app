@@ -1,4 +1,6 @@
 import { latLng, LatLng } from 'leaflet';
+import { Dialog, Platform } from 'quasar';
+import { $capacitor } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 
 interface IMaPSettings {
@@ -61,12 +63,35 @@ class MapInjectable {
    *	Mutations
    * -----------------------------------------
    */
-  getGpsPosition() {
-    this.gpsPosition = latLng(22.245531, -80.393699);
-    this.center = this.gpsPosition;
-    this.zoom = 16;
-    this.markers = [];
-    this.markers.push(this.gpsPosition);
+  async getGpsPosition() {
+    if (!Platform.is.capacitor) return;
+    try {
+      const coords = await $capacitor.Geolocation_currentPosition();
+      this.gpsPosition = coords;
+    } catch (error) {
+      Dialog.create({
+        title: 'Activación de GPS',
+        message: 'Necesitamos que active su conexión de GPS',
+        ok: true,
+        persistent: true,
+      }).onOk(async () => {
+        await this.getGpsPosition();
+      });
+    }
+  }
+  /**
+   * markGpsPosition
+   */
+  async markGpsPosition() {
+    this.markGpsPosition();
+    if (this.gpsPosition) {
+      this.markers = [];
+      this.markers.push(this.gpsPosition);
+      this.center = this.gpsPosition;
+      this.zoom = 16;
+    } else {
+      await this.getGpsPosition();
+    }
   }
 }
 

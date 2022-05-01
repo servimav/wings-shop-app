@@ -46,12 +46,13 @@ provide(_shopCart, $shopCartInjectable);
  * -----------------------------------------
  */
 async function init(done: CallableFunction) {
+  $mapInjectable.getGpsPosition();
   Promise.all([
-    await $shopCategory.availableAction(),
-    await $shopCategory.allAction(),
-    await $app.loadOffers(),
-    await $app.loadStores(),
-    await $app.loadAnnouncements(),
+    $shopCategory.availableAction(),
+    $shopCategory.allAction(),
+    $app.loadOffers(),
+    $app.loadStores(),
+    $app.loadAnnouncements(),
   ]).finally(() => {
     done();
   });
