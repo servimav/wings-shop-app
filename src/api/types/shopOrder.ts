@@ -25,6 +25,8 @@ export type IShopOrderStatus =
 export interface IShopOrder {
   id: number;
   total_price: number;
+  offers_price: number;
+  service_price: number;
   shipping_address: string;
   shipping_coordinate: IMapCoordinate;
   shipping_time: string;
@@ -35,12 +37,28 @@ export interface IShopOrder {
   message?: string;
   store?: IShopStore;
 }
+/**
+ * IShopORderPrices
+ */
+export interface IShopOrderPrices {
+  total_price: number;
+  service_price: number;
+  offers_price: number;
+}
 
 /**
  * -----------------------------------------
  *	HTTP
  * -----------------------------------------
  */
+/**
+ * IShopOrderPriceRequest
+ */
+export interface IShopOrderPriceRequest {
+  store_id: number;
+  order_offers: Array<IShopOrderOffer>;
+  shipping_coordinate: IMapCoordinate;
+}
 /**
  * IShopOrderCreateRequest
  */

@@ -9,7 +9,7 @@ declare module '@vue/runtime-core' {
   }
 }
 export const baseURL = process.env.DEV
-  ? 'http://192.168.1.3:8000'
+  ? 'http://localhost:8000'
   : 'https://srv.net';
 
 const $api = axios.create({

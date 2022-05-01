@@ -19,7 +19,7 @@ class MapInjectable {
     multiple: false,
     zoom: {
       max: 18,
-      min: 14,
+      min: 10,
     },
   });
   private _zoom = ref(16);
@@ -83,15 +83,13 @@ class MapInjectable {
    * markGpsPosition
    */
   async markGpsPosition() {
-    this.markGpsPosition();
     if (this.gpsPosition) {
       this.markers = [];
       this.markers.push(this.gpsPosition);
       this.center = this.gpsPosition;
       this.zoom = 16;
-    } else {
-      await this.getGpsPosition();
     }
+    await this.getGpsPosition();
   }
 }
 

@@ -17,6 +17,7 @@ export interface IShopOffer {
   vendor_price?: number;
   rating: number;
   image: IImage;
+  store_id: number;
   category?: IShopCategory;
 }
 

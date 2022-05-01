@@ -96,7 +96,7 @@ const status = computed<{
         icon: 'mdi-clock',
         text: 'En Proceso',
         color: '',
-        text_color: 'white',
+        text_color: 'dark',
       };
   }
 });

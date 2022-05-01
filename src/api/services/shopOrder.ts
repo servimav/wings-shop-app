@@ -4,6 +4,8 @@ import { Paginated } from '..';
 import {
   IShopOrder,
   IShopOrderCreateRequest,
+  IShopOrderPriceRequest,
+  IShopOrderPrices,
   IShopOrderUpdateRequest,
 } from '../types/shopOrder';
 import { csrfToken } from './csrf';
@@ -62,6 +64,13 @@ export class ShopOrderService {
     return this.api.get<Paginated<IShopOrder>>(
       `/api/shop/orders/store/${storeId}`
     );
+  }
+  /**
+   * price
+   * @param priceReq IShopOrderPriceRequest
+   */
+  async prices(priceReq: IShopOrderPriceRequest) {
+    return this.api.post<IShopOrderPrices>('/api/shop/orders/prices', priceReq);
   }
   /**
    * update

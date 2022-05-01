@@ -1,8 +1,6 @@
 import { AxiosError } from 'axios';
-import { $router } from 'src/boot/router';
 import { Notify, QSpinnerGears } from 'quasar';
 import { INotifyPosition } from 'src/types/quasar';
-import { ROUTE_NAME } from 'src/router';
 import { $user } from 'src/injectables';
 /**
  * ErrorHandler
@@ -21,8 +19,6 @@ class NotificationHelper {
     if (error.response) {
       if (error.response.status === 401) {
         $user.logout();
-        void $router.push({ name: ROUTE_NAME.HOME });
-        return;
       }
     }
     if (_default) {

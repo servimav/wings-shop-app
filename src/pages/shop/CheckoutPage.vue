@@ -35,15 +35,6 @@
 
         <q-stepper-navigation class="q-gutter-x-sm">
           <q-btn
-            @click="prevStep"
-            color="primary"
-            label="Atras"
-            rounded
-            outline
-            dense
-            icon="mdi-arrow-left-bold"
-          />
-          <q-btn
             @click="nextStep(false)"
             color="primary"
             label="Siguiente"
@@ -158,10 +149,11 @@
             <order-offer-widget dense :order-offer="of" />
           </div>
         </div> -->
-        <p>Subtotal: ${{ Number(subtotal).toFixed(2) }}</p>
-        <p>Tarifa Servicio: ${{ Number(subtotal).toFixed(2) }}</p>
-        <p>Total: ${{ Number(subtotal * 2).toFixed(2) }}</p>
-        {{ response }}
+        <p>Subtotal: ${{ Number(orderPrices.offers_price).toFixed(2) }}</p>
+        <p>
+          Tarifa Servicio: ${{ Number(orderPrices.service_price).toFixed(2) }}
+        </p>
+        <p>Total: ${{ Number(orderPrices.total_price).toFixed(2) }}</p>
         <q-stepper-navigation class="q-gutter-x-sm">
           <q-btn
             @click="prevStep"
@@ -254,15 +246,28 @@ const stepOrder: IStepName[] = [
   'message',
   'details',
 ];
-const subtotal = computed(() => $cart.totalPrice);
+const orderPrices = computed(() => $order.order_price);
 const toggleDateTime = ref(false);
 const toggleMessage = ref(false);
-const response = ref();
 /**
  * -----------------------------------------
  *	Methods
  * -----------------------------------------
  */
+/**
+ * calculatePrices
+ */
+async function calculatePrices() {
+  try {
+    await $order.calculatePrices({
+      order_offers: orderOffers.value,
+      shipping_coordinate: form.value.shipping_coordinate,
+      store_id: $cart.active_store,
+    });
+  } catch (error) {
+    notificationHelper.axiosError(error);
+  }
+}
 /**
  * calendarMinDate
  */
@@ -290,16 +295,18 @@ async function finish() {
   if (!isAuth()) {
     step.value = 'auth';
   } else {
-    const orderMass: Omit<IShopOrderCreateRequest, 'store_id'> = {
+    const orderMass: IShopOrderCreateRequest = {
       order_offers: orderOffers.value,
       shipping_address: form.value.shipping_address,
       shipping_coordinate: form.value.shipping_coordinate,
       shipping_time: form.value.shipping_time,
       message: form.value.message,
+      store_id: $cart.active_store,
     };
     notificationHelper.loading();
     try {
-      await $order.createMassAction(orderMass);
+      // await $order.createMassAction(orderMass);
+      await $order.create(orderMass);
       notificationHelper.success(['Hemos recibido su pedido']);
       void $router.push({ name: ROUTE_NAME.SHOP_ORDERS });
     } catch (error) {
@@ -338,10 +345,11 @@ function nextStep(force = false) {
  */
 function onMapConfirm(markers: LatLng[]) {
   form.value.shipping_coordinate = markers[0];
+  void calculatePrices();
   setTimeout(() => {
     mapPopup.value = false;
     nextStep(true);
-  }, 100);
+  }, 750);
 }
 /**
  * prevStep

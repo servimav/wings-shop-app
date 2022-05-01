@@ -22,6 +22,7 @@
         v-if="markers.length"
       />
       <q-btn
+        v-if="!readonly"
         color="white"
         :text-color="`${gpsPosition ? 'info' : 'black'}`"
         :icon="`${gpsPosition ? 'mdi-crosshairs-gps' : 'mdi-crosshairs'}`"
