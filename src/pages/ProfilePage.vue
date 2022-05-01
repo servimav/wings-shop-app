@@ -11,12 +11,14 @@
         <div class="text-h6">
           {{ `${profile?.first_name} ${profile?.last_name}` }}
         </div>
-        <div class="text-subtitle2">{{ profile?.role.display_name }}</div>
+        <div class="text-subtitle2" v-if="profile?.role.display_name">
+          {{ profile.role.display_name }}
+        </div>
       </q-card-section>
       <q-card-section>
         <q-list bordered>
           <!-- email -->
-          <q-item >
+          <q-item>
             <q-item-section avatar>
               <q-icon color="primary" name="mdi-email-outline" />
             </q-item-section>
@@ -24,7 +26,7 @@
           </q-item>
           <!-- / email -->
           <!-- phone -->
-          <q-item  v-if="profile?.phone">
+          <q-item v-if="profile?.phone">
             <q-item-section avatar>
               <q-icon color="primary" name="mdi-phone" />
             </q-item-section>
@@ -32,7 +34,7 @@
           </q-item>
           <!-- / phone -->
           <!-- address -->
-          <q-item  v-if="profile?.address">
+          <q-item v-if="profile?.address">
             <q-item-section avatar>
               <q-icon color="primary" name="mdi-map-marker" />
             </q-item-section>

@@ -18,6 +18,13 @@
         <q-input v-model="form.address" type="text" label="Dirección" />
       </q-card-section>
       <q-card-actions>
+        <q-btn
+          color="negative"
+          outline
+          icon="mdi-cancel"
+          label="Cancelar"
+          @click="$emits('completed')"
+        />
         <q-btn color="primary" icon="mdi-check" label="Guardar" type="submit" />
       </q-card-actions>
     </q-form>

@@ -20,21 +20,6 @@
           <category-slider />
         </div>
         <!-- / categories -->
-        <!-- Top Offers -->
-        <div
-          class="col-sm-6 col-md-4 col-xs-12 q-gutter-y-sm"
-          v-if="offers.length"
-        >
-          <title-widget :data="{ title: 'Ofertas Destacadas' }" />
-          <div>
-            <offer-group :data="offers.slice(0, 4)" />
-          </div>
-          <div v-if="offers.slice(4, offers.length).length > 2">
-            <offers-slider :data="offers.slice(4, offers.length)" />
-          </div>
-        </div>
-        <!-- / Top Offers -->
-
         <!-- Top Stores -->
         <div
           class="col-sm-6 col-md-4 col-xs-12 q-gutter-y-sm"
@@ -49,6 +34,20 @@
           </div>
         </div>
         <!-- / Top Stores -->
+        <!-- Top Offers -->
+        <div
+          class="col-sm-6 col-md-4 col-xs-12 q-gutter-y-sm"
+          v-if="offers.length"
+        >
+          <title-widget :data="{ title: 'Ofertas Destacadas' }" />
+          <div>
+            <offer-group :data="offers.slice(0, 4)" />
+          </div>
+          <div v-if="offers.slice(4, offers.length).length > 2">
+            <offers-slider :data="offers.slice(4, offers.length)" />
+          </div>
+        </div>
+        <!-- / Top Offers -->
       </div>
     </section>
   </q-page>

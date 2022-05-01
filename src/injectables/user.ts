@@ -67,6 +67,7 @@ class UserInjectable {
   async getProfile() {
     const resp = await $nairdaApi.User.profile();
     this.profile = resp.data;
+    this.save();
     return resp.data;
   }
   /**
