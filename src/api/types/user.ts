@@ -1,3 +1,8 @@
+export type IUserRoleName =
+  | 'user'
+  | 'admin'
+  | 'shop_vendor'
+  | 'transport_driver';
 /**
  * @interface Profile
  */
@@ -9,7 +14,7 @@ export type IUserProfile = {
   readonly phone?: string;
   readonly address?: string;
   readonly avatar: string;
-  role: { name: 'admin' | 'user' | 'vendor'; display_name: string };
+  role: { name: IUserRoleName; display_name: string };
 };
 /**
  * -----------------------------------------
@@ -22,7 +27,7 @@ export type IUserProfile = {
 export type IUserAuthLoginRequest = {
   readonly email: string;
   readonly password: string;
-  readonly auth_mode?: 'user' | 'admin' | 'shop_vendor' | 'transport_driver';
+  readonly auth_mode?: IUserRoleName;
   readonly service_name: string;
 };
 /**

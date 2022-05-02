@@ -65,7 +65,7 @@
       </q-item>
       <!-- / Orders -->
       <!-- Profile -->
-      <q-item clickable :to="{ name: ROUTE_NAME.PROFILE }" v-if="isAuth()">
+      <q-item clickable :to="{ name: ROUTE_NAME.USER_PROFILE }" v-if="isAuth()">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-account" text-color="primary" />
         </q-item-section>
@@ -75,6 +75,17 @@
         </q-item-section>
       </q-item>
       <!-- / Profile -->
+      <!-- Vendor Mode -->
+      <q-item clickable @click="vendorMode" v-if="isAuth()">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-account-convert" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Modo Ventas</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Vendor Mode -->
       <!-- Logout -->
       <q-item clickable v-if="isAuth()" @click="logout">
         <q-item-section avatar top>
@@ -102,6 +113,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Dialog } from 'quasar';
 import { isAuth } from 'src/helpers';
 import { injectStrict, _app, _shopCategory, _user } from 'src/injectables';
 import { ROUTE_NAME } from 'src/router';
@@ -147,5 +159,23 @@ function logout() {
  */
 function updateDrawerleft(open: boolean) {
   $app.drawerLeft = open;
+}
+/**
+ * vendorMode
+ */
+function vendorMode() {
+  if ($user.isVendor || $user.isAdmin) {
+    $app.mode === 'shop_vendor';
+    void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
+  } else {
+    Dialog.create({
+      title: 'Solicitud de ventas',
+      message: `${name.value}, usted no tiene permiso de ventas. ¿Desea solicitar permiso a los Administradores?`,
+      ok: 'Solicitar',
+      cancel: 'Cancelar',
+    }).onOk(() => {
+      void $router.push({ name: ROUTE_NAME.USER_ROLE_REQUEST });
+    });
+  }
 }
 </script>

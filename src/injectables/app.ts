@@ -1,10 +1,27 @@
-import { IPublicityAnnouncement, IShopOffer, IShopStore } from 'src/api';
+import {
+  IPublicityAnnouncement,
+  IShopOffer,
+  IShopStore,
+  IUserRoleName,
+} from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
+import { $capacitor } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
+/**
+ * @const STORAGE_KEY
+ */
+const STORAGE_KEY = 'Injectable/App';
+/**
+ * @interface IAppStorage
+ */
+interface IAppStorage {
+  mode: IUserRoleName;
+}
 /**
  * @class AppInjectable
  */
 class AppInjectable {
+  private _mode = ref<IUserRoleName>('user');
   private _drawerLeft = ref(false);
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);
   private _homeOffers = ref<IShopOffer[]>([]);
@@ -40,6 +57,12 @@ class AppInjectable {
   }
   set homeStores(s: IShopStore[]) {
     this._homeStores.value = s;
+  }
+  get mode() {
+    return this._mode.value;
+  }
+  set mode(mode: IUserRoleName) {
+    this._mode.value = mode;
   }
   /**
    * -----------------------------------------
@@ -90,6 +113,36 @@ class AppInjectable {
       this.homeStores = resp.data;
     } catch (error) {
       throw error;
+    }
+  }
+  /**
+   * -----------------------------------------
+   *	Methods
+   * -----------------------------------------
+   */
+  /**
+   * load
+   */
+  async load() {
+    try {
+      const data = await $capacitor.Storage_load<IAppStorage>(STORAGE_KEY);
+      if (data) {
+        this.mode = data.mode;
+      }
+    } catch (error) {
+      console.log(STORAGE_KEY, error);
+    }
+  }
+  /**
+   * save
+   */
+  async save() {
+    try {
+      await $capacitor.Storage_save<IAppStorage>(STORAGE_KEY, {
+        mode: this.mode,
+      });
+    } catch (error) {
+      console.log(STORAGE_KEY, error);
     }
   }
 }
