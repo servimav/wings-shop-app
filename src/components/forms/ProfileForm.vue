@@ -70,8 +70,8 @@ async function onSubmit() {
   if (avatar.value) formData.append('avatar', avatar.value);
   formData.append('first_name', first_name);
   formData.append('last_name', last_name);
-  formData.append('address', address as string);
-  formData.append('phone', phone as string);
+  formData.append('address', address ? address : '');
+  formData.append('phone', phone ? phone : '');
   await $user.update(formData);
   notificationHelper.loading(false);
 

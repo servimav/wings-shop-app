@@ -1,7 +1,7 @@
 import MainLayoutVue from 'src/layouts/MainLayout.vue';
 import { RouteRecordRaw } from 'vue-router';
 import { ROUTE_NAME } from '../names';
-// import { authGuard } from './guards';
+import { authGuard } from './guards';
 
 const route: RouteRecordRaw = {
   path: '/',
@@ -20,11 +20,13 @@ const route: RouteRecordRaw = {
     {
       path: 'profile',
       name: ROUTE_NAME.USER_PROFILE,
+      beforeEnter: authGuard,
       component: () => import('src/pages/user/ProfilePage.vue'),
     },
     {
       path: 'role-req',
       name: ROUTE_NAME.USER_ROLE_REQUEST,
+      beforeEnter: authGuard,
       component: () => import('src/pages/user/RoleRequestPage.vue'),
     },
   ],

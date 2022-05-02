@@ -152,6 +152,7 @@ function goToctegory(cat: string) {
 function logout() {
   void $router.push({ name: ROUTE_NAME.HOME });
   $user.logout();
+  updateDrawerleft(false);
 }
 /**
  * updateDrawerleft
@@ -175,6 +176,7 @@ function vendorMode() {
       cancel: 'Cancelar',
     }).onOk(() => {
       void $router.push({ name: ROUTE_NAME.USER_ROLE_REQUEST });
+      updateDrawerleft(false);
     });
   }
 }

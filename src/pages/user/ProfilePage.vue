@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-card>
+    <q-card v-if="profile">
       <q-img
         :src="avatar"
         :ratio="4 / 3"
@@ -11,7 +11,10 @@
         <div class="text-h6">
           {{ `${profile?.first_name} ${profile?.last_name}` }}
         </div>
-        <div class="text-subtitle2" v-if="profile?.role.display_name">
+        <div
+          class="text-subtitle2"
+          v-if="profile?.role && profile?.role.display_name"
+        >
           {{ profile.role.display_name }}
         </div>
       </q-card-section>

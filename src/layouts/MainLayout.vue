@@ -16,11 +16,18 @@
 import AppFooter from './MainFooter.vue';
 import AppHeader from './MainHeader.vue';
 import DrawerLeft from './MainDrawerLeft.vue';
-import { injectStrict, _app, _map, _shopCategory } from 'src/injectables';
+import {
+  injectStrict,
+  _app,
+  _map,
+  _shopCategory,
+  _user,
+} from 'src/injectables';
 
 const $app = injectStrict(_app);
 const $map = injectStrict(_map);
 const $category = injectStrict(_shopCategory);
+const $user = injectStrict(_user);
 
 /**
  * -----------------------------------------
@@ -35,6 +42,7 @@ async function init(done: CallableFunction) {
     $app.loadOffers(),
     $app.loadStores(),
     $app.loadAnnouncements(),
+    $user.getProfile(),
   ]).finally(() => {
     done();
   });

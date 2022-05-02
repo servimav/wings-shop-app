@@ -1,7 +1,7 @@
 import MainLayoutVue from 'src/layouts/MainLayout.vue';
 import { RouteRecordRaw } from 'vue-router';
 import { ROUTE_NAME } from '../names';
-// import { authGuard } from './guards';
+import { authGuard } from './guards';
 
 const route: RouteRecordRaw = {
   path: '/shop',
@@ -20,7 +20,6 @@ const route: RouteRecordRaw = {
     {
       path: 'checkout',
       name: ROUTE_NAME.SHOP_CHECKOUT,
-      // beforeEnter: authGuard,
       component: () => import('pages/shop/CheckoutPage.vue'),
     },
     {
@@ -31,11 +30,13 @@ const route: RouteRecordRaw = {
     {
       path: 'orders',
       name: ROUTE_NAME.SHOP_ORDERS,
+      beforeEnter: authGuard,
       component: () => import('pages/shop/OrdersPage.vue'),
     },
     {
       path: 'orders/:id',
       name: ROUTE_NAME.SHOP_ORDER,
+      beforeEnter: authGuard,
       component: () => import('pages/shop/OrderPage.vue'),
     },
     {
