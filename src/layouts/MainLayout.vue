@@ -16,40 +16,22 @@
 import AppFooter from './MainFooter.vue';
 import AppHeader from './MainHeader.vue';
 import DrawerLeft from './MainDrawerLeft.vue';
-import { provide } from 'vue';
-import {
-  _shopCategory,
-  $shopCategory,
-  _shopCart,
-  $shopCartInjectable,
-  $mapInjectable,
-  _map,
-  _shopOrder,
-  $shopOrderInjectable,
-  injectStrict,
-  _app,
-} from 'src/injectables';
+import { injectStrict, _app, _map, _shopCategory } from 'src/injectables';
 
 const $app = injectStrict(_app);
-/**
- * -----------------------------------------
- *	Setup
- * -----------------------------------------
- */
-provide(_map, $mapInjectable);
-provide(_shopCategory, $shopCategory);
-provide(_shopOrder, $shopOrderInjectable);
-provide(_shopCart, $shopCartInjectable);
+const $map = injectStrict(_map);
+const $category = injectStrict(_shopCategory);
+
 /**
  * -----------------------------------------
  *	Init
  * -----------------------------------------
  */
 async function init(done: CallableFunction) {
-  $mapInjectable.getGpsPosition();
+  $map.getGpsPosition();
   Promise.all([
-    $shopCategory.availableAction(),
-    $shopCategory.allAction(),
+    $category.availableAction(),
+    $category.allAction(),
     $app.loadOffers(),
     $app.loadStores(),
     $app.loadAnnouncements(),
