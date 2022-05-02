@@ -34,14 +34,24 @@ import { ROUTE_NAME } from 'src/router';
 import { toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 
-const $props = defineProps<{ data: IShopOffer }>();
+const $props = defineProps<{ data: IShopOffer; vendor?: boolean }>();
 const $router = useRouter();
-const { data } = toRefs($props);
+const { data, vendor } = toRefs($props);
+/**
+ *
+ */
 function goToOffer() {
-  void $router.push({
-    name: ROUTE_NAME.SHOP_OFFER,
-    params: { id: data.value.id },
-  });
+  if (vendor?.value) {
+    void $router.push({
+      name: ROUTE_NAME.VENDOR_OFFER,
+      params: { id: data.value.id },
+    });
+  } else {
+    void $router.push({
+      name: ROUTE_NAME.SHOP_OFFER,
+      params: { id: data.value.id },
+    });
+  }
 }
 </script>
 

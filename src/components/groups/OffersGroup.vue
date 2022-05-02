@@ -5,7 +5,10 @@
       v-for="(offer, oKey) in $props.data"
       :key="`offer-${offer.id}-${oKey}`"
     >
-      <offer-widget :data="offer" />
+      <offer-widget
+        :data="offer"
+        :vendor="$props.vendor ? $props.vendor : undefined"
+      />
     </div>
   </div>
 </template>
@@ -13,5 +16,5 @@
 <script setup lang="ts">
 import { IShopOffer } from 'src/api';
 import OfferWidget from '../widgets/shop/OfferWidget.vue';
-const $props = defineProps<{ data: IShopOffer[] }>();
+const $props = defineProps<{ data: IShopOffer[]; vendor?: boolean }>();
 </script>

@@ -5,7 +5,10 @@
       v-for="(d, oKey) in $props.data"
       :key="`store-group-${d.id}-${oKey}`"
     >
-      <store-widget :data="d" />
+      <store-widget
+        :data="d"
+        :vendor="$props.vendor ? $props.vendor : undefined"
+      />
     </div>
   </div>
 </template>
@@ -13,5 +16,5 @@
 <script setup lang="ts">
 import { IShopStore } from 'src/api';
 import StoreWidget from '../widgets/shop/StoreWidget.vue';
-const $props = defineProps<{ data: IShopStore[] }>();
+const $props = defineProps<{ data: IShopStore[]; vendor?: boolean }>();
 </script>

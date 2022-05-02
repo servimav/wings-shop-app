@@ -26,19 +26,28 @@
 import { IShopStore } from 'src/api';
 import { ROUTE_NAME } from 'src/router';
 import { useRouter } from 'vue-router';
-import {} from 'src/helpers';
 /**
  * -----------------------------------------
  *	Setup
  * -----------------------------------------
  */
-const $props = defineProps<{ data: IShopStore }>();
+const $props = defineProps<{ data: IShopStore; vendor?: boolean }>();
 const $router = useRouter();
+/**
+ * goToStore
+ */
 function goToStore() {
-  void $router.push({
-    name: ROUTE_NAME.SHOP_STORE,
-    params: { id: $props.data.id },
-  });
+  if ($props.vendor) {
+    void $router.push({
+      name: ROUTE_NAME.VENDOR_STORE,
+      params: { id: $props.data.id },
+    });
+  } else {
+    void $router.push({
+      name: ROUTE_NAME.SHOP_STORE,
+      params: { id: $props.data.id },
+    });
+  }
 }
 </script>
 <style scoped>
