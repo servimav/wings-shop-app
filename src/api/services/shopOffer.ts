@@ -62,7 +62,7 @@ export class ShopOfferService {
    */
   async update(offerId: number, update: IShopOfferUpdateRequest) {
     await csrfToken(this.api);
-    return this.api.patch<IShopOffer, AxiosResponse<IShopOffer>>(
+    return this.api.post<IShopOffer, AxiosResponse<IShopOffer>>(
       `/api/shop/offers/${offerId}`,
       update
     );

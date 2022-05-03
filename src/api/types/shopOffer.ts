@@ -19,6 +19,7 @@ export interface IShopOffer {
   image: IImage;
   store_id: number;
   category?: IShopCategory;
+  onsale: boolean;
 }
 
 /**
@@ -29,16 +30,18 @@ export interface IShopOffer {
 /**
  * IShopOfferCreateRequest
  */
-export type IShopOfferCreateRequest = {
-  readonly title: string;
-  readonly description: string;
-  readonly type: IShopOfferType;
-  readonly stock_type: IShopOfferStockType;
-  readonly stock_qty: number;
-  readonly sell_price: number;
-  readonly vendor_price: number;
-  readonly store_id: number;
-};
+export interface IShopOfferCreateRequest {
+  title: string;
+  description: string;
+  type: IShopOfferType;
+  stock_type: IShopOfferStockType;
+  stock_qty: number;
+  sell_price: number;
+  vendor_price: number;
+  store_id: number;
+  category_tag: string;
+  image: string;
+}
 /**
  * IShopOfferFilterrequest
  */
@@ -60,4 +63,4 @@ export interface IShopOfferFilterrequest {
 export type IShopOfferUpdateRequest = Omit<
   Partial<IShopOffer>,
   'id' | 'rating'
-> & { onsale: boolean };
+> & { category_tag: string };

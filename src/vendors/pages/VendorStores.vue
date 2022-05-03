@@ -15,7 +15,11 @@
     </div>
 
     <q-dialog v-model="storeDialog" maximized>
-      <vendor-store-form @cancel="storeDialog = false" @ok="onOk" />
+      <vendor-store-form
+        @cancel="storeDialog = false"
+        @ok="onOk"
+        @removed="onRemoved"
+      />
     </q-dialog>
   </q-page>
 </template>
@@ -60,6 +64,14 @@ async function listStores() {
 function onOk(s: IShopStore) {
   stores.value.unshift(s);
   storeDialog.value = false;
+}
+/**
+ * onRemoved
+ * @param storeId
+ */
+function onRemoved(storeId: number) {
+  const index = stores.value.findIndex((s) => s.id === storeId);
+  if (index) stores.value.splice(index, 1);
 }
 void listStores();
 </script>

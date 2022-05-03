@@ -53,16 +53,26 @@
           label="Descripción"
         />
         <!-- / Description -->
+        <!-- Image -->
         <q-file
           v-model="image"
           label="Imagen"
           use-chips
           accept=".jpg, image/*"
         />
+        <!-- / Image -->
       </q-card-section>
       <q-card-actions>
         <q-btn
           color="negative"
+          icon="mdi-delete"
+          outline
+          label="Eliminar"
+          @click="onRemove"
+          v-if="$props.update"
+        />
+        <q-btn
+          color="secondary"
           outline
           label="Cancelar"
           @click="$emit('cancel')"
@@ -86,6 +96,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import { latLng, LatLng } from 'leaflet';
 import { serialize } from 'object-to-formdata';
+import { Dialog } from 'quasar';
 /**
  * -----------------------------------------
  *	Inject
@@ -96,6 +107,7 @@ const $category = injectStrict(_shopCategory);
 const $emit = defineEmits<{
   (e: 'ok', p: IShopStore): void;
   (e: 'cancel'): void;
+  (e: 'removed', id: number): void;
 }>();
 const $props = defineProps<{ update?: IShopStore }>();
 /**
@@ -132,7 +144,7 @@ onBeforeMount(() => {
     } as IShopStoreUpdateRequest;
   } else {
     form.value = {
-      category_tag: '',
+      category_tag: categories.value[0].tag,
       description: '',
       image: '',
       map_address: '',
@@ -141,12 +153,34 @@ onBeforeMount(() => {
       title: '',
     } as IShopStoreCreateRequest;
   }
+  void $category.allAction();
 });
 /**
  * -----------------------------------------
  *	Methods
  * -----------------------------------------
  */
+
+/**
+ * onRemove
+ */
+async function onRemove() {
+  Dialog.create({
+    title: 'Eliminar Oferta',
+    message: '¿Está seguro que desea eliminar la oferta?',
+    ok: 'Si',
+    cancel: 'No',
+  }).onOk(async () => {
+    try {
+      if ($props.update) {
+        await $nairdaApi.ShopStore.destroy($props.update.id);
+        $emit('removed', $props.update.id);
+      }
+    } catch (error) {
+      notificationHelper.axiosError(error, 'No se pudo eliminar');
+    }
+  });
+}
 /**
  * Set Coordinate
  * @param p
@@ -172,12 +206,13 @@ async function onSubmit() {
   }
   try {
     let resp: IShopStore;
-    if ($props.update) {
-      const formData = serialize(form.value, {
-        nullsAsUndefineds: true,
-        booleansAsIntegers: true,
-      });
 
+    const formData = serialize(form.value, {
+      nullsAsUndefineds: true,
+      booleansAsIntegers: true,
+    });
+
+    if ($props.update) {
       resp = (
         await $nairdaApi.ShopStore.update(
           $props.update.id,
@@ -185,10 +220,6 @@ async function onSubmit() {
         )
       ).data;
     } else {
-      const formData = serialize(form.value, {
-        nullsAsUndefineds: true,
-        booleansAsIntegers: true,
-      });
       resp = (
         await $nairdaApi.ShopStore.create(
           formData as unknown as IShopStoreCreateRequest
