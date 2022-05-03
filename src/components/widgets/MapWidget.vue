@@ -19,7 +19,7 @@
         :icon="`${readonly ? 'mdi-arrow-left' : 'mdi-check'}`"
         :label="`${readonly ? 'Regresar' : 'Confirmar'}`"
         @click="confirm"
-        v-if="markers.length"
+        v-if="markers.length && button"
       />
       <q-btn
         v-if="!readonly"
@@ -96,6 +96,10 @@ export default defineComponent({
     readonly: {
       type: Boolean,
       default: false,
+    },
+    button: {
+      type: Boolean,
+      default: true,
     },
   },
   setup($props, { emit }) {

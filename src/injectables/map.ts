@@ -1,6 +1,6 @@
-import { latLng, LatLng } from 'leaflet';
+import { LatLng } from 'leaflet';
 import { Dialog, Platform } from 'quasar';
-import { $capacitor } from 'src/helpers';
+import { $capacitor, DEFAULT_COORDINATES } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 
 interface IMaPSettings {
@@ -10,19 +10,18 @@ interface IMaPSettings {
     max: number;
   };
 }
-
 class MapInjectable {
-  private _center = ref<LatLng>(latLng(22.245531, -80.393699));
+  private _center = ref<LatLng>(DEFAULT_COORDINATES);
   private _gpsPosition = ref<LatLng | undefined>(undefined);
   private _markers = ref<LatLng[]>([]);
   private _settings = ref<IMaPSettings>({
     multiple: false,
     zoom: {
       max: 18,
-      min: 10,
+      min: 8,
     },
   });
-  private _zoom = ref(16);
+  private _zoom = ref(10);
   /**
    * -----------------------------------------
    *	getters & setters
