@@ -1,5 +1,15 @@
 <template>
   <q-page padding class="q-gutter-y-sm" v-if="store">
+    <!-- Edit button -->
+    <q-btn
+      color="secondary"
+      icon="mdi-pencil"
+      label="Editar Tienda"
+      v-if="isVendor"
+      class="full-width"
+      @click="editDialog = true"
+    />
+    <!-- /Edit button -->
     <q-card class="no-box-shadow text-grey-9">
       <q-img
         :src="store.image"
@@ -54,8 +64,20 @@
     </q-card>
 
     <title-widget :data="{ title: 'Ofertas' }" v-if="store.offers?.length" />
+    <div v-if="isVendor">
+      <q-btn
+        color="secondary"
+        icon="mdi-plus"
+        class="full-width"
+        label="Nueva Oferta"
+      />
+    </div>
     <div>
-      <offers-group :data="store.offers" v-if="store.offers?.length" />
+      <offers-group
+        :data="store.offers"
+        v-if="store.offers?.length"
+        :vendor="isVendor"
+      />
     </div>
 
     <!-- Map Dialog -->
@@ -67,6 +89,16 @@
       />
     </q-dialog>
     <!-- / Map Dialog -->
+
+    <!-- Edit Dialog -->
+    <q-dialog v-model="editDialog" maximized v-if="isVendor">
+      <vendor-store-form
+        :update="store"
+        @ok="onEditOk"
+        @cancel="editDialog = false"
+      />
+    </q-dialog>
+    <!-- / Edit Dialog -->
   </q-page>
 </template>
 
@@ -75,11 +107,12 @@ import { IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper, goTo } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
+import VendorStoreForm from 'src/vendors/components/forms/VendorStoreForm.vue';
 
 /**
  * -----------------------------------------
@@ -92,6 +125,8 @@ const $route = useRoute();
  *	Data
  * -----------------------------------------
  */
+const editDialog = ref(false);
+const isVendor = computed(() => $route.name === ROUTE_NAME.VENDOR_STORE);
 const mapDialog = ref(false);
 const store = ref<IShopStore | undefined>(undefined);
 
@@ -116,6 +151,10 @@ async function init() {
     }
     notificationHelper.loading(false);
   }
+}
+function onEditOk(s: IShopStore) {
+  store.value = s;
+  editDialog.value = false;
 }
 /**
  * -----------------------------------------

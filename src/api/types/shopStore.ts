@@ -15,6 +15,7 @@ export interface IShopStore {
   rating: number;
   category?: IShopCategory;
   offers?: IShopOffer[];
+  open?: boolean;
 }
 
 /**
@@ -26,12 +27,15 @@ export interface IShopStore {
 /**
  * @type IShopStoreCreateRequest
  */
-export type IShopStoreCreateRequest = {
-  readonly title: string;
-  readonly description: string;
-  readonly map_position: IMapCoordinate;
-  readonly open?: boolean;
-};
+export interface IShopStoreCreateRequest {
+  title: string;
+  description: string;
+  image: string | File;
+  map_address: string;
+  map_coordinate: IMapCoordinate;
+  category_tag: string;
+  open: boolean;
+}
 /**
  * IShopStoreFilter
  */

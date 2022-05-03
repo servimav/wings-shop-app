@@ -22,11 +22,14 @@ export function ShopStoreTests(api: AxiosInstance) {
           await $service.create({
             title: 'TestTitle',
             description: 'TestDescription',
-            map_position: {
+            map_coordinate: {
               lat: 0,
               lng: 0,
             },
             open: false,
+            category_tag: 'culinary',
+            image: '',
+            map_address: '',
           })
         ).data
       );
@@ -45,7 +48,7 @@ export function ShopStoreTests(api: AxiosInstance) {
           await $service.update(1, {
             title: 'TestTitle',
             description: 'TestDescription',
-            map_position: {
+            map_coordinate: {
               lat: 0,
               lng: 0,
             },

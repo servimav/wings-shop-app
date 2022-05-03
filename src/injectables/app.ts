@@ -116,6 +116,14 @@ class AppInjectable {
     }
   }
   /**
+   * set app mode
+   * @param mode
+   */
+  async setMode(mode: IUserRoleName) {
+    this.mode = mode;
+    await this.save();
+  }
+  /**
    * -----------------------------------------
    *	Methods
    * -----------------------------------------

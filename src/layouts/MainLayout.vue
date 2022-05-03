@@ -50,4 +50,5 @@ async function init(done: CallableFunction) {
 init(() => {
   console.log('Refresh');
 });
+$app.setMode('user');
 </script>

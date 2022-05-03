@@ -18,6 +18,17 @@
         </q-item-section>
       </q-item>
       <!-- / HOME -->
+      <!-- Stores -->
+      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_STORES }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-store" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Mis Tiendas</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Stores -->
 
       <!-- Vendor Mode -->
       <q-item clickable @click="userMode">
@@ -96,7 +107,7 @@ function userMode() {
     ok: 'Si',
     cancel: 'No',
   }).onOk(() => {
-    $app.mode === 'shop_vendor';
+    $app.setMode('user');
     void $router.push({ name: ROUTE_NAME.HOME });
   });
 }

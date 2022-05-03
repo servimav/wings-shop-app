@@ -25,7 +25,10 @@ const $category = injectStrict(_shopCategory);
  *	Init
  * -----------------------------------------
  */
-$app.mode = 'shop_vendor';
+/**
+ * init
+ * @param done
+ */
 async function init(done: CallableFunction) {
   await $category.allAction();
   done();
@@ -33,4 +36,6 @@ async function init(done: CallableFunction) {
 init(() => {
   console.log('Refresh');
 });
+// Set app mode
+$app.setMode('shop_vendor');
 </script>

@@ -166,8 +166,15 @@ function updateDrawerleft(open: boolean) {
  */
 function vendorMode() {
   if ($user.isVendor || $user.isAdmin) {
-    $app.mode === 'shop_vendor';
-    void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
+    Dialog.create({
+      title: 'Cambiar Modo',
+      message: '¿Desea cambiar al Modo Ventas?',
+      ok: 'Si',
+      cancel: 'No',
+    }).onOk(() => {
+      $app.setMode('shop_vendor');
+      void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
+    });
   } else {
     Dialog.create({
       title: 'Solicitud de ventas',

@@ -10,40 +10,15 @@
         @click="toggleDrawerLeft"
       />
 
-      <q-toolbar-title>
-        <q-form @submit.prevent="onSubmit">
-          <q-input
-            v-model="search"
-            type="search"
-            placeholder="Buscar"
-            bg-color="white"
-            outlined
-            dense
-          >
-            <template v-slot:after>
-              <q-btn
-                class="text-white"
-                icon="mdi-magnify"
-                flat
-                dense
-                round
-                aria-label="Search"
-                type="submit"
-                @click="onSubmit"
-              />
-            </template>
-          </q-input>
-        </q-form>
-      </q-toolbar-title>
+      <q-toolbar-title>Modo Ventas </q-toolbar-title>
+
+      <q-btn flat dense icon="mdi-bell-outline" />
     </q-toolbar>
   </q-header>
 </template>
 
 <script lang="ts" setup>
 import { injectStrict, _app } from 'src/injectables';
-import { ROUTE_NAME } from 'src/router';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 /**
  * -----------------------------------------
  *	Injectables
@@ -51,26 +26,16 @@ import { useRouter } from 'vue-router';
  */
 
 const $app = injectStrict(_app);
-const $router = useRouter();
 /**
  * -----------------------------------------
  *	data
  * -----------------------------------------
  */
-const search = ref('');
 /**
  * -----------------------------------------
  *	Methods
  * -----------------------------------------
  */
-function onSubmit() {
-  void $router.push({
-    name: ROUTE_NAME.SHOP_SEARCH,
-    query: { search: search.value },
-  });
-  search.value = '';
-}
-
 function toggleDrawerLeft() {
   $app.drawerLeft = !$app.drawerLeft;
 }
