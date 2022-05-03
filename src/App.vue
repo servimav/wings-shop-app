@@ -37,13 +37,13 @@ const appMode = computed(() => $app.mode);
 /**
  * onBeforeMount
  */
-onBeforeMount(() => {
-  void $app.load();
+onBeforeMount(async () => {
+  await $app.load();
   $user.load();
   if (isAuth()) $user.getProfile();
   if (appMode.value === 'shop_vendor') {
-    if ($user.isVendor) void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
-    else $app.mode = 'user';
+    if ($user.isVendor || $user.isAdmin)
+      void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
   }
 });
 </script>
