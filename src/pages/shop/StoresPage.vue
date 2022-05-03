@@ -2,9 +2,7 @@
   <q-page padding class="text-grey-9">
     <section class="q-gutter-y-sm" v-if="stores.length">
       <title-widget :data="{ title: 'Tiendas' }" />
-      <div>
-        <stores-group :data="stores" />
-      </div>
+      <stores-group horizontal :data="stores" />
     </section>
   </q-page>
 </template>
