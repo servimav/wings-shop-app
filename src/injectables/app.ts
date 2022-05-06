@@ -1,4 +1,5 @@
 import {
+  IMapLocality,
   IPublicityAnnouncement,
   IShopOffer,
   IShopStore,
@@ -16,16 +17,19 @@ const STORAGE_KEY = 'Injectable/App';
  */
 interface IAppStorage {
   mode: IUserRoleName;
+  locality: IMapLocality | undefined;
 }
 /**
  * @class AppInjectable
  */
 class AppInjectable {
-  private _mode = ref<IUserRoleName>('user');
   private _drawerLeft = ref(false);
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);
   private _homeOffers = ref<IShopOffer[]>([]);
   private _homeStores = ref<IShopStore[]>([]);
+  private _locality = ref<IMapLocality>();
+  private _mode = ref<IUserRoleName>('user');
+
   /**
    * -----------------------------------------
    *	Getters & Setters
@@ -58,6 +62,12 @@ class AppInjectable {
   set homeStores(s: IShopStore[]) {
     this._homeStores.value = s;
   }
+  get locality() {
+    return this._locality.value;
+  }
+  set locality(_l: IMapLocality | undefined) {
+    this._locality.value = _l;
+  }
   get mode() {
     return this._mode.value;
   }
@@ -80,40 +90,37 @@ class AppInjectable {
    *	Actions
    * -----------------------------------------
    */
-
   /**
    * loadAnnouncements
    */
   async loadAnnouncements() {
-    try {
-      const resp = await $nairdaApi.PublicityAnnouncement.list();
-      this.homeAnn = resp.data;
-    } catch (error) {
-      throw error;
-    }
+    const resp = await $nairdaApi.PublicityAnnouncement.list();
+    this.homeAnn = resp.data;
+    return resp.data;
   }
   /**
    * loadOffers
    */
   async loadOffers() {
-    try {
-      const resp = await $nairdaApi.ShopOffer.filter({ limit: 10 });
-      this.homeOffers = resp.data;
-      return;
-    } catch (error) {
-      throw error;
-    }
+    if (!this.locality) return;
+    const resp = await $nairdaApi.ShopOffer.filter({
+      limit: 10,
+      where: { locality_id: this.locality.id },
+    });
+    this.homeOffers = resp.data;
+    return resp.data;
   }
   /**
    * loadStores
    */
   async loadStores() {
-    try {
-      const resp = await $nairdaApi.ShopStore.filter({ limit: 10 });
-      this.homeStores = resp.data;
-    } catch (error) {
-      throw error;
-    }
+    if (!this.locality) return;
+    const resp = await $nairdaApi.ShopStore.filter({
+      limit: 10,
+      where: { locality_id: this.locality.id },
+    });
+    this.homeStores = resp.data;
+    return resp.data;
   }
   /**
    * set app mode
@@ -136,6 +143,7 @@ class AppInjectable {
       const data = await $capacitor.Storage_load<IAppStorage>(STORAGE_KEY);
       if (data) {
         this.mode = data.mode;
+        this.locality = data.locality;
       }
     } catch (error) {
       console.log(STORAGE_KEY, error);
@@ -148,6 +156,7 @@ class AppInjectable {
     try {
       await $capacitor.Storage_save<IAppStorage>(STORAGE_KEY, {
         mode: this.mode,
+        locality: this.locality,
       });
     } catch (error) {
       console.log(STORAGE_KEY, error);

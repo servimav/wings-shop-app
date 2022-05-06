@@ -1,3 +1,4 @@
+import { IMapLocality } from './mapLocality';
 import { IMapCoordinate } from './mapPosition';
 import { IShopCategory } from './shopCategory';
 import { IShopOffer } from './shopOffer';
@@ -16,6 +17,7 @@ export interface IShopStore {
   category?: IShopCategory;
   offers?: IShopOffer[];
   open?: boolean;
+  locality?: IMapLocality;
 }
 
 /**
@@ -35,6 +37,7 @@ export interface IShopStoreCreateRequest {
   map_coordinate: IMapCoordinate;
   category_tag: string;
   open: boolean;
+  locality_id: number;
 }
 /**
  * IShopStoreFilter
@@ -44,6 +47,7 @@ export interface IShopStoreFilterRequest {
     open?: boolean;
     title?: string;
     description?: string;
+    locality_id?: number;
   };
   limit?: number;
 }

@@ -54,6 +54,7 @@ export interface IShopOfferFilterrequest {
     price_lt?: number;
     price_gt?: number;
     price_et?: number;
+    locality_id?: number;
   };
   limit?: number;
 }

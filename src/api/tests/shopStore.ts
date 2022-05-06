@@ -30,6 +30,7 @@ export function ShopStoreTests(api: AxiosInstance) {
             category_tag: 'culinary',
             image: '',
             map_address: '',
+            locality_id: 1,
           })
         ).data
       );
