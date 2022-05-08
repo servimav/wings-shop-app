@@ -77,6 +77,7 @@ class UserInjectable {
    * @returns
    */
   async getProfile() {
+    if (!this.apiToken) return;
     const resp = await $nairdaApi.User.profile();
     this.profile = resp.data;
     this.save();
