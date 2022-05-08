@@ -12,13 +12,29 @@
           v-model="loginForm.email"
           type="email"
           label="Email"
-        />
+          :error="$v.email.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.email.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <q-input
           name="password"
           v-model="loginForm.password"
           type="password"
           label="Contraseña"
-        />
+          :error="$v.password.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.password.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
       </q-card-section>
       <q-card-section
         class="text-primary cursor-pointer"
@@ -43,7 +59,8 @@ import { ref } from 'vue';
 import { notificationHelper } from 'src/helpers';
 import { IUserAuthLoginRequest } from 'src/api';
 import { injectStrict, _user } from 'src/injectables';
-
+import useVuelidate from '@vuelidate/core';
+import { required, email, helpers } from '@vuelidate/validators';
 /**
  * -----------------------------------------
  *	Init
@@ -66,19 +83,36 @@ const loginForm = ref<IUserAuthLoginRequest>({
  *	methods
  * -----------------------------------------
  */
+// validator
+const $v = useVuelidate(
+  {
+    email: {
+      required: helpers.withMessage('El email es necesario', required),
+      email: helpers.withMessage('El email no es válido', email),
+    },
+    password: {
+      required: helpers.withMessage('La contraseña es necesaria', required),
+    },
+  },
+  loginForm
+);
+
 /**
  * login
  */
 async function login() {
-  notificationHelper.loading();
-  try {
-    await $user.loginAction(loginForm.value);
-    notificationHelper.success([`Bienvenido ${$user.profile?.first_name}`]);
-    $emit('auth');
-  } catch (error) {
-    notificationHelper.axiosError(error, 'Credenciales incorrectas');
+  // Validate
+  if (await $v.value.$validate()) {
+    notificationHelper.loading();
+    try {
+      await $user.loginAction(loginForm.value);
+      notificationHelper.success([`Bienvenido ${$user.profile?.first_name}`]);
+      $emit('auth');
+    } catch (error) {
+      notificationHelper.axiosError(error, 'Credenciales incorrectas');
+    }
+    notificationHelper.loading(false);
   }
-  notificationHelper.loading(false);
 }
 </script>
 
