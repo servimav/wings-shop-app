@@ -43,12 +43,10 @@ export interface IShopStoreCreateRequest {
  * IShopStoreFilter
  */
 export interface IShopStoreFilterRequest {
-  where?: {
-    open?: boolean;
-    title?: string;
-    description?: string;
-    locality_id?: number;
-  };
+  open?: boolean;
+  title?: string;
+  description?: string;
+  locality_id?: number;
   limit?: number;
 }
 /**

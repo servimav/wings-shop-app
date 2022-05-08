@@ -105,7 +105,7 @@ class AppInjectable {
     if (!this.locality) return;
     const resp = await $nairdaApi.ShopOffer.filter({
       limit: 10,
-      where: { locality_id: this.locality.id },
+      locality_id: this.locality.id,
     });
     this.homeOffers = resp.data;
     return resp.data;
@@ -117,7 +117,7 @@ class AppInjectable {
     if (!this.locality) return;
     const resp = await $nairdaApi.ShopStore.filter({
       limit: 10,
-      where: { locality_id: this.locality.id },
+      locality_id: this.locality.id,
     });
     this.homeStores = resp.data;
     return resp.data;

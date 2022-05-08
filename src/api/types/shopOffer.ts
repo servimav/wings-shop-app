@@ -46,16 +46,14 @@ export interface IShopOfferCreateRequest {
  * IShopOfferFilterrequest
  */
 export interface IShopOfferFilterrequest {
-  where?: {
-    type?: IShopOfferType;
-    stock_type?: IShopOfferStockType;
-    title?: string;
-    description?: string;
-    price_lt?: number;
-    price_gt?: number;
-    price_et?: number;
-    locality_id?: number;
-  };
+  type?: IShopOfferType;
+  stock_type?: IShopOfferStockType;
+  title?: string;
+  description?: string;
+  price_lt?: number;
+  price_gt?: number;
+  price_et?: number;
+  locality_id?: number;
   limit?: number;
 }
 /**
