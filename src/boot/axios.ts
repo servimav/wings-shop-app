@@ -8,9 +8,8 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-export const baseURL = process.env.DEV
-  ? 'http://localhost:8000'
-  : 'https://srv.net';
+// export const baseURL = 'http://localhost:8000';
+export const baseURL = 'https://api.nairda.net';
 
 const $api = axios.create({
   baseURL: `${baseURL}`,
@@ -48,6 +47,7 @@ export default boot(({ app }) => {
       (_request.headers as AxiosRequestHeaders)['Nairda-Token'] =
         '1|$2y$10$G1.nEO.oRi5nrVSpZFAhguSARzeNgcLoDvg.DgnWZKYMYphooKlUW';
     }
+
     return _request;
   });
 
