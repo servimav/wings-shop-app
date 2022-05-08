@@ -59,8 +59,8 @@ import OfferGroup from 'src/components/groups/OffersGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OffersSlider from 'src/components/sliders/OffersSlider.vue';
 import StoresSlider from 'src/components/sliders/StoresSlider.vue';
-import { isAuth } from 'src/helpers';
-import { computed } from 'vue';
+import { isAuth, notificationHelper } from 'src/helpers';
+import { computed, onBeforeMount } from 'vue';
 import { injectStrict, _app, _shopCategory } from 'src/injectables';
 
 const $app = injectStrict(_app);
@@ -74,4 +74,14 @@ const hasCategories = computed(() => $categories.available.length > 3);
 const announcements = computed(() => $app.homeAnn);
 const offers = computed(() => $app.homeOffers);
 const stores = computed(() => $app.homeStores);
+
+onBeforeMount(() => {
+  Promise.all([
+    $app.loadOffers(),
+    $app.loadStores(),
+    $app.loadAnnouncements(),
+  ]).catch((e) => {
+    notificationHelper.axiosError(e, 'Ha ocurrido un error');
+  });
+});
 </script>

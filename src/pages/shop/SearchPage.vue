@@ -16,29 +16,32 @@ import StoresGroup from 'src/components/groups/StoresGroup.vue';
 import { IShopOffer, IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+import { injectStrict, _app } from 'src/injectables';
 /**
  * -----------------------------------------
  *	Setup
  * -----------------------------------------
  */
 
+const $app = injectStrict(_app);
 const $route = useRoute();
+
 onBeforeRouteUpdate((to, from, next) => {
   if (to.name === from.name && to.query.search)
-    init(to.query.search.toString());
+    runSearch(to.query.search.toString());
   next();
 });
 onBeforeMount(() => {
-  if ($route.query.search) void init($route.query.search?.toString());
+  if ($route.query.search) void runSearch($route.query.search?.toString());
 });
 /**
  * -----------------------------------------
  *	Data
  * -----------------------------------------
  */
-
+const localityId = computed(() => $app.locality?.id);
 const offers = ref<IShopOffer[]>([]);
 const stores = ref<IShopStore[]>([]);
 /**
@@ -46,21 +49,42 @@ const stores = ref<IShopStore[]>([]);
  *	methods
  * -----------------------------------------
  */
-
-async function init(search: string) {
+/**
+ * Run Search
+ * @param search
+ */
+async function runSearch(search: string) {
   notificationHelper.loading();
-  try {
-    const resp = await $nairdaApi.Shop.search({
-      search,
-      type: 'ALL',
+  Promise.all([void searchOffers(search), void searchStores(search)])
+    .catch((e) => {
+      notificationHelper.axiosError(e, 'Error en la búsqueda');
+    })
+    .finally(() => {
+      notificationHelper.loading(false);
     });
-    offers.value = [];
-    stores.value = [];
-    if (resp.data.offers) offers.value = resp.data.offers;
-    if (resp.data.stores) stores.value = resp.data.stores;
-  } catch (error) {
-    notificationHelper.axiosError(error);
-  }
-  notificationHelper.loading(false);
+}
+/**
+ * Search Offers
+ * @param search
+ */
+async function searchOffers(search: string) {
+  offers.value = (
+    await $nairdaApi.ShopOffer.filter({
+      locality_id: localityId.value,
+      description: search,
+    })
+  ).data;
+}
+/**
+ * Search Stores
+ * @param search
+ */
+async function searchStores(search: string) {
+  stores.value = (
+    await $nairdaApi.ShopStore.filter({
+      title: search,
+      locality_id: localityId.value,
+    })
+  ).data;
 }
 </script>

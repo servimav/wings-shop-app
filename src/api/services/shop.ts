@@ -7,6 +7,8 @@ import { IShopStore } from '../types/shopStore';
 export interface IShopSearchRequest {
   type: 'ALL' | 'SHOP_STORE' | 'SHOP_OFFER';
   search: string;
+  limit?: number;
+  locality_id?: number;
 }
 /**
  * IShopSearchResponse

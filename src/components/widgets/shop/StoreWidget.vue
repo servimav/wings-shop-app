@@ -18,7 +18,7 @@
         </div>
       </q-img>
       <q-card-section>
-        <div class="text-subtitle2">{{ $props.data.title }}</div>
+        <div class="text-body1">{{ $props.data.title }}</div>
       </q-card-section>
     </q-card-section>
     <template v-else>

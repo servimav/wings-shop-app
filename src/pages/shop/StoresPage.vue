@@ -12,14 +12,22 @@ import { IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { ROUTE_NAME } from 'src/router';
 import { notificationHelper, goTo } from 'src/helpers';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import StoresGroup from 'src/components/groups/StoresGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
+import { injectStrict, _app } from 'src/injectables';
+/**
+ * -----------------------------------------
+ *	Injectable
+ * -----------------------------------------
+ */
+const $app = injectStrict(_app);
 /**
  * -----------------------------------------
  *	Data
  * -----------------------------------------
  */
+const locality = computed(() => $app.locality);
 const stores = ref<IShopStore[]>([]);
 /**
  * -----------------------------------------
@@ -32,8 +40,11 @@ const stores = ref<IShopStore[]>([]);
 async function loadStores() {
   notificationHelper.loading();
   try {
-    const resp = await $nairdaApi.ShopStore.list();
-    stores.value = resp.data.data;
+    stores.value = (
+      await $nairdaApi.ShopStore.filter({
+        locality_id: locality.value?.id,
+      })
+    ).data;
     if (!stores.value.length) goTo(ROUTE_NAME.HOME);
   } catch (error) {
     notificationHelper.axiosError(error, 'No hay conexión');

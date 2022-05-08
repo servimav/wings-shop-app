@@ -4,17 +4,17 @@
       <q-select
         v-model="currentLocality"
         :options="mapLocalities"
-        label="¿Dónde Estás?"
+        label="¿Dónde te encuentras?"
         map-options
         option-label="name"
       />
-      {{ currentLocality }}
     </q-card-section>
     <q-card-actions
       ><q-btn
         color="primary"
         icon="mdi-map-marker"
         label="Confirmar"
+        class="full-width"
         @click="onConfirm"
       />
     </q-card-actions>
@@ -23,20 +23,22 @@
 
 <script setup lang="ts">
 import { IMapLocality } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { injectStrict, _app } from 'src/injectables';
-import { onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 
 const $app = injectStrict(_app);
 const $emit = defineEmits<{ (e: 'complete'): void }>();
 
-const mapLocalities = ref<IMapLocality[]>([]);
 const currentLocality = ref<IMapLocality>();
+const mapLocalities = computed(() => $app.allLocalities);
+const selectedLocality = computed(() => $app.locality);
 
 function onConfirm() {
   $app.locality = currentLocality.value;
   $app.save();
+  notificationHelper.success([`Seleccionado ${currentLocality.value?.name}`]);
+  $emit('complete');
 }
 
 /**
@@ -44,14 +46,11 @@ function onConfirm() {
  */
 async function listMapLocalities() {
   try {
-    notificationHelper.loading();
-    const resp = (await $nairdaApi.MapLocality.list()).data;
-    mapLocalities.value = resp;
-    $emit('complete');
+    await $app.listLocalities();
+    if (selectedLocality.value) currentLocality.value = selectedLocality.value;
   } catch (error) {
     notificationHelper.axiosError(error);
   }
-  notificationHelper.loading(false);
 }
 
 onBeforeMount(async () => {

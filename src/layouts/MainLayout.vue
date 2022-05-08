@@ -7,7 +7,7 @@
       <q-page-container class="text-grey-9">
         <router-view v-if="currentLocality" />
         <q-page padding v-else>
-          <map-locality-selector @complete="onComplete" />
+          <map-locality-selector class="q-mt-sm" @complete="onComplete" />
         </q-page>
       </q-page-container>
     </q-pull-to-refresh>
@@ -29,6 +29,7 @@ import {
 } from 'src/injectables';
 import { computed } from '@vue/reactivity';
 import { notificationHelper } from 'src/helpers';
+import { onBeforeMount } from 'vue';
 
 const $app = injectStrict(_app);
 const $map = injectStrict(_map);
@@ -70,8 +71,17 @@ async function init(done: CallableFunction) {
     done();
   }
 }
-init(() => {
-  console.log('Refresh');
+
+onBeforeMount(() => {
+  if (currentLocality) {
+    Promise.all([
+      $category.availableAction(),
+      $category.allAction(),
+      $user.getProfile(),
+    ]).catch((e) => {
+      notificationHelper.axiosError(e, 'Ha ocurrido un error');
+    });
+  }
+  $app.setMode('user');
 });
-$app.setMode('user');
 </script>

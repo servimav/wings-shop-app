@@ -23,6 +23,7 @@ interface IAppStorage {
  * @class AppInjectable
  */
 class AppInjectable {
+  private _allLocalities = ref<IMapLocality[]>([]);
   private _drawerLeft = ref(false);
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);
   private _homeOffers = ref<IShopOffer[]>([]);
@@ -36,6 +37,15 @@ class AppInjectable {
    * -----------------------------------------
    */
   /**
+   * Gets & Sets All localities
+   */
+  get allLocalities() {
+    return this._allLocalities.value;
+  }
+  set allLocalities(v: IMapLocality[]) {
+    this._allLocalities.value = v;
+  }
+  /**
    * Gets & Sets Drawer Left
    */
   get drawerLeft() {
@@ -44,30 +54,45 @@ class AppInjectable {
   set drawerLeft(drawer: boolean) {
     this._drawerLeft.value = drawer;
   }
+  /**
+   * Gets & Sets Home announcements
+   */
   get homeAnn() {
     return this._homeAnn.value;
   }
   set homeAnn(ann: IPublicityAnnouncement[]) {
     this._homeAnn.value = ann;
   }
+  /**
+   * Gets & Sets Home offers
+   */
   get homeOffers() {
     return this._homeOffers.value;
   }
   set homeOffers(offers: IShopOffer[]) {
     this._homeOffers.value = offers;
   }
+  /**
+   * Gets & Sets Home stores
+   */
   get homeStores() {
     return this._homeStores.value;
   }
   set homeStores(s: IShopStore[]) {
     this._homeStores.value = s;
   }
+  /**
+   * Gets & Sets locality
+   */
   get locality() {
     return this._locality.value;
   }
   set locality(_l: IMapLocality | undefined) {
     this._locality.value = _l;
   }
+  /**
+   * Gets & Sets mode
+   */
   get mode() {
     return this._mode.value;
   }
@@ -90,6 +115,12 @@ class AppInjectable {
    *	Actions
    * -----------------------------------------
    */
+  /**
+   * listLocalities
+   */
+  async listLocalities() {
+    this.allLocalities = (await $nairdaApi.MapLocality.list()).data;
+  }
   /**
    * loadAnnouncements
    */
