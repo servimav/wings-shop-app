@@ -30,6 +30,18 @@ class UserInjectable {
   set apiToken(token: string | null) {
     this._api_token.value = token;
   }
+  get isAdmin() {
+    return (
+      this.profile && this.profile.role && this.profile.role.name === 'admin'
+    );
+  }
+  get isVendor() {
+    return (
+      this.profile &&
+      this.profile.role &&
+      this.profile.role.name === 'shop_vendor'
+    );
+  }
   /**
    * Gets User Profile
    * @returns
@@ -65,6 +77,7 @@ class UserInjectable {
    * @returns
    */
   async getProfile() {
+    if (!this.apiToken) return;
     const resp = await $nairdaApi.User.profile();
     this.profile = resp.data;
     this.save();

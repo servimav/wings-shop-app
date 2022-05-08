@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 
 import { csrfToken } from './services/csrf';
+import { MapLocalityService } from './services/mapLocality';
 import { PublicityAnnouncementService } from './services/publicity';
 import { ShopService } from './services/shop';
 import { ShopCategoryService } from './services/shopCategory';
@@ -18,7 +19,11 @@ export default function NairdaApi(api: AxiosInstance) {
    */
   const CsrfToken = csrfToken(api);
   /**
-   * PublicityAnn
+   * MapLocality
+   */
+  const MapLocality = new MapLocalityService(api);
+  /**
+   * Publicity Announcement
    */
   const PublicityAnnouncement = new PublicityAnnouncementService(api);
   /**
@@ -48,6 +53,7 @@ export default function NairdaApi(api: AxiosInstance) {
 
   return {
     CsrfToken,
+    MapLocality,
     PublicityAnnouncement,
     Shop,
     ShopCategory,
@@ -64,6 +70,7 @@ export default function NairdaApi(api: AxiosInstance) {
  * -----------------------------------------
  */
 export * from './services/csrf';
+export * from './services/mapLocality';
 export * from './services/publicity';
 export * from './services/shop';
 export * from './services/shopOrder';
@@ -78,6 +85,7 @@ export * from './services/user';
  */
 
 export * from './types/image';
+export * from './types/mapLocality';
 export * from './types/mapPosition';
 export * from './types/publicity';
 export * from './types/responses';

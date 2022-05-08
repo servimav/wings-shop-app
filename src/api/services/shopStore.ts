@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 
 import { Paginated } from '../types/responses';
+import { IShopOffer } from '../types/shopOffer';
 import {
   IShopStore,
   IShopStoreCreateRequest,
@@ -25,7 +26,11 @@ export class ShopStoreService {
    */
   async create(create: IShopStoreCreateRequest) {
     await csrfToken(this.api);
-    return this.api.post<IShopStore>('/api/shop/stores', create);
+    return this.api.post<IShopStore>('/api/shop/stores', create, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
   /**
    * destroy
@@ -64,6 +69,14 @@ export class ShopStoreService {
       : this.api.get<Paginated<IShopStore>>('/api/shop/stores');
   }
   /**
+   * offers
+   * @param id
+   * @returns
+   */
+  async offers(id: number) {
+    return this.api.get<IShopOffer[]>(`/api/shop/stores/vendor/${id}/offers`);
+  }
+  /**
    * update
    * @param storeId number
    * @param update IShopStoreUpdateRequest
@@ -71,6 +84,10 @@ export class ShopStoreService {
    */
   async update(storeId: number, update: IShopStoreUpdateRequest) {
     await csrfToken(this.api);
-    return this.api.patch(`/api/shop/stores/${storeId}`, update);
+    return this.api.post(`/api/shop/stores/${storeId}`, update, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
 }

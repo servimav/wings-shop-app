@@ -1,3 +1,4 @@
+import { latLng } from 'leaflet';
 import { $router } from 'src/boot/router';
 import { $user } from 'src/injectables';
 import { ROUTE_NAME } from 'src/router';
@@ -67,3 +68,5 @@ export const getRemainTime = (time: Date) => {
   if (minutes > 0) return `${minutes} minutos`;
   return null;
 };
+
+export const DEFAULT_COORDINATES = latLng(22.4056, -79.9539);

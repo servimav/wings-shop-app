@@ -1,10 +1,16 @@
 <template>
-  <q-page padding>
-    <section
-      class="q-gutter-y-sm text-grey-9"
-      style="padding-bottom: 3rem"
-      v-if="offer"
-    >
+  <q-page padding v-if="offer">
+    <section class="q-gutter-y-sm text-grey-9" style="padding-bottom: 3rem">
+      <!-- Edit button -->
+      <q-btn
+        color="primary"
+        label="Editar Oferta"
+        v-if="isVendor"
+        class="full-width"
+        icon="mdi-pencil"
+        @click="editDialog = true"
+      />
+      <!-- /Edit button -->
       <q-card class="no-box-shadow">
         <q-img
           :src="offer.image"
@@ -66,7 +72,11 @@
     </section>
 
     <!-- Footer -->
-    <section class="fixed-bottom" style="margin-bottom: 3rem" v-if="footerMenu">
+    <section
+      class="fixed-bottom"
+      style="margin-bottom: 3rem"
+      v-if="footerMenu && !isVendor"
+    >
       <q-card>
         <q-card-section class="q-pa-none">
           <div class="row" v-if="offer?.type === 'PRODUCT'">
@@ -103,6 +113,18 @@
       </q-card>
     </section>
     <!-- / Footer -->
+
+    <!-- Edit Dialog -->
+    <q-dialog v-model="editDialog" maximized v-if="isVendor">
+      <vendor-offer-form
+        :update="offer"
+        @ok="onEditOk"
+        @removed="onRemoved"
+        @cancel="editDialog = false"
+        :store-id="offer.store_id"
+      />
+    </q-dialog>
+    <!-- / Edit Dialog -->
   </q-page>
 </template>
 
@@ -114,6 +136,7 @@ import { injectStrict, _shopCart } from 'src/injectables';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import InputSpinner from 'src/components/forms/InputSpinner.vue';
+import VendorOfferForm from 'src/vendors/components/forms/VendorOfferForm.vue';
 import { ROUTE_NAME } from 'src/router';
 import { Dialog } from 'quasar';
 /**
@@ -135,12 +158,14 @@ const cartOffer = computed(() =>
 const addToCartNormal = computed(
   () => $cart.active_store === 0 || $cart.active_store === offer.value?.store_id
 );
+const editDialog = ref(false);
 const footerMenu = computed(
   () =>
     (offer.value && offer.value.type === 'SERVICE') ||
     (offer.value?.stock_type === 'LIMITED' && offer.value.stock_qty > 0) ||
     offer.value?.stock_type === 'INFINITY'
 );
+const isVendor = computed(() => $route.name === ROUTE_NAME.VENDOR_OFFER);
 const offer = ref<IShopOffer | undefined>(undefined);
 const qty = ref(1);
 /**
@@ -181,10 +206,17 @@ function addToCart() {
  * goToStore
  */
 function goToStore() {
-  void $router.push({
-    name: ROUTE_NAME.SHOP_STORE,
-    params: { id: offer.value?.store_id },
-  });
+  if (isVendor.value) {
+    void $router.push({
+      name: ROUTE_NAME.VENDOR_STORE,
+      params: { id: offer.value?.store_id },
+    });
+  } else {
+    void $router.push({
+      name: ROUTE_NAME.SHOP_STORE,
+      params: { id: offer.value?.store_id },
+    });
+  }
 }
 /**
  * loadOffer
@@ -213,4 +245,16 @@ async function loadOffer() {
   }
 }
 void loadOffer();
+/**
+ * onEditOk
+ * @param s
+ */
+function onEditOk(s: IShopOffer) {
+  offer.value = s;
+  editDialog.value = false;
+}
+
+function onRemoved() {
+  void goToStore();
+}
 </script>

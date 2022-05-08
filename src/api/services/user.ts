@@ -5,6 +5,8 @@ import {
   IUserAuthRegisterRequest,
   IUserAuthResponse,
   IUserProfile,
+  IUserRoleRequest,
+  IUserRoleRequestResponse,
 } from '../types/user';
 
 import { csrfToken } from './csrf';
@@ -26,7 +28,7 @@ export class UserServices {
     return this.api.post<IUserAuthResponse>('/api/users/login', credentials);
   }
   /**
-   * profile
+   * get profile
    */
   async profile() {
     return this.api.get<IUserProfile>('/api/users/profile');
@@ -38,6 +40,18 @@ export class UserServices {
   async register(profile: IUserAuthRegisterRequest) {
     await csrfToken(this.api);
     return this.api.post<IUserAuthResponse>('/api/users/register', profile);
+  }
+  /**
+   * request role
+   * @param params
+   * @returns
+   */
+  async roleRequest(params: IUserRoleRequest) {
+    await csrfToken(this.api);
+    return this.api.post<IUserRoleRequestResponse>(
+      'api/users/role-request',
+      params
+    );
   }
   /**
    * update

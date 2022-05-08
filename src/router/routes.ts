@@ -1,34 +1,16 @@
 import { RouteRecordRaw } from 'vue-router';
-import { ROUTE_NAME } from './names';
 import authRoutes from './routes/auth';
+import mainRoutes from './routes/main';
 import shopRoutes from './routes/shop';
+import vendorRoutes from './routes/vendor';
 /**
  * routes
  */
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      {
-        path: '',
-        name: ROUTE_NAME.HOME,
-        component: () => import('pages/IndexPage.vue'),
-      },
-      {
-        path: 'about',
-        name: ROUTE_NAME.ABOUT,
-        component: () => import('pages/AboutUs.vue'),
-      },
-      {
-        path: 'profile',
-        name: ROUTE_NAME.PROFILE,
-        component: () => import('pages/ProfilePage.vue'),
-      },
-    ],
-  },
+  mainRoutes,
   authRoutes,
   shopRoutes,
+  vendorRoutes,
   // Always leave this as last one,
   // but you can also remove it
   {

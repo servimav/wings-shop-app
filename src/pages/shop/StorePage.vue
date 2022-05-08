@@ -1,5 +1,15 @@
 <template>
   <q-page padding class="q-gutter-y-sm" v-if="store">
+    <!-- Edit button -->
+    <q-btn
+      color="secondary"
+      icon="mdi-pencil"
+      label="Editar Tienda"
+      v-if="isVendor"
+      class="full-width"
+      @click="editDialog = true"
+    />
+    <!-- /Edit button -->
     <q-card class="no-box-shadow text-grey-9">
       <q-img
         :src="store.image"
@@ -54,8 +64,21 @@
     </q-card>
 
     <title-widget :data="{ title: 'Ofertas' }" v-if="store.offers?.length" />
+    <div v-if="isVendor">
+      <q-btn
+        color="secondary"
+        icon="mdi-plus"
+        class="full-width"
+        label="Nueva Oferta"
+        @click="addOfferDialog = true"
+      />
+    </div>
     <div>
-      <offers-group :data="store.offers" v-if="store.offers?.length" />
+      <offers-group
+        :data="store.offers"
+        v-if="store.offers?.length"
+        :vendor="isVendor"
+      />
     </div>
 
     <!-- Map Dialog -->
@@ -67,19 +90,43 @@
       />
     </q-dialog>
     <!-- / Map Dialog -->
+
+    <!-- Edit Dialog -->
+    <q-dialog v-model="editDialog" maximized v-if="isVendor">
+      <vendor-store-form
+        :update="store"
+        @ok="onEditOk"
+        @cancel="editDialog = false"
+        @removed="onStoreRemoved"
+      />
+    </q-dialog>
+    <!-- / Edit Dialog -->
+
+    <!-- Add offer Dialog -->
+    <q-dialog v-model="addOfferDialog" maximized v-if="isVendor">
+      <vendor-offer-form
+        @ok="onAddOfferOk"
+        @cancel="editDialog = false"
+        :store-id="store.id"
+        @removed="onOfferRemoved"
+      />
+    </q-dialog>
+    <!-- / Add offer Dialog -->
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { IShopStore } from 'src/api';
+import { IShopOffer, IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper, goTo } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
+import VendorStoreForm from 'src/vendors/components/forms/VendorStoreForm.vue';
+import VendorOfferForm from 'src/vendors/components/forms/VendorOfferForm.vue';
 
 /**
  * -----------------------------------------
@@ -87,11 +134,15 @@ import MapWidget from 'src/components/widgets/MapWidget.vue';
  * -----------------------------------------
  */
 const $route = useRoute();
+const $router = useRouter();
 /**
  * -----------------------------------------
  *	Data
  * -----------------------------------------
  */
+const addOfferDialog = ref(false);
+const editDialog = ref(false);
+const isVendor = computed(() => $route.name === ROUTE_NAME.VENDOR_STORE);
 const mapDialog = ref(false);
 const store = ref<IShopStore | undefined>(undefined);
 
@@ -116,6 +167,43 @@ async function init() {
     }
     notificationHelper.loading(false);
   }
+}
+/**
+ * onEditOk
+ */
+function onEditOk(s: IShopStore) {
+  store.value = s;
+  editDialog.value = false;
+  addOfferDialog.value = false;
+}
+/**
+ * onAddOfferOk
+ */
+function onAddOfferOk(s: IShopOffer) {
+  store.value?.offers?.unshift(s);
+  editDialog.value = false;
+  addOfferDialog.value = false;
+}
+/**
+ * onOfferRemoved
+ */
+function onOfferRemoved(offerId: number) {
+  if (store.value) {
+    const spliceIndex = store.value.offers?.findIndex(
+      (of) => of.id === offerId
+    );
+    if (spliceIndex) store.value.offers?.splice(spliceIndex, 1);
+  }
+  editDialog.value = false;
+  addOfferDialog.value = false;
+}
+/**
+ * onStoreRemoved
+ */
+function onStoreRemoved() {
+  editDialog.value = false;
+  addOfferDialog.value = false;
+  void $router.push({ name: ROUTE_NAME.VENDOR_STORES });
 }
 /**
  * -----------------------------------------

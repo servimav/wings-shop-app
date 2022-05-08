@@ -5,7 +5,10 @@
     <drawer-left />
     <q-pull-to-refresh @refresh="init">
       <q-page-container class="text-grey-9">
-        <router-view />
+        <router-view v-if="currentLocality" />
+        <q-page padding v-else>
+          <map-locality-selector class="q-mt-sm" @complete="onComplete" />
+        </q-page>
       </q-page-container>
     </q-pull-to-refresh>
     <app-footer />
@@ -16,48 +19,69 @@
 import AppFooter from './MainFooter.vue';
 import AppHeader from './MainHeader.vue';
 import DrawerLeft from './MainDrawerLeft.vue';
-import { provide } from 'vue';
+import MapLocalitySelector from 'src/components/forms/MapLocalitySelector.vue';
 import {
-  _shopCategory,
-  $shopCategory,
-  _shopCart,
-  $shopCartInjectable,
-  $mapInjectable,
-  _map,
-  _shopOrder,
-  $shopOrderInjectable,
   injectStrict,
   _app,
+  _map,
+  _shopCategory,
+  _user,
 } from 'src/injectables';
+import { computed } from '@vue/reactivity';
+import { notificationHelper } from 'src/helpers';
+import { onBeforeMount } from 'vue';
 
 const $app = injectStrict(_app);
+const $map = injectStrict(_map);
+const $category = injectStrict(_shopCategory);
+const $user = injectStrict(_user);
 /**
  * -----------------------------------------
- *	Setup
+ *	Data
  * -----------------------------------------
  */
-provide(_map, $mapInjectable);
-provide(_shopCategory, $shopCategory);
-provide(_shopOrder, $shopOrderInjectable);
-provide(_shopCart, $shopCartInjectable);
+const currentLocality = computed(() => $app.locality);
+
+function onComplete() {
+  void init(() => console.log('Map Completed'));
+}
 /**
  * -----------------------------------------
  *	Init
  * -----------------------------------------
  */
 async function init(done: CallableFunction) {
-  $mapInjectable.getGpsPosition();
-  Promise.all([
-    $shopCategory.availableAction(),
-    $shopCategory.allAction(),
-    $app.loadOffers(),
-    $app.loadStores(),
-    $app.loadAnnouncements(),
-  ]).finally(() => {
+  $map.getGpsPosition();
+  if (currentLocality) {
+    Promise.all([
+      $category.availableAction(),
+      $category.allAction(),
+      $app.loadOffers(),
+      $app.loadStores(),
+      $app.loadAnnouncements(),
+      $user.getProfile(),
+    ])
+      .catch((e) => {
+        notificationHelper.axiosError(e, 'Ha ocurrido un error');
+      })
+      .finally(() => {
+        done();
+      });
+  } else {
     done();
-  });
+  }
 }
-init(() => {
-  console.log('Refresh');
+
+onBeforeMount(() => {
+  if (currentLocality) {
+    Promise.all([
+      $category.availableAction(),
+      $category.allAction(),
+      $user.getProfile(),
+    ]).catch((e) => {
+      notificationHelper.axiosError(e, 'Ha ocurrido un error');
+    });
+  }
+  $app.setMode('user');
 });
 </script>

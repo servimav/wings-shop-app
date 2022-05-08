@@ -26,9 +26,7 @@
           v-if="stores.length"
         >
           <title-widget :data="{ title: 'Tiendas Destacadas' }" />
-          <div>
-            <store-group :data="stores.slice(0, 4)" />
-          </div>
+          <store-group horizontal :data="stores.slice(0, 4)" />
           <div v-if="stores.slice(4, stores.length).length > 2">
             <stores-slider :data="stores.slice(4, stores.length)" />
           </div>
@@ -40,9 +38,7 @@
           v-if="offers.length"
         >
           <title-widget :data="{ title: 'Ofertas Destacadas' }" />
-          <div>
-            <offer-group :data="offers.slice(0, 4)" />
-          </div>
+          <offer-group horizontal :data="offers.slice(0, 4)" />
           <div v-if="offers.slice(4, offers.length).length > 2">
             <offers-slider :data="offers.slice(4, offers.length)" />
           </div>
@@ -63,8 +59,8 @@ import OfferGroup from 'src/components/groups/OffersGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OffersSlider from 'src/components/sliders/OffersSlider.vue';
 import StoresSlider from 'src/components/sliders/StoresSlider.vue';
-import { isAuth } from 'src/helpers';
-import { computed } from 'vue';
+import { isAuth, notificationHelper } from 'src/helpers';
+import { computed, onBeforeMount } from 'vue';
 import { injectStrict, _app, _shopCategory } from 'src/injectables';
 
 const $app = injectStrict(_app);
@@ -78,4 +74,14 @@ const hasCategories = computed(() => $categories.available.length > 3);
 const announcements = computed(() => $app.homeAnn);
 const offers = computed(() => $app.homeOffers);
 const stores = computed(() => $app.homeStores);
+
+onBeforeMount(() => {
+  Promise.all([
+    $app.loadOffers(),
+    $app.loadStores(),
+    $app.loadAnnouncements(),
+  ]).catch((e) => {
+    notificationHelper.axiosError(e, 'Ha ocurrido un error');
+  });
+});
 </script>

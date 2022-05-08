@@ -1,5 +1,21 @@
 /**
- * @interface Profile
+ * User Role Name
+ */
+export type IUserRoleName =
+  | 'user'
+  | 'admin'
+  | 'shop_vendor'
+  | 'transport_driver';
+/**
+ *  User Role
+ */
+export interface IUserRole {
+  name: IUserRoleName;
+  display_name: string;
+}
+
+/**
+ * User Profile
  */
 export type IUserProfile = {
   readonly id: number;
@@ -9,7 +25,7 @@ export type IUserProfile = {
   readonly phone?: string;
   readonly address?: string;
   readonly avatar: string;
-  role: { name: 'admin' | 'user' | 'vendor'; display_name: string };
+  role: IUserRole;
 };
 /**
  * -----------------------------------------
@@ -17,16 +33,16 @@ export type IUserProfile = {
  * -----------------------------------------
  */
 /**
- *
+ * User Auth Login Request
  */
 export type IUserAuthLoginRequest = {
   readonly email: string;
   readonly password: string;
-  readonly auth_mode?: 'user' | 'admin' | 'shop_vendor' | 'transport_driver';
+  readonly auth_mode?: IUserRoleName;
   readonly service_name: string;
 };
 /**
- *
+ * User Auth Register Request
  */
 export type IUserAuthRegisterRequest = {
   readonly service_name: string;
@@ -37,9 +53,29 @@ export type IUserAuthRegisterRequest = {
   readonly password_confirmation: string;
 };
 /**
- *
+ * User Auth Response
  */
 export type IUserAuthResponse = {
   readonly data: IUserProfile;
   readonly api_token: string;
 };
+/**
+ * User Role Request
+ */
+export interface IUserRoleRequest {
+  role: IUserRoleName;
+  subject: string;
+  message: string;
+}
+/**
+ * User Role Request Response
+ */
+export interface IUserRoleRequestResponse {
+  id: number;
+  subject: string;
+  message: string;
+  accepted: boolean;
+  role: IUserRole;
+  created_at: string;
+  updated_at: string;
+}

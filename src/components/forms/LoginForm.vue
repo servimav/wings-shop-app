@@ -60,9 +60,7 @@ const loginForm = ref<IUserAuthLoginRequest>({
   email: '',
   password: '',
   service_name: 'MainApp',
-  auth_mode: 'user',
 });
-
 /**
  * -----------------------------------------
  *	methods
