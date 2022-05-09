@@ -9,9 +9,39 @@
             color="green"
           />
         </div>
-
         <!-- map_address -->
-        <q-input v-model="form.map_address" type="text" label="Dirección" />
+        <q-select
+          v-model="form.locality_id"
+          :options="allLocalities"
+          label="¿Dónde te encuentras?"
+          map-options
+          option-label="name"
+          option-value="id"
+          emit-value
+          :error="$v.locality_id.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.locality_id.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-select>
+
+        <q-input
+          v-model="form.map_address"
+          type="text"
+          label="Dirección"
+          :error="$v.map_address.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.map_address.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
+
         <q-chip
           class="glossy"
           clickable
@@ -32,7 +62,19 @@
         </q-card>
         <!-- / map_address -->
         <!-- title -->
-        <q-input v-model="form.title" type="text" label="Nombre de la Tienda" />
+        <q-input
+          v-model="form.title"
+          type="text"
+          label="Nombre de la Tienda"
+          :error="$v.title.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.title.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <!-- / title -->
         <!-- Category -->
         <q-select
@@ -44,14 +86,31 @@
           option-value="tag"
           label="Categoria"
           use-chips
-        />
+          :error="$v.category_tag.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.category_tag.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-select>
         <!-- / Category -->
         <!-- Description -->
         <q-input
           v-model="form.description"
           type="textarea"
           label="Descripción"
-        />
+          :error="$v.description.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.description.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
+
         <!-- / Description -->
         <!-- Image -->
         <q-file
@@ -91,18 +150,21 @@ import {
 } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper, DEFAULT_COORDINATES } from 'src/helpers';
-import { injectStrict, _shopCategory } from 'src/injectables';
-import { computed, onBeforeMount, ref } from 'vue';
+import { injectStrict, _app, _shopCategory } from 'src/injectables';
+import { computed, onBeforeMount, Ref, ref } from 'vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import { latLng, LatLng } from 'leaflet';
 import { serialize } from 'object-to-formdata';
 import { Dialog } from 'quasar';
+import useVuelidate from '@vuelidate/core';
+import { required, helpers } from '@vuelidate/validators';
 /**
  * -----------------------------------------
  *	Inject
  * -----------------------------------------
  */
 
+const $app = injectStrict(_app);
 const $category = injectStrict(_shopCategory);
 const $emit = defineEmits<{
   (e: 'ok', p: IShopStore): void;
@@ -115,6 +177,7 @@ const $props = defineProps<{ update?: IShopStore }>();
  *	Data
  * -----------------------------------------
  */
+const allLocalities = computed(() => $app.allLocalities);
 const categories = computed(() => $category.all);
 const form = ref<IShopStoreCreateRequest | IShopStoreUpdateRequest>();
 const image = ref<File>();
@@ -124,6 +187,33 @@ const initialMarkers = computed(() =>
     : []
 );
 const showMap = ref(false);
+/**
+ * Validator
+ */
+const $v = useVuelidate(
+  {
+    category_tag: { required },
+    description: {
+      required: helpers.withMessage(
+        'La descripción de la oferta ayuda a los clientes',
+        required
+      ),
+    },
+    title: {
+      required: helpers.withMessage(
+        'El nombre de la oferta es necesario',
+        required
+      ),
+    },
+    map_address: {
+      required: helpers.withMessage('Necesitamos la dirección', required),
+    },
+    locality_id: {
+      required: helpers.withMessage('Necesitamos la localidad', required),
+    },
+  },
+  form as Ref<IShopStoreCreateRequest>
+);
 /**
  * -----------------------------------------
  *	Lifecycle
@@ -141,6 +231,7 @@ onBeforeMount(() => {
       map_address: $props.update.map_address,
       open: $props.update.open,
       title: $props.update.title,
+      locality_id: $props.update.locality?.id,
     } as IShopStoreUpdateRequest;
   } else {
     form.value = {
@@ -151,9 +242,11 @@ onBeforeMount(() => {
       map_coordinate: DEFAULT_COORDINATES,
       open: true,
       title: '',
+      locality_id: 0,
     } as IShopStoreCreateRequest;
   }
   void $category.allAction();
+  void $app.listLocalities();
 });
 /**
  * -----------------------------------------
@@ -200,37 +293,41 @@ function setCoordinate(p: LatLng) {
  * onSubmit
  */
 async function onSubmit() {
-  notificationHelper.loading();
-  if (image.value && form.value) {
-    form.value.image = image.value;
-  }
-  try {
-    let resp: IShopStore;
-
-    const formData = serialize(form.value, {
-      nullsAsUndefineds: true,
-      booleansAsIntegers: true,
-    });
-
-    if ($props.update) {
-      resp = (
-        await $nairdaApi.ShopStore.update(
-          $props.update.id,
-          formData as unknown as IShopStoreUpdateRequest
-        )
-      ).data;
-    } else {
-      resp = (
-        await $nairdaApi.ShopStore.create(
-          formData as unknown as IShopStoreCreateRequest
-        )
-      ).data;
+  if (await $v.value.$validate()) {
+    notificationHelper.loading();
+    if (image.value && form.value) {
+      form.value.image = image.value;
     }
-    $emit('ok', resp);
-    notificationHelper.success(['Guardado correctamente']);
-  } catch (error) {
-    notificationHelper.axiosError(error);
+    try {
+      let resp: IShopStore;
+
+      const formData = serialize(form.value, {
+        nullsAsUndefineds: true,
+        booleansAsIntegers: true,
+      });
+
+      if ($props.update) {
+        resp = (
+          await $nairdaApi.ShopStore.update(
+            $props.update.id,
+            formData as unknown as IShopStoreUpdateRequest
+          )
+        ).data;
+      } else {
+        resp = (
+          await $nairdaApi.ShopStore.create(
+            formData as unknown as IShopStoreCreateRequest
+          )
+        ).data;
+      }
+      $emit('ok', resp);
+      notificationHelper.success(['Guardado correctamente']);
+    } catch (error) {
+      notificationHelper.axiosError(error);
+    }
+    notificationHelper.loading(false);
+  } else {
+    notificationHelper.error(['Verifique los datos de la tienda']);
   }
-  notificationHelper.loading(false);
 }
 </script>

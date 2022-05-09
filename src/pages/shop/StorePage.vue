@@ -106,7 +106,7 @@
     <q-dialog v-model="addOfferDialog" maximized v-if="isVendor">
       <vendor-offer-form
         @ok="onAddOfferOk"
-        @cancel="editDialog = false"
+        @cancel="addOfferDialog = false"
         :store-id="store.id"
         @removed="onOfferRemoved"
       />
@@ -118,7 +118,7 @@
 <script setup lang="ts">
 import { IShopOffer, IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
-import { notificationHelper, goTo } from 'src/helpers';
+import { notificationHelper } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -159,11 +159,12 @@ async function init() {
     const storeId = Number($route.params.id);
     notificationHelper.loading();
     try {
-      const resp = await $nairdaApi.ShopStore.find(storeId);
+      const resp = await $nairdaApi.ShopStore.find(storeId, isVendor.value);
       store.value = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error, 'No encontramos la tienda');
-      goTo(ROUTE_NAME.HOME);
+      // goTo(ROUTE_NAME.HOME);
+      void $router.back();
     }
     notificationHelper.loading(false);
   }

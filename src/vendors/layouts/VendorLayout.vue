@@ -17,6 +17,7 @@
 import VendorHeader from './VendorHeader.vue';
 import VendorDrawerLeft from './VendorDrawerLeft.vue';
 import { injectStrict, _app, _shopCategory } from 'src/injectables';
+import { notificationHelper } from 'src/helpers';
 
 const $app = injectStrict(_app);
 const $category = injectStrict(_shopCategory);
@@ -30,8 +31,13 @@ const $category = injectStrict(_shopCategory);
  * @param done
  */
 async function init(done: CallableFunction) {
-  await $category.allAction();
-  done();
+  Promise.all([void $category.allAction(), void $app.listLocalities()])
+    .catch((e) => {
+      notificationHelper.axiosError(e);
+    })
+    .finally(() => {
+      done();
+    });
 }
 init(() => {
   console.log('Refresh');

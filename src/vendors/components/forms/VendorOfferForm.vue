@@ -3,7 +3,19 @@
     <q-form @submit="onSubmit" v-if="form">
       <q-card-section class="q-gutter-y-sm">
         <!-- Title -->
-        <q-input v-model="form.title" type="text" label="Nombre de la oferta" />
+        <q-input
+          v-model="form.title"
+          type="text"
+          label="Nombre de la oferta"
+          :error="$v.title.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.title.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <!--/ Title -->
         <!-- Type -->
         <q-select
@@ -15,7 +27,15 @@
           map-options
           label="Tipo de oferta"
           use-chips
-        />
+          :error="$v.type.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.type.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-select>
         <!-- / Type -->
         <!-- Category -->
         <q-select
@@ -27,7 +47,15 @@
           option-value="tag"
           label="Categoria"
           use-chips
-        />
+          :error="$v.category_tag.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.category_tag.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-select>
         <!-- / Category -->
         <!-- Image -->
         <q-file
@@ -35,6 +63,7 @@
           label="Imagen"
           use-chips
           accept=".jpg, image/*"
+          bottom-slots
         />
         <!-- / Image -->
         <!-- Description -->
@@ -42,20 +71,44 @@
           v-model="form.description"
           type="textarea"
           label="Detalles de la oferta"
-        />
+          :error="$v.description.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.description.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <!--/ Description -->
         <!-- Stock -->
         <q-select
           v-model="form.stock_type"
           :options="['INFINITY', 'LIMITED', 'SOLD_OUT']"
           label="Inventario"
-        />
+          :error="$v.stock_type.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.stock_type.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-select>
         <q-input
           v-model="form.stock_qty"
           type="number"
           label="Cantidad en inventario"
           v-if="form.stock_type === 'LIMITED'"
-        />
+          :error="$v.stock_qty.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.stock_qty.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <!-- /Stock -->
         <!-- Prices -->
         <q-input
@@ -63,13 +116,29 @@
           type="number"
           prefix="$"
           label="Precio de Produccion"
-        />
+          :error="$v.vendor_price.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.vendor_price.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <q-input
           v-model="form.sell_price"
           type="number"
           prefix="$"
           label="Precio de Venta"
-        />
+          :error="$v.sell_price.$error"
+          bottom-slots
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.sell_price.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
         <!-- / Prices -->
       </q-card-section>
 
@@ -102,11 +171,13 @@ import {
 } from 'src/api';
 import { IShopCategory } from 'src/api/types/shopCategory';
 import { injectStrict, _shopCategory } from 'src/injectables';
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, Ref, ref } from 'vue';
 import { serialize } from 'object-to-formdata';
 import { notificationHelper } from 'src/helpers';
 import { $nairdaApi } from 'src/boot/axios';
 import { Dialog } from 'quasar';
+import useVuelidate from '@vuelidate/core';
+import { required, numeric, integer, helpers } from '@vuelidate/validators';
 /**
  * -----------------------------------------
  *	Inject
@@ -128,7 +199,32 @@ const $props = defineProps<{ update?: IShopOffer; storeId: number }>();
 const categories = computed(() => $category.all);
 const form = ref<IShopOfferCreateRequest | IShopOfferUpdateRequest>();
 const image = ref();
-
+/**
+ * validator
+ */
+const $v = useVuelidate(
+  {
+    category_tag: { required },
+    type: { required },
+    description: {
+      required: helpers.withMessage(
+        'La descripción de la oferta ayuda a los clientes',
+        required
+      ),
+    },
+    sell_price: { required, numeric },
+    stock_type: { required },
+    stock_qty: { integer },
+    title: {
+      required: helpers.withMessage(
+        'El nombre de la oferta es necesario',
+        required
+      ),
+    },
+    vendor_price: { required, numeric },
+  },
+  form as Ref<IShopOfferCreateRequest>
+);
 /**
  * -----------------------------------------
  *	Methods
@@ -158,7 +254,7 @@ async function onRemove() {
  * onSubmit
  */
 async function onSubmit() {
-  if (form.value) {
+  if (form.value && (await $v.value.$validate())) {
     if (image.value) {
       form.value.image = image.value;
     }
@@ -188,6 +284,8 @@ async function onSubmit() {
       notificationHelper.axiosError(error, 'No se guardo la oferta');
     }
     notificationHelper.loading(false);
+  } else {
+    notificationHelper.error(['Revise los datos']);
   }
 }
 /**
