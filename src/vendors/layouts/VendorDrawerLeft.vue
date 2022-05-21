@@ -18,6 +18,18 @@
         </q-item-section>
       </q-item>
       <!-- / HOME -->
+
+      <!-- orders -->
+      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_ORDERS }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-apps" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Pedidos</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / orders -->
       <!-- Stores -->
       <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_STORES }">
         <q-item-section avatar top>

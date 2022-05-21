@@ -16,11 +16,20 @@
 // import VendorFooter from './VendorFooter.vue';
 import VendorHeader from './VendorHeader.vue';
 import VendorDrawerLeft from './VendorDrawerLeft.vue';
-import { injectStrict, _app, _shopCategory } from 'src/injectables';
+import {
+  $vendorInjectable,
+  injectStrict,
+  _app,
+  _shopCategory,
+  _vendorInjectable,
+} from 'src/injectables';
 import { notificationHelper } from 'src/helpers';
+import { onBeforeMount, provide } from 'vue';
 
 const $app = injectStrict(_app);
 const $category = injectStrict(_shopCategory);
+
+provide(_vendorInjectable, $vendorInjectable);
 /**
  * -----------------------------------------
  *	Init
@@ -31,7 +40,12 @@ const $category = injectStrict(_shopCategory);
  * @param done
  */
 async function init(done: CallableFunction) {
-  Promise.all([void $category.allAction(), void $app.listLocalities()])
+  Promise.all([
+    $category.allAction(),
+    $app.listLocalities(),
+    await $vendorInjectable.listStores(),
+    $vendorInjectable.listOrders(),
+  ])
     .catch((e) => {
       notificationHelper.axiosError(e);
     })
@@ -39,9 +53,9 @@ async function init(done: CallableFunction) {
       done();
     });
 }
-init(() => {
-  console.log('Refresh');
+onBeforeMount(() => {
+  // Set app mode
+  $app.setMode('shop_vendor');
+  init(() => console.log('Init'));
 });
-// Set app mode
-$app.setMode('shop_vendor');
 </script>

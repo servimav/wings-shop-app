@@ -53,6 +53,14 @@
       </q-card-section>
       <q-card-actions>
         <q-btn
+          v-if="canAccept"
+          color="info"
+          icon="mdi-check"
+          label="Aceptar"
+          @click="acceptOrder"
+          class="full-width"
+        />
+        <q-btn
           v-if="canCancel"
           color="negative"
           icon="mdi-cancel"
@@ -66,7 +74,7 @@
     <!-- MapDialog -->
     <q-dialog v-model="mapDialog" maximized>
       <map-widget
-        :initial-markers="[order.shipping_coordinate]"
+        :initial-markers="[initialMarkers]"
         readonly
         @confirm="mapDialog = false"
       />
@@ -77,7 +85,7 @@
 
 <script setup lang="ts">
 import { computed } from '@vue/reactivity';
-import { IShopOrder } from 'src/api';
+import { IShopOrder, IShopOrderStatus } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { getRemainTime, notificationHelper } from 'src/helpers';
 import { ref } from 'vue';
@@ -85,6 +93,8 @@ import { useRoute } from 'vue-router';
 import { date as qDate, Dialog } from 'quasar';
 import OrderOffer from 'components/widgets/shop/OrderOfferWidget.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
+import { latLng } from 'leaflet';
+import { ROUTE_NAME } from 'src/router';
 
 const $route = useRoute();
 /**
@@ -92,6 +102,11 @@ const $route = useRoute();
  *	Data
  * -----------------------------------------
  */
+const asVendor = computed(() => $route.name === ROUTE_NAME.VENDOR_ORDER);
+
+const canAccept = computed(() => {
+  return order.value.status === 'PROCESSING' && asVendor.value;
+});
 const canCancel = computed(() => {
   if (order.value.status === 'PROCESSING') return true;
   else if (order.value.status === 'ACCEPTED') {
@@ -102,6 +117,12 @@ const canCancel = computed(() => {
 });
 const duration = computed(() =>
   getRemainTime(new Date(Date.parse(order.value.shipping_time)))
+);
+const initialMarkers = computed(() =>
+  latLng(
+    order.value.shipping_coordinate.lat,
+    order.value.shipping_coordinate.lng
+  )
 );
 const mapDialog = ref(false);
 const order = ref<IShopOrder>({
@@ -134,14 +155,14 @@ const status = computed<{
         icon: 'mdi-check',
         text: 'Aceptado',
         color: 'info',
-        text_color: 'white',
+        text_color: 'dark',
       };
     case 'CANCELED':
       return {
         icon: 'mdi-cancel',
         text: 'Cancelado',
         color: 'negative',
-        text_color: 'dark',
+        text_color: 'white',
       };
     case 'COMPLETED':
       return {
@@ -181,7 +202,33 @@ async function init() {
     notificationHelper.loading(false);
   }
 }
+/**
+ * acceptOrder
+ */
+function acceptOrder() {
+  Dialog.create({
+    cancel: 'No',
+    ok: 'Si',
+    message: '¿Desea Aceptar el pedido?',
+    title: 'Aceptar Pedido',
+    color: 'positive',
+  }).onOk(async () => {
+    notificationHelper.loading();
+    try {
+      const resp = await $nairdaApi.ShopOrder.updateStatus(order.value.id, {
+        status: 'ACCEPTED',
+      });
+      order.value = resp.data;
+    } catch (error) {
+      notificationHelper.axiosError(error, 'Error cancelando orden');
+    }
+    notificationHelper.loading(false);
+  });
+}
 
+/**
+ * Cancel Order
+ */
 function cancelOrder() {
   Dialog.create({
     cancel: 'No',
@@ -192,8 +239,11 @@ function cancelOrder() {
   }).onOk(async () => {
     notificationHelper.loading();
     try {
+      let status: IShopOrderStatus = 'ABORTED';
+      if (asVendor.value) status = 'CANCELED';
+      console.log(status);
       const resp = await $nairdaApi.ShopOrder.updateStatus(order.value.id, {
-        status: 'ABORTED',
+        status,
       });
       order.value = resp.data;
     } catch (error) {

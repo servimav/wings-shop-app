@@ -148,9 +148,13 @@ import {
   IShopStoreCreateRequest,
   IShopStoreUpdateRequest,
 } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper, DEFAULT_COORDINATES } from 'src/helpers';
-import { injectStrict, _app, _shopCategory } from 'src/injectables';
+import {
+  injectStrict,
+  _app,
+  _shopCategory,
+  _vendorInjectable,
+} from 'src/injectables';
 import { computed, onBeforeMount, Ref, ref } from 'vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import { latLng, LatLng } from 'leaflet';
@@ -172,6 +176,7 @@ const $emit = defineEmits<{
   (e: 'removed', id: number): void;
 }>();
 const $props = defineProps<{ update?: IShopStore }>();
+const $vendor = injectStrict(_vendorInjectable);
 /**
  * -----------------------------------------
  *	Data
@@ -266,7 +271,7 @@ async function onRemove() {
   }).onOk(async () => {
     try {
       if ($props.update) {
-        await $nairdaApi.ShopStore.destroy($props.update.id);
+        await $vendor.removeStore($props.update.id);
         $emit('removed', $props.update.id);
       }
     } catch (error) {
@@ -307,18 +312,14 @@ async function onSubmit() {
       });
 
       if ($props.update) {
-        resp = (
-          await $nairdaApi.ShopStore.update(
-            $props.update.id,
-            formData as unknown as IShopStoreUpdateRequest
-          )
-        ).data;
+        resp = await $vendor.updateStore(
+          $props.update.id,
+          formData as unknown as IShopStoreUpdateRequest
+        );
       } else {
-        resp = (
-          await $nairdaApi.ShopStore.create(
-            formData as unknown as IShopStoreCreateRequest
-          )
-        ).data;
+        resp = await $vendor.createStore(
+          formData as unknown as IShopStoreCreateRequest
+        );
       }
       $emit('ok', resp);
       notificationHelper.success(['Guardado correctamente']);

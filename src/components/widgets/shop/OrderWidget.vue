@@ -48,7 +48,7 @@ import { computed, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import OrderOffer from './OrderOfferWidget.vue';
 import { getRemainTime } from 'src/helpers';
-const $props = defineProps<{ order: IShopOrder }>();
+const $props = defineProps<{ order: IShopOrder; asVendor?: boolean }>();
 const $router = useRouter();
 /**
  * -----------------------------------------
@@ -75,14 +75,14 @@ const status = computed<{
         icon: 'mdi-check',
         text: 'Aceptado',
         color: 'info',
-        text_color: 'white',
+        text_color: 'dark',
       };
     case 'CANCELED':
       return {
         icon: 'mdi-cancel',
         text: 'Cancelado',
         color: 'negative',
-        text_color: 'dark',
+        text_color: 'white',
       };
     case 'COMPLETED':
       return {
@@ -104,9 +104,16 @@ const status = computed<{
  * goToOrder
  */
 function goToOrder() {
-  void $router.push({
-    name: ROUTE_NAME.SHOP_ORDER,
-    params: { id: order.value.id },
-  });
+  if ($props.asVendor) {
+    void $router.push({
+      name: ROUTE_NAME.VENDOR_ORDER,
+      params: { id: order.value.id },
+    });
+  } else {
+    void $router.push({
+      name: ROUTE_NAME.SHOP_ORDER,
+      params: { id: order.value.id },
+    });
+  }
 }
 </script>
