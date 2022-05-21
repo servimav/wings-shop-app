@@ -53,6 +53,13 @@
       </q-card-section>
       <q-card-actions>
         <q-btn
+          v-if="canComplete"
+          color="positive"
+          icon="mdi-check-all"
+          label="Completar"
+          @click="completetOrder"
+          class="full-width"
+        /><q-btn
           v-if="canAccept"
           color="info"
           icon="mdi-check"
@@ -106,6 +113,9 @@ const asVendor = computed(() => $route.name === ROUTE_NAME.VENDOR_ORDER);
 
 const canAccept = computed(() => {
   return order.value.status === 'PROCESSING' && asVendor.value;
+});
+const canComplete = computed(() => {
+  return order.value.status === 'ACCEPTED' && asVendor.value;
 });
 const canCancel = computed(() => {
   if (order.value.status === 'PROCESSING') return true;
@@ -169,7 +179,7 @@ const status = computed<{
         icon: 'mdi-check-all',
         text: 'Completado',
         color: 'positive',
-        text_color: 'dark',
+        text_color: 'white',
       };
     default:
       return {
@@ -220,7 +230,30 @@ function acceptOrder() {
       });
       order.value = resp.data;
     } catch (error) {
-      notificationHelper.axiosError(error, 'Error cancelando orden');
+      notificationHelper.axiosError(error, 'Error guardando orden');
+    }
+    notificationHelper.loading(false);
+  });
+}
+/**
+ * completetOrder
+ */
+function completetOrder() {
+  Dialog.create({
+    cancel: 'No',
+    ok: 'Si',
+    message: '¿Desea Completar el pedido?',
+    title: 'Completar Pedido',
+    color: 'positive',
+  }).onOk(async () => {
+    notificationHelper.loading();
+    try {
+      const resp = await $nairdaApi.ShopOrder.updateStatus(order.value.id, {
+        status: 'COMPLETED',
+      });
+      order.value = resp.data;
+    } catch (error) {
+      notificationHelper.axiosError(error, 'Error guardando orden');
     }
     notificationHelper.loading(false);
   });
@@ -247,7 +280,7 @@ function cancelOrder() {
       });
       order.value = resp.data;
     } catch (error) {
-      notificationHelper.axiosError(error, 'Error cancelando orden');
+      notificationHelper.axiosError(error, 'Error guardando orden');
     }
     notificationHelper.loading(false);
   });

@@ -89,7 +89,7 @@ const status = computed<{
         icon: 'mdi-check-all',
         text: 'Completado',
         color: 'positive',
-        text_color: 'dark',
+        text_color: 'white',
       };
     default:
       return {
