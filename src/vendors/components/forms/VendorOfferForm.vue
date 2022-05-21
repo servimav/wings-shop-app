@@ -84,7 +84,13 @@
         <!-- Stock -->
         <q-select
           v-model="form.stock_type"
-          :options="['INFINITY', 'LIMITED', 'SOLD_OUT']"
+          :options="[
+            { label: 'Ilimitado', value: 'INFINITY' },
+            { label: 'Limitado', value: 'LIMITED' },
+            { label: 'Agotado', value: 'SOLD_OUT' },
+          ]"
+          map-options
+          emit-value
           label="Inventario"
           :error="$v.stock_type.$error"
           bottom-slots

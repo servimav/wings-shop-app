@@ -46,8 +46,12 @@ import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { ref } from 'vue';
 import TermsSection from 'components/TermsSection.vue';
+import { injectStrict, _user } from 'src/injectables';
+import { ROUTE_NAME } from 'src/router';
+import { useRouter } from 'vue-router';
 
-const $emit = defineEmits<{ (e: 'completed'): void }>();
+const $user = injectStrict(_user);
+const $router = useRouter();
 
 const agreements = ref(false);
 const form = ref<IUserRoleRequest>({
@@ -63,12 +67,14 @@ async function onSubmit() {
   notificationHelper.loading();
   try {
     await $nairdaApi.User.roleRequest(form.value);
-    $emit('completed');
     form.value = {
       message: '',
       role: 'shop_vendor',
       subject: '',
     };
+    await $user.getProfile();
+    notificationHelper.success(['Solicitud Recibida']);
+    $router.push({ name: ROUTE_NAME.VENDOR_HOME });
   } catch (error) {
     notificationHelper.axiosError(error, 'No podemos procesar tu solicitud');
   }

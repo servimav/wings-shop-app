@@ -29,6 +29,31 @@
         <user-role-request-form v-if="allConditions" />
       </q-card-section>
     </q-card>
+    <q-card class="no-box-shadow" v-else>
+      <q-card-section>
+        <div class="text-h6">Permisos de Venta Concedidos</div>
+        <div class="text-subtitle2">
+          Hola {{ `${$user.profile?.first_name} ${$user.profile?.last_name}` }}
+        </div>
+      </q-card-section>
+      <q-card-section>
+        <p>
+          Ya tiene permisos para vender sus productos y brindar sus servicios en
+          la aplicación
+        </p>
+        <p>
+          Recuerde mantener una conducta correcta y brindar productos de calidad
+          para mantener satisfechos a sus clientes
+        </p>
+        <q-btn
+          color="primary"
+          icon="mdi-check"
+          class="full-width"
+          label="Continuar"
+          @click="goTo(ROUTE_NAME.VENDOR_HOME)"
+        />
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
@@ -41,8 +66,9 @@ import { ROUTE_NAME } from 'src/router';
 import { computed, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 
-const $user = injectStrict(_user);
 const $router = useRouter();
+const $user = injectStrict(_user);
+
 /**
  * -----------------------------------------
  *	Data
@@ -68,7 +94,14 @@ const allConditions = computed(
     conditions.value.phone
 );
 const role = computed(() => $user.profile?.role);
-
+/**
+ * -----------------------------------------
+ *	Methods
+ * -----------------------------------------
+ */
+/**
+ * onBeforeMount
+ */
 onBeforeMount(() => {
   if (role.value?.name !== 'user') {
     Dialog.create({
@@ -76,7 +109,7 @@ onBeforeMount(() => {
       message: 'Ya Usted tiene los permisos de venta',
       ok: true,
     }).onOk(() => {
-      void $router.back();
+      void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
     });
   }
 });
