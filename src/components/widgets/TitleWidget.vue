@@ -1,5 +1,5 @@
 <template>
-  <q-card class="text-grey-9 text-center">
+  <q-card class="text-grey-9 text-center no-box-shadow">
     <q-card-section class="q-pa-xs">
       <div class="text-h6">{{ $props.data.title }}</div>
       <div class="text-subtitle2" v-if="$props.data.subtitle">

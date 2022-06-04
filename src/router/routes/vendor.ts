@@ -15,6 +15,11 @@ const route: RouteRecordRaw = {
       component: () => import('src/vendors/pages/VendorHome.vue'),
     },
     {
+      path: 'help',
+      name: ROUTE_NAME.VENDOR_HELP,
+      component: () => import('src/vendors/pages/VendorHelp.vue'),
+    },
+    {
       path: 'offers',
       name: ROUTE_NAME.VENDOR_OFFERS,
       component: () => import('src/vendors/pages/VendorOffers.vue'),
@@ -33,6 +38,11 @@ const route: RouteRecordRaw = {
       path: 'orders/:id',
       name: ROUTE_NAME.VENDOR_ORDER,
       component: () => import('src/pages/shop/OrderPage.vue'),
+    },
+    {
+      path: 'stats',
+      name: ROUTE_NAME.VENDOR_STATS,
+      component: () => import('src/vendors/pages/VendorStats.vue'),
     },
     {
       path: 'stores',

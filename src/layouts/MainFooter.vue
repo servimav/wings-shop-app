@@ -19,16 +19,8 @@
           {{ countCart }}
         </q-badge>
       </q-route-tab>
-
-      <!-- <q-route-tab exact icon="mdi-magnify" :to="{name: 'main.home'}">
-        <span class="text-body2 text-weight-bolder">Buscar</span>
-      </q-route-tab>-->
       <q-tab>
-        <q-icon
-          size="1.6rem"
-          name="mdi-apps"
-          @click="$app.toggleDrawerLeft()"
-        />
+        <q-icon size="1.6rem" name="mdi-apps" @click="openDrawer" />
       </q-tab>
     </q-tabs>
   </q-footer>
@@ -50,6 +42,14 @@ const $cart = injectStrict(_shopCart);
  * -----------------------------------------
  */
 const countCart = computed(() => $cart.order_offers.length);
+/**
+ * -----------------------------------------
+ *	Methods
+ * -----------------------------------------
+ */
+function openDrawer() {
+  $app.drawerLeft = true;
+}
 </script>
 
 <style>

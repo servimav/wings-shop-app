@@ -42,6 +42,18 @@
       </q-item>
       <!-- / Stores -->
 
+      <!-- Stats -->
+      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_STATS }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-chart-bar" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Estadísticas</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Stats -->
+
       <!-- Vendor Mode -->
       <q-item clickable @click="userMode">
         <q-item-section avatar top>
@@ -53,6 +65,23 @@
         </q-item-section>
       </q-item>
       <!-- / Vendor Mode -->
+
+      <!-- Help -->
+      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_HELP }">
+        <q-item-section avatar top>
+          <q-avatar
+            size="md"
+            icon="mdi-help-circle-outline"
+            text-color="primary"
+          />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Ayuda</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Help -->
+
       <!-- Logout -->
       <q-item clickable @click="logout">
         <q-item-section avatar top>

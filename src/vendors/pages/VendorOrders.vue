@@ -3,9 +3,9 @@
     <q-card class="no-box-shadow">
       <q-card-section>
         <div class="text-h6 text-center">Total {{ total }}</div>
-        <div class="text-subtitle2 text-center">
+        <!-- <div class="text-subtitle2 text-center">
           <q-chip class="glossy" icon="mdi-plus" label="Más Datos" />
-        </div>
+        </div> -->
       </q-card-section>
       <q-card-section>
         <q-tabs v-model="tabSelector" dense align="center" mobile-arrows>

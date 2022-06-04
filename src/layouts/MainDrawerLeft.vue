@@ -98,7 +98,7 @@
       </q-item>
       <!-- / Logout -->
       <!-- About -->
-      <q-item clickable :to="{ name: ROUTE_NAME.ABOUT }" v-if="isAuth()">
+      <q-item clickable :to="{ name: ROUTE_NAME.ABOUT }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-information" text-color="primary" />
         </q-item-section>

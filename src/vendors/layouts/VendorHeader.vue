@@ -12,7 +12,12 @@
 
       <q-toolbar-title>Modo Ventas </q-toolbar-title>
 
-      <q-btn flat dense icon="mdi-bell-outline">
+      <q-btn
+        flat
+        dense
+        icon="mdi-bell-outline"
+        @click="goTo(ROUTE_NAME.VENDOR_ORDERS)"
+      >
         <q-badge v-if="orderCounter" color="red" floating>{{
           orderCounter
         }}</q-badge>
@@ -22,8 +27,11 @@
 </template>
 
 <script lang="ts" setup>
+import { goTo } from 'src/helpers';
 import { injectStrict, _app, _vendorInjectable } from 'src/injectables';
+import { ROUTE_NAME } from 'src/router';
 import { computed } from 'vue';
+
 /**
  * -----------------------------------------
  *	Injectables
@@ -37,7 +45,9 @@ const $vendor = injectStrict(_vendorInjectable);
  *	data
  * -----------------------------------------
  */
-const orderCounter = computed(() => $vendor.ordersOnProccess.length);
+const orderCounter = computed(
+  () => $vendor.ordersOnProccess.length + $vendor.ordersAccepted.length
+);
 /**
  * -----------------------------------------
  *	Methods
