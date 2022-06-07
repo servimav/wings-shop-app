@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "icons": "icongenie g -i ./public/images/logo_x2480.png -b ./public/images/bg.png --skip-trim"
   },
   "dependencies": {
     "@capacitor/core": "^2.0.0",
