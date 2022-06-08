@@ -22,7 +22,7 @@
       <!-- / HOME -->
 
       <!-- Categories -->
-      <q-expansion-item :content-inset-level="0.25">
+      <q-expansion-item :content-inset-level="0.25" v-if="categories.length">
         <template v-slot:header>
           <q-item-section avatar top>
             <q-avatar size="md" icon="mdi-apps" text-color="primary" />

@@ -2,6 +2,7 @@
   <q-card>
     <q-form @submit="onSubmit" v-if="form">
       <q-card-section class="q-gutter-y-sm">
+        <q-toggle v-model="form.onsale" label="En Venta" color="green" />
         <!-- Title -->
         <q-input
           v-model="form.title"
@@ -227,7 +228,7 @@ const $v = useVuelidate(
         required
       ),
     },
-    vendor_price: { required, numeric },
+    vendor_price: { numeric },
   },
   form as Ref<IShopOfferCreateRequest>
 );
@@ -311,6 +312,7 @@ onBeforeMount(() => {
       title: $props.update.title,
       type: $props.update.type,
       vendor_price: $props.update.vendor_price,
+      onsale: $props.update.onsale,
     } as IShopOfferUpdateRequest;
   } else {
     form.value = {
@@ -324,6 +326,7 @@ onBeforeMount(() => {
       title: '',
       type: 'PRODUCT',
       vendor_price: 0,
+      onsale: true,
     } as IShopOfferCreateRequest;
   }
   void $category.allAction();

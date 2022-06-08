@@ -14,7 +14,7 @@ class NotificationHelper {
    */
   axiosError<T = unknown>(
     _error: unknown,
-    _default: string | undefined = 'Error en la red'
+    _default: string | undefined = 'Verifique su conexión'
   ) {
     console.log({ AxiosError: _error });
     const error = _error as AxiosError<T>;

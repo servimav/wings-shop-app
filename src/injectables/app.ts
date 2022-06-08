@@ -23,7 +23,24 @@ interface IAppStorage {
  * @class AppInjectable
  */
 class AppInjectable {
-  private _allLocalities = ref<IMapLocality[]>([]);
+  private _allLocalities = ref<IMapLocality[]>([
+    {
+      id: 1,
+      name: 'Cuba',
+      position: {
+        lat: 0,
+        lng: 0,
+      },
+    },
+    {
+      id: 2,
+      name: 'Cienfuegos',
+      position: {
+        lat: 0,
+        lng: 0,
+      },
+    },
+  ]);
   private _drawerLeft = ref(false);
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);
   private _homeOffers = ref<IShopOffer[]>([]);

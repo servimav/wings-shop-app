@@ -30,6 +30,7 @@ export function ShopOfferTests(api: AxiosInstance) {
             vendor_price: 1,
             category_tag: 'culinary',
             image: '',
+            onsale: true,
           })
         ).data
       );

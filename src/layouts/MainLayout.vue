@@ -7,6 +7,9 @@
       <q-page-container class="text-grey-9">
         <router-view v-if="currentLocality" />
         <q-page padding v-else>
+          <div v-if="!isAuth">
+            <auth-widget @auth="$category.availableAction()" />
+          </div>
           <map-locality-selector class="q-mt-sm" @complete="onComplete" />
         </q-page>
       </q-page-container>
@@ -20,6 +23,7 @@ import AppFooter from './MainFooter.vue';
 import AppHeader from './MainHeader.vue';
 import DrawerLeft from './MainDrawerLeft.vue';
 import MapLocalitySelector from 'src/components/forms/MapLocalitySelector.vue';
+import AuthWidget from 'components/widgets/AuthWidget.vue';
 import {
   injectStrict,
   _app,
@@ -41,6 +45,7 @@ const $user = injectStrict(_user);
  * -----------------------------------------
  */
 const currentLocality = computed(() => $app.locality);
+const isAuth = computed(() => $user.apiToken);
 
 function onComplete() {
   void init(() => console.log('Map Completed'));

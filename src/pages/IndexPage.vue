@@ -21,24 +21,18 @@
         </div>
         <!-- / categories -->
         <!-- Top Stores -->
-        <div
-          class="col-sm-6 col-md-4 col-xs-12 q-gutter-y-sm"
-          v-if="stores.length"
-        >
+        <div class="col-sm-6 col-md-4 col-xs-12" v-if="stores.length">
           <title-widget :data="{ title: 'Tiendas Destacadas' }" />
-          <store-group horizontal :data="stores.slice(0, 4)" />
+          <store-group :data="stores.slice(0, 4)" class="q-pt-sm" />
           <div v-if="stores.slice(4, stores.length).length > 2">
             <stores-slider :data="stores.slice(4, stores.length)" />
           </div>
         </div>
         <!-- / Top Stores -->
         <!-- Top Offers -->
-        <div
-          class="col-sm-6 col-md-4 col-xs-12 q-gutter-y-sm"
-          v-if="offers.length"
-        >
+        <div class="col-sm-6 col-md-4 col-xs-12" v-if="offers.length">
           <title-widget :data="{ title: 'Ofertas Destacadas' }" />
-          <offer-group horizontal :data="offers.slice(0, 4)" />
+          <offer-group horizontal :data="offers.slice(0, 4)" class="q-pt-sm" />
           <div v-if="offers.slice(4, offers.length).length > 2">
             <offers-slider :data="offers.slice(4, offers.length)" />
           </div>

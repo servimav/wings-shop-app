@@ -1,8 +1,11 @@
 <template>
   <q-page padding>
     <section class="q-gutter-y-sm">
+      <title-widget :data="{ title: 'Resultados de la Búsqueda' }" />
       <title-widget :data="{ title: 'Tiendas' }" v-if="stores.length" />
-      <stores-group horizontal :data="stores" />
+      <div>
+        <stores-group :data="stores" />
+      </div>
       <title-widget :data="{ title: 'Ofertas' }" v-if="offers.length" />
       <offers-group horizontal :data="offers" />
     </section>

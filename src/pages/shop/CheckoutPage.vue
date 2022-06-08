@@ -192,7 +192,7 @@
 // import OrderOfferWidget from 'components/widgets/shop/OrderOfferWidget.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import AuthWidget from 'src/components/widgets/AuthWidget.vue';
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { injectStrict, _map, _shopCart, _shopOrder } from 'src/injectables';
 import { IShopOrderCreateRequest } from 'src/api';
 import { LatLng } from 'leaflet';
@@ -361,7 +361,9 @@ function prevStep() {
 /**
  * Init map gps
  */
-void $map.getGpsPosition();
+onBeforeMount(() => {
+  void $map.getGpsPosition();
+});
 </script>
 
 <style>

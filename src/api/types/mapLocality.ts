@@ -1,3 +1,5 @@
+import { IMapCoordinate } from './mapPosition';
+
 /**
  * Map Locality
  */
@@ -7,4 +9,5 @@ export interface IMapLocality {
   description?: string;
   parent?: IMapLocality;
   children?: IMapLocality[];
+  position?: IMapCoordinate;
 }

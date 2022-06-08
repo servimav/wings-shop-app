@@ -84,7 +84,7 @@
     <!-- Map Dialog -->
     <q-dialog v-model="mapDialog" maximized>
       <map-widget
-        :initial-markers="[store.map_coordinate]"
+        :initial-markers="initialMarkers"
         readonly
         @confirm="mapDialog = false"
       />
@@ -127,6 +127,7 @@ import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import VendorStoreForm from 'src/vendors/components/forms/VendorStoreForm.vue';
 import VendorOfferForm from 'src/vendors/components/forms/VendorOfferForm.vue';
+import { latLng } from 'leaflet';
 
 /**
  * -----------------------------------------
@@ -142,6 +143,11 @@ const $router = useRouter();
  */
 const addOfferDialog = ref(false);
 const editDialog = ref(false);
+const initialMarkers = computed(() =>
+  store.value && store.value.map_coordinate
+    ? [latLng(store.value.map_coordinate)]
+    : []
+);
 const isVendor = computed(() => $route.name === ROUTE_NAME.VENDOR_STORE);
 const mapDialog = ref(false);
 const store = ref<IShopStore | undefined>(undefined);

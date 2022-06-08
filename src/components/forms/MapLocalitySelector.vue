@@ -53,7 +53,9 @@ async function listMapLocalities() {
   }
 }
 
-onBeforeMount(async () => {
-  await listMapLocalities();
+onBeforeMount(() => {
+  listMapLocalities().catch((err) => {
+    notificationHelper.axiosError(err);
+  });
 });
 </script>

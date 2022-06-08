@@ -133,7 +133,7 @@ import { IShopOffer } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { injectStrict, _shopCart } from 'src/injectables';
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import InputSpinner from 'src/components/forms/InputSpinner.vue';
 import VendorOfferForm from 'src/vendors/components/forms/VendorOfferForm.vue';
@@ -225,8 +225,9 @@ async function loadOffer() {
   if ($route.params.id && !isNaN(Number($route.params.id))) {
     notificationHelper.loading();
     try {
-      const resp = await $nairdaApi.ShopOffer.find(Number($route.params.id));
-      offer.value = resp.data;
+      const resp = (await $nairdaApi.ShopOffer.find(Number($route.params.id)))
+        .data;
+      offer.value = resp;
       if (cartOffer.value && cartOffer.value.qty)
         qty.value = cartOffer.value.qty;
       // Check if offer belongs to current store
@@ -244,7 +245,6 @@ async function loadOffer() {
     notificationHelper.loading(false);
   }
 }
-void loadOffer();
 /**
  * onEditOk
  * @param s
@@ -253,8 +253,16 @@ function onEditOk(s: IShopOffer) {
   offer.value = s;
   editDialog.value = false;
 }
-
+/**
+ * On Removed
+ */
 function onRemoved() {
   void goToStore();
 }
+/**
+ * On Before Mount
+ */
+onBeforeMount(async () => {
+  await loadOffer();
+});
 </script>

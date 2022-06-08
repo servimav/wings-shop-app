@@ -8,7 +8,7 @@
     <div class="q-pa-md text-grey-9 text-center">Hola, {{ name }}</div>
     <q-list class="rounded-borders text-grey-9">
       <!-- HOME -->
-      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_HOME }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_HOME }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-home" text-color="primary" />
         </q-item-section>
@@ -20,7 +20,7 @@
       <!-- / HOME -->
 
       <!-- orders -->
-      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_ORDERS }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_ORDERS }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-apps" text-color="primary" />
         </q-item-section>
@@ -31,7 +31,7 @@
       </q-item>
       <!-- / orders -->
       <!-- Stores -->
-      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_STORES }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_STORES }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-store" text-color="primary" />
         </q-item-section>
@@ -43,7 +43,7 @@
       <!-- / Stores -->
 
       <!-- Stats -->
-      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_STATS }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_STATS }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-chart-bar" text-color="primary" />
         </q-item-section>
@@ -55,7 +55,7 @@
       <!-- / Stats -->
 
       <!-- Vendor Mode -->
-      <q-item clickable @click="userMode">
+      <q-item exact clickable @click="userMode">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-account-convert" text-color="primary" />
         </q-item-section>
@@ -67,7 +67,7 @@
       <!-- / Vendor Mode -->
 
       <!-- Help -->
-      <q-item clickable :to="{ name: ROUTE_NAME.VENDOR_HELP }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_HELP }">
         <q-item-section avatar top>
           <q-avatar
             size="md"
@@ -83,7 +83,7 @@
       <!-- / Help -->
 
       <!-- Logout -->
-      <q-item clickable @click="logout">
+      <q-item exact clickable @click="logout">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-exit-to-app" text-color="primary" />
         </q-item-section>

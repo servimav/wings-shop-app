@@ -41,6 +41,7 @@ export interface IShopOfferCreateRequest {
   store_id: number;
   category_tag: string;
   image: string;
+  onsale?: boolean;
 }
 /**
  * IShopOfferFilterrequest
