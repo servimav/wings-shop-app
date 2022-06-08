@@ -1,8 +1,12 @@
 <template>
   <q-page padding class="text-grey-9">
-    <section class="q-gutter-y-sm" v-if="stores.length">
+    <section v-if="stores.length">
       <title-widget :data="{ title: 'Tiendas' }" />
-      <stores-group horizontal :data="stores" />
+      <stores-group :data="stores" class="q-mt-xs" />
+    </section>
+
+    <section v-else>
+      <widget-skeleton :count="4" />
     </section>
   </q-page>
 </template>
@@ -15,6 +19,8 @@ import { notificationHelper, goTo } from 'src/helpers';
 import { computed, ref } from 'vue';
 import StoresGroup from 'src/components/groups/StoresGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
+import WidgetSkeleton from 'components/widgets/WidgetSkeleton.vue';
+
 import { injectStrict, _app } from 'src/injectables';
 /**
  * -----------------------------------------
@@ -38,7 +44,6 @@ const stores = ref<IShopStore[]>([]);
  * loadStores
  */
 async function loadStores() {
-  notificationHelper.loading();
   try {
     stores.value = (
       await $nairdaApi.ShopStore.filter({
@@ -50,7 +55,6 @@ async function loadStores() {
     notificationHelper.axiosError(error, 'No hay conexión');
     goTo(ROUTE_NAME.HOME);
   }
-  notificationHelper.loading(false);
 }
 void loadStores();
 </script>

@@ -9,6 +9,10 @@
       <title-widget :data="{ title: 'Ofertas' }" v-if="offers.length" />
       <offers-group horizontal :data="offers" />
     </section>
+
+    <section v-if="!offers.length && !stores.length">
+      <widget-skeleton :count="4" />
+    </section>
   </q-page>
 </template>
 
@@ -16,6 +20,8 @@
 import TitleWidget from 'components/widgets/TitleWidget.vue';
 import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import StoresGroup from 'src/components/groups/StoresGroup.vue';
+import WidgetSkeleton from 'components/widgets/WidgetSkeleton.vue';
+
 import { IShopOffer, IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';

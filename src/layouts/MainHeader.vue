@@ -64,11 +64,13 @@ const search = ref('');
  * -----------------------------------------
  */
 function onSubmit() {
-  void $router.push({
-    name: ROUTE_NAME.SHOP_SEARCH,
-    query: { search: search.value },
-  });
-  search.value = '';
+  if (search.value) {
+    void $router.push({
+      name: ROUTE_NAME.SHOP_SEARCH,
+      query: { search: search.value },
+    });
+    search.value = '';
+  }
 }
 
 function toggleDrawerLeft() {

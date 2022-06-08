@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { IShopStore } from 'src/api';
 import StoreWidget from '../widgets/shop/StoreWidget.vue';
+
 const $props = defineProps<{
   data: IShopStore[];
   vendor?: boolean;

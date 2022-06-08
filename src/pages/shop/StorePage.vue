@@ -113,6 +113,7 @@
     </q-dialog>
     <!-- / Add offer Dialog -->
   </q-page>
+  <page-skeleton extended v-else />
 </template>
 
 <script setup lang="ts">
@@ -127,6 +128,7 @@ import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import VendorStoreForm from 'src/vendors/components/forms/VendorStoreForm.vue';
 import VendorOfferForm from 'src/vendors/components/forms/VendorOfferForm.vue';
+import PageSkeleton from 'src/components/widgets/PageSkeleton.vue';
 import { latLng } from 'leaflet';
 
 /**

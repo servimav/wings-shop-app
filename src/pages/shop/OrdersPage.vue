@@ -4,6 +4,8 @@
       <div v-for="(order, oKey) in orders" :key="`order-${oKey}`">
         <order-widget :order="order" />
       </div>
+
+      <widget-skeleton order v-if="!orders.length" />
     </section>
   </q-page>
 </template>
@@ -12,6 +14,7 @@
 import { computed } from 'vue';
 import { injectStrict, _shopOrder } from 'src/injectables';
 import OrderWidget from 'src/components/widgets/shop/OrderWidget.vue';
+import WidgetSkeleton from 'src/components/widgets/WidgetSkeleton.vue';
 import { isAuth } from 'src/helpers';
 
 const $order = injectStrict(_shopOrder);

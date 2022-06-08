@@ -10,9 +10,13 @@
         label="Nueva Tienda"
       />
     </div>
-    <div>
+    <div v-if="stores.length">
       <stores-group :data="stores" vendor />
     </div>
+
+    <!-- <div v-else>
+      <widget-skeleton :count="2" />
+    </div> -->
 
     <q-dialog v-model="storeDialog" maximized>
       <vendor-store-form
@@ -25,11 +29,11 @@
 </template>
 
 <script setup lang="ts">
-import { IShopStore } from 'src/api';
 import { notificationHelper } from 'src/helpers';
 import { computed, onBeforeMount, ref } from 'vue';
 import StoresGroup from 'src/components/groups/StoresGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
+// import WidgetSkeleton from 'src/components/widgets/WidgetSkeleton.vue';
 import VendorStoreForm from '../components/forms/VendorStoreForm.vue';
 import { injectStrict, _vendorInjectable } from 'src/injectables';
 /**
@@ -54,8 +58,7 @@ const storeDialog = ref(false);
  * onOk
  * @param s
  */
-function onOk(s: IShopStore) {
-  stores.value.unshift(s);
+function onOk() {
   storeDialog.value = false;
 }
 /**

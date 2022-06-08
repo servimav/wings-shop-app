@@ -1,14 +1,22 @@
 <template>
   <q-page padding>
     <section class="q-gutter-y-sm">
-      <title-widget :data="{ title: 'Tiendas' }" v-if="stores.length" />
-      <div>
-        <stores-group :data="stores" />
-      </div>
-      <title-widget :data="{ title: 'Ofertas' }" v-if="offers.length" />
-      <div>
-        <offers-group :data="offers" />
-      </div>
+      <template v-if="stores.length">
+        <title-widget :data="{ title: 'Tiendas' }" />
+        <div>
+          <stores-group :data="stores" />
+        </div>
+      </template>
+      <template v-if="offers.length">
+        <title-widget :data="{ title: 'Ofertas' }" />
+        <div>
+          <offers-group :data="offers" />
+        </div>
+      </template>
+    </section>
+
+    <section v-if="!stores.length && !offers.length">
+      <widget-skeleton :count="4" />
     </section>
   </q-page>
 </template>
@@ -17,6 +25,7 @@
 import TitleWidget from 'components/widgets/TitleWidget.vue';
 import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import StoresGroup from 'src/components/groups/StoresGroup.vue';
+import WidgetSkeleton from 'src/components/widgets/WidgetSkeleton.vue';
 import { IShopOffer, IShopStore } from 'src/api';
 import { $nairdaApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
@@ -48,7 +57,6 @@ const stores = ref<IShopStore[]>([]);
  */
 
 async function init(catTag: string) {
-  notificationHelper.loading();
   try {
     const resp = await $nairdaApi.ShopCategory.find({ tag: catTag });
     offers.value = [];
@@ -58,7 +66,6 @@ async function init(catTag: string) {
   } catch (error) {
     notificationHelper.axiosError(error);
   }
-  notificationHelper.loading(false);
 }
 
 if ($route.query.tag) void init($route.query.tag?.toString());

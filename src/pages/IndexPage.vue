@@ -40,6 +40,10 @@
         <!-- / Top Offers -->
       </div>
     </section>
+
+    <section v-if="!offers.length && !stores.length">
+      <widget-skeleton :count="6" />
+    </section>
   </q-page>
 </template>
 
@@ -53,6 +57,7 @@ import OfferGroup from 'src/components/groups/OffersGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OffersSlider from 'src/components/sliders/OffersSlider.vue';
 import StoresSlider from 'src/components/sliders/StoresSlider.vue';
+import WidgetSkeleton from 'components/widgets/WidgetSkeleton.vue';
 import { isAuth, notificationHelper } from 'src/helpers';
 import { computed, onBeforeMount } from 'vue';
 import { injectStrict, _app, _shopCategory } from 'src/injectables';

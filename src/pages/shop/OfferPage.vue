@@ -126,6 +126,7 @@
     </q-dialog>
     <!-- / Edit Dialog -->
   </q-page>
+  <page-skeleton v-else />
 </template>
 
 <script setup lang="ts">
@@ -136,6 +137,7 @@ import { injectStrict, _shopCart } from 'src/injectables';
 import { computed, onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import InputSpinner from 'src/components/forms/InputSpinner.vue';
+import PageSkeleton from 'src/components/widgets/PageSkeleton.vue';
 import VendorOfferForm from 'src/vendors/components/forms/VendorOfferForm.vue';
 import { ROUTE_NAME } from 'src/router';
 import { Dialog } from 'quasar';
@@ -223,7 +225,6 @@ function goToStore() {
  */
 async function loadOffer() {
   if ($route.params.id && !isNaN(Number($route.params.id))) {
-    notificationHelper.loading();
     try {
       const resp = (await $nairdaApi.ShopOffer.find(Number($route.params.id)))
         .data;
@@ -242,7 +243,6 @@ async function loadOffer() {
     } catch (error) {
       notificationHelper.axiosError(error);
     }
-    notificationHelper.loading(false);
   }
 }
 /**

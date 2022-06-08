@@ -9,9 +9,13 @@
         label="Nueva Oferta"
       />
     </div>
-    <div>
+    <div v-if="offers.length">
       <offers-group :data="offers" vendor />
     </div>
+
+    <!-- <div v-else>
+      <widget-skeleton :count="2" />
+    </div> -->
   </q-page>
 </template>
 
@@ -22,6 +26,7 @@ import { notificationHelper } from 'src/helpers';
 import { computed, ref } from 'vue';
 import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import TitleWidget from 'src/components/widgets/TitleWidget.vue';
+// import WidgetSkeleton from 'src/components/widgets/WidgetSkeleton.vue';
 import { useRoute } from 'vue-router';
 
 const $route = useRoute();
