@@ -310,7 +310,10 @@ async function finish() {
       notificationHelper.success(['Hemos recibido su pedido']);
       void $router.push({ name: ROUTE_NAME.SHOP_ORDERS });
     } catch (error) {
-      notificationHelper.axiosError(error, 'No se pudo completar el pedido');
+      notificationHelper.axiosError(
+        error,
+        'No se pudo completar el pedido, revise los datos enviados'
+      );
     }
     notificationHelper.loading(false);
   }

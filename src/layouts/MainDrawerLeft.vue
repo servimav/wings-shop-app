@@ -10,7 +10,7 @@
     </div>
     <q-list class="rounded-borders text-grey-9">
       <!-- HOME -->
-      <q-item clickable :to="{ name: ROUTE_NAME.HOME }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-home" text-color="primary" />
         </q-item-section>
@@ -54,7 +54,12 @@
       <!-- / Categories -->
 
       <!-- Orders -->
-      <q-item clickable :to="{ name: ROUTE_NAME.SHOP_ORDERS }" v-if="isAuth()">
+      <q-item
+        exact
+        clickable
+        :to="{ name: ROUTE_NAME.SHOP_ORDERS }"
+        v-if="isAuth()"
+      >
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-gift" text-color="primary" />
         </q-item-section>
@@ -65,7 +70,12 @@
       </q-item>
       <!-- / Orders -->
       <!-- Profile -->
-      <q-item clickable :to="{ name: ROUTE_NAME.USER_PROFILE }" v-if="isAuth()">
+      <q-item
+        exact
+        clickable
+        :to="{ name: ROUTE_NAME.USER_PROFILE }"
+        v-if="isAuth()"
+      >
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-account" text-color="primary" />
         </q-item-section>
@@ -86,6 +96,19 @@
         </q-item-section>
       </q-item>
       <!-- / Vendor Mode -->
+
+      <!-- About -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.ABOUT }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-information" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Sobre Nosotros</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / About -->
+
       <!-- Logout -->
       <q-item clickable v-if="isAuth()" @click="logout">
         <q-item-section avatar top>
@@ -97,17 +120,6 @@
         </q-item-section>
       </q-item>
       <!-- / Logout -->
-      <!-- About -->
-      <q-item clickable :to="{ name: ROUTE_NAME.ABOUT }">
-        <q-item-section avatar top>
-          <q-avatar size="md" icon="mdi-information" text-color="primary" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Sobre Nosotros</q-item-label>
-        </q-item-section>
-      </q-item>
-      <!-- / About -->
     </q-list>
   </q-drawer>
 </template>

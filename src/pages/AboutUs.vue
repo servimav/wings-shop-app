@@ -2,7 +2,7 @@
   <q-page padding>
     <q-card>
       <q-img
-        src="images/logo_x2480.png"
+        src="images/logo_x240.png"
         :ratio="4 / 3"
         spinner-color="primary"
         spinner-size="82px"

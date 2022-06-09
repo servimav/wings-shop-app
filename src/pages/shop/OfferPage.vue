@@ -182,10 +182,11 @@ function addToCart() {
   if (offer.value) {
     if (addToCartNormal.value) {
       $cart.addOrderOffer(offer.value as IShopOffer, qty.value);
-      void $router.push({
-        name: ROUTE_NAME.SHOP_STORE,
-        params: { id: $cart.active_store },
-      });
+      // void $router.push({
+      //   name: ROUTE_NAME.SHOP_STORE,
+      //   params: { id: $cart.active_store },
+      // });
+      void $router.push({ name: ROUTE_NAME.SHOP_CART });
     } else {
       Dialog.create({
         title: 'Conflicto de Tiendas',
@@ -196,10 +197,11 @@ function addToCart() {
       }).onOk(() => {
         $cart.restartOrderOffers();
         $cart.addOrderOffer(offer.value as IShopOffer, qty.value);
-        void $router.push({
-          name: ROUTE_NAME.SHOP_STORE,
-          params: { id: $cart.active_store },
-        });
+        // void $router.push({
+        //   name: ROUTE_NAME.SHOP_STORE,
+        //   params: { id: $cart.active_store },
+        // });
+        void $router.push({ name: ROUTE_NAME.SHOP_CART });
       });
     }
   }
