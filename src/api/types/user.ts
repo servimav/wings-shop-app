@@ -49,6 +49,8 @@ export type IUserAuthRegisterRequest = {
   readonly first_name: string;
   readonly last_name: string;
   readonly email: string;
+  readonly phone?: string;
+  readonly address?: string;
   readonly password: string;
   readonly password_confirmation: string;
 };

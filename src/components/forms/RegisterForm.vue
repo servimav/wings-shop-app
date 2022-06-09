@@ -53,6 +53,20 @@
         </q-input>
 
         <q-input
+          name="phone"
+          v-model="form.phone"
+          type="tel"
+          label="Teléfono"
+        />
+
+        <q-input
+          name="address"
+          v-model="form.address"
+          type="text"
+          label="Dirección"
+        />
+
+        <q-input
           name="password"
           v-model="form.password"
           type="password"
@@ -125,6 +139,8 @@ const form = ref<IUserAuthRegisterRequest>({
   first_name: '',
   last_name: '',
   password: '',
+  phone: undefined,
+  address: undefined,
   password_confirmation: '',
   service_name: 'nairda-shop',
 });
