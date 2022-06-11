@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { IShopOffer } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { computed, ref } from 'vue';
 import OffersGroup from 'src/components/groups/OffersGroup.vue';
@@ -50,7 +50,7 @@ const storeId = computed(() =>
 async function listOffers() {
   notificationHelper.loading();
   try {
-    const resp = (await $nairdaApi.ShopStore.offers(storeId.value)).data;
+    const resp = (await $servimavApi.ShopStore.offers(storeId.value)).data;
     offers.value = resp;
   } catch (error) {
     notificationHelper.axiosError(error);

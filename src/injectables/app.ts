@@ -5,7 +5,7 @@ import {
   IShopStore,
   IUserRoleName,
 } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { $capacitor } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 /**
@@ -26,7 +26,7 @@ class AppInjectable {
   private _allLocalities = ref<IMapLocality[]>([
     {
       id: 1,
-      name: 'Cuba',
+      name: 'Toda Cuba',
       position: {
         lat: 0,
         lng: 0,
@@ -34,7 +34,7 @@ class AppInjectable {
     },
     {
       id: 2,
-      name: 'Cienfuegos',
+      name: 'Provincia Cienfuegos',
       position: {
         lat: 0,
         lng: 0,
@@ -136,13 +136,13 @@ class AppInjectable {
    * listLocalities
    */
   async listLocalities() {
-    this.allLocalities = (await $nairdaApi.MapLocality.list()).data;
+    this.allLocalities = (await $servimavApi.MapLocality.list()).data;
   }
   /**
    * loadAnnouncements
    */
   async loadAnnouncements() {
-    const resp = await $nairdaApi.PublicityAnnouncement.list();
+    const resp = await $servimavApi.PublicityAnnouncement.list();
     this.homeAnn = resp.data;
     return resp.data;
   }
@@ -151,7 +151,7 @@ class AppInjectable {
    */
   async loadOffers() {
     if (!this.locality) return;
-    const resp = await $nairdaApi.ShopOffer.filter({
+    const resp = await $servimavApi.ShopOffer.filter({
       limit: 10,
       locality_id: this.locality.id,
     });
@@ -163,7 +163,7 @@ class AppInjectable {
    */
   async loadStores() {
     if (!this.locality) return;
-    const resp = await $nairdaApi.ShopStore.filter({
+    const resp = await $servimavApi.ShopStore.filter({
       limit: 10,
       locality_id: this.locality.id,
     });

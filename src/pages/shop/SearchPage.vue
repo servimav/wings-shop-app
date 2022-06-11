@@ -23,7 +23,7 @@ import StoresGroup from 'src/components/groups/StoresGroup.vue';
 import WidgetSkeleton from 'components/widgets/WidgetSkeleton.vue';
 
 import { IShopOffer, IShopStore } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { ref, onBeforeMount, computed } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
@@ -78,7 +78,7 @@ async function runSearch(search: string) {
  */
 async function searchOffers(search: string) {
   offers.value = (
-    await $nairdaApi.ShopOffer.filter({
+    await $servimavApi.ShopOffer.filter({
       locality_id: localityId.value,
       description: search,
     })
@@ -90,7 +90,7 @@ async function searchOffers(search: string) {
  */
 async function searchStores(search: string) {
   stores.value = (
-    await $nairdaApi.ShopStore.filter({
+    await $servimavApi.ShopStore.filter({
       title: search,
       locality_id: localityId.value,
     })

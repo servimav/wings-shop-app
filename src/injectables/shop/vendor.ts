@@ -5,7 +5,7 @@ import {
   IShopStoreCreateRequest,
   IShopStoreUpdateRequest,
 } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { InjectionKey, ref } from 'vue';
 
 /**
@@ -57,7 +57,7 @@ class VendorInjectable {
    * @returns
    */
   async createStore(s: IShopStoreCreateRequest) {
-    const resp = await $nairdaApi.ShopStore.create(s);
+    const resp = await $servimavApi.ShopStore.create(s);
     this.stores.push(resp.data);
     return resp.data;
   }
@@ -69,7 +69,7 @@ class VendorInjectable {
     this.orders = [];
     this.stores.forEach(async (s) => {
       this.orders.push(
-        ...(await $nairdaApi.ShopOrder.listByStore(s.id)).data.data
+        ...(await $servimavApi.ShopOrder.listByStore(s.id)).data.data
       );
     });
     return this.orders;
@@ -79,7 +79,7 @@ class VendorInjectable {
    * @returns
    */
   async listStores() {
-    this.stores = (await $nairdaApi.ShopStore.list(true)).data.data;
+    this.stores = (await $servimavApi.ShopStore.list(true)).data.data;
     return this.stores;
   }
   /**
@@ -87,7 +87,7 @@ class VendorInjectable {
    * @param storeId
    */
   async removeStore(storeId: number) {
-    await $nairdaApi.ShopStore.destroy(storeId);
+    await $servimavApi.ShopStore.destroy(storeId);
     const index = this.stores.findIndex((s) => s.id === storeId);
     if (index >= 0) this.stores.splice(index, 1);
   }
@@ -98,7 +98,7 @@ class VendorInjectable {
    * @returns
    */
   async updateStore(storeId: number, update: IShopStoreUpdateRequest) {
-    const resp = await $nairdaApi.ShopStore.update(storeId, update);
+    const resp = await $servimavApi.ShopStore.update(storeId, update);
     this._updateOrInsertStore(resp.data);
     return resp.data;
   }
@@ -108,7 +108,7 @@ class VendorInjectable {
    * @param status
    */
   async updateOrder(orderId: number, status: IShopOrderStatus) {
-    const resp = await $nairdaApi.ShopOrder.updateStatus(orderId, { status });
+    const resp = await $servimavApi.ShopOrder.updateStatus(orderId, { status });
     this._updateOrInsertOrder(resp.data);
     return resp.data;
   }

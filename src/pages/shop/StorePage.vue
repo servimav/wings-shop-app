@@ -118,7 +118,7 @@
 
 <script setup lang="ts">
 import { IShopOffer, IShopStore } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
 import { computed, ref } from 'vue';
@@ -167,7 +167,7 @@ async function init() {
     const storeId = Number($route.params.id);
     notificationHelper.loading();
     try {
-      const resp = await $nairdaApi.ShopStore.find(storeId, isVendor.value);
+      const resp = await $servimavApi.ShopStore.find(storeId, isVendor.value);
       store.value = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error, 'No encontramos la tienda');
@@ -181,7 +181,9 @@ async function init() {
  * onEditOk
  */
 function onEditOk(s: IShopStore) {
+  const offers = store.value?.offers;
   store.value = s;
+  store.value.offers = offers;
   editDialog.value = false;
   addOfferDialog.value = false;
 }

@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { IShopStore } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { ROUTE_NAME } from 'src/router';
 import { notificationHelper, goTo } from 'src/helpers';
 import { computed, ref } from 'vue';
@@ -46,7 +46,7 @@ const stores = ref<IShopStore[]>([]);
 async function loadStores() {
   try {
     stores.value = (
-      await $nairdaApi.ShopStore.filter({
+      await $servimavApi.ShopStore.filter({
         locality_id: locality.value?.id,
       })
     ).data;

@@ -181,7 +181,7 @@ import { injectStrict, _shopCategory } from 'src/injectables';
 import { computed, onBeforeMount, Ref, ref } from 'vue';
 import { serialize } from 'object-to-formdata';
 import { notificationHelper } from 'src/helpers';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { Dialog } from 'quasar';
 import useVuelidate from '@vuelidate/core';
 import { required, numeric, integer, helpers } from '@vuelidate/validators';
@@ -249,7 +249,7 @@ async function onRemove() {
   }).onOk(async () => {
     try {
       if ($props.update) {
-        await $nairdaApi.ShopOffer.destroy($props.update.id);
+        await $servimavApi.ShopOffer.destroy($props.update.id);
         $emit('removed', $props.update.id);
       }
     } catch (error) {
@@ -274,14 +274,14 @@ async function onSubmit() {
       let resp: IShopOffer;
       if ($props.update) {
         resp = (
-          await $nairdaApi.ShopOffer.update(
+          await $servimavApi.ShopOffer.update(
             $props.update.id,
             formData as unknown as IShopOfferUpdateRequest
           )
         ).data;
       } else {
         resp = (
-          await $nairdaApi.ShopOffer.create(
+          await $servimavApi.ShopOffer.create(
             formData as unknown as IShopOfferCreateRequest
           )
         ).data;

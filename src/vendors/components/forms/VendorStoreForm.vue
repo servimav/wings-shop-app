@@ -13,7 +13,7 @@
         <q-select
           v-model="form.locality_id"
           :options="allLocalities"
-          label="¿Dónde te encuentras?"
+          label="Alcance de tu tienda"
           map-options
           option-label="name"
           option-value="id"
@@ -247,7 +247,7 @@ onBeforeMount(() => {
       map_coordinate: DEFAULT_COORDINATES,
       open: true,
       title: '',
-      locality_id: 0,
+      locality_id: 1,
     } as IShopStoreCreateRequest;
   }
   void $category.allAction();

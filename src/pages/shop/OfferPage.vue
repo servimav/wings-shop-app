@@ -131,7 +131,7 @@
 
 <script setup lang="ts">
 import { IShopOffer } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { injectStrict, _shopCart } from 'src/injectables';
 import { computed, onBeforeMount, ref } from 'vue';
@@ -228,7 +228,7 @@ function goToStore() {
 async function loadOffer() {
   if ($route.params.id && !isNaN(Number($route.params.id))) {
     try {
-      const resp = (await $nairdaApi.ShopOffer.find(Number($route.params.id)))
+      const resp = (await $servimavApi.ShopOffer.find(Number($route.params.id)))
         .data;
       offer.value = resp;
       if (cartOffer.value && cartOffer.value.qty)

@@ -1,8 +1,8 @@
 <template>
   <q-page padding>
-    <section class="q-gutter-y-sm" v-if="orders.length">
+    <section v-if="orders.length">
       <title-widget :data="{ title: 'Nuevos Pedidos' }" />
-      <div class="row q-col-gutter-sm">
+      <div class="row q-col-gutter-sm q-mt-xs">
         <div
           class="col-xs-12"
           v-for="(o, k) in orders"
@@ -13,17 +13,81 @@
       </div>
     </section>
 
-    <section v-else>
+    <!-- Default View  -->
+    <section v-else class="q-gutter-y-sm">
+      <title-widget :data="{ title: 'Modo Vendedor' }" />
       <q-card class="no-box-shadow">
         <q-card-section>
-          <div class="text-h6">Our Changing Planet</div>
-          <div class="text-subtitle2">by John Doe</div>
+          <div class="text-body1 text-center">
+            ¿Qué puedes hacer con nosotros?
+          </div>
         </q-card-section>
         <q-card-section>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+          <!-- Store -->
+          <p>
+            <q-chip
+              clickable
+              @click="goTo(ROUTE_NAME.VENDOR_STORES)"
+              class="glossy"
+              icon="mdi-store"
+              label="Crear Tienda Virtual"
+            />
+          </p>
+          <p>
+            Crea tu propia Tienda Virtual para publicar tus ofertas y llegar a
+            más clientes
+          </p>
+          <!-- / Store -->
+
+          <!-- Ann -->
+          <p>
+            <q-chip
+              class="glossy"
+              icon="mdi-arrange-send-backward"
+              label="Crear Anuncios"
+            />
+          </p>
+          <p>
+            Si tienes ofertas que quieres darle más visibilidad y alcance
+            anunciarla con nuestra red de anuncios. Contamos con publicidad
+            automatizada en redes sociales y en esta aplicación.
+          </p>
+          <!-- / Ann -->
+
+          <!-- Stats -->
+          <p>
+            <q-chip
+              clickable
+              @click="goTo(ROUTE_NAME.VENDOR_STATS)"
+              class="glossy"
+              icon="mdi-chart-bar"
+              label="Estadísticas"
+            />
+          </p>
+          <p>
+            Consulta tus datos de venta y el alcance que han tenido tus ofertas
+          </p>
+          <!-- / Stats -->
+
+          <!-- Help -->
+          <p>
+            <q-chip
+              clickable
+              @click="goTo(ROUTE_NAME.VENDOR_HELP)"
+              class="glossy"
+              icon="mdi-help-circle-outline"
+              label="Ayuda"
+            />
+          </p>
+          <p>
+            Estamos disponibles para ayudarte en lo que necesites para mejorar
+            tus ventas y nuestros servicios
+          </p>
+          <!-- / Help -->
         </q-card-section>
       </q-card>
     </section>
+    <!-- / Default View  -->
   </q-page>
 </template>
 
@@ -32,7 +96,8 @@ import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OrderWidget from 'src/components/widgets/shop/OrderWidget.vue';
 import { injectStrict, _vendorInjectable } from 'src/injectables';
 import { computed, onBeforeMount } from 'vue';
-import { notificationHelper } from 'src/helpers';
+import { notificationHelper, goTo } from 'src/helpers';
+import { ROUTE_NAME } from 'src/router';
 
 const $vendor = injectStrict(_vendorInjectable);
 /**

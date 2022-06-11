@@ -93,7 +93,7 @@
 <script setup lang="ts">
 import { computed } from '@vue/reactivity';
 import { IShopOrder, IShopOrderStatus } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { getRemainTime, notificationHelper } from 'src/helpers';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -204,7 +204,7 @@ async function init() {
     const id = Number($route.params.id);
     notificationHelper.loading();
     try {
-      const resp = await $nairdaApi.ShopOrder.find(id);
+      const resp = await $servimavApi.ShopOrder.find(id);
       order.value = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error, 'No encontramos la tienda');
@@ -225,7 +225,7 @@ function acceptOrder() {
   }).onOk(async () => {
     notificationHelper.loading();
     try {
-      const resp = await $nairdaApi.ShopOrder.updateStatus(order.value.id, {
+      const resp = await $servimavApi.ShopOrder.updateStatus(order.value.id, {
         status: 'ACCEPTED',
       });
       order.value = resp.data;
@@ -248,7 +248,7 @@ function completetOrder() {
   }).onOk(async () => {
     notificationHelper.loading();
     try {
-      const resp = await $nairdaApi.ShopOrder.updateStatus(order.value.id, {
+      const resp = await $servimavApi.ShopOrder.updateStatus(order.value.id, {
         status: 'COMPLETED',
       });
       order.value = resp.data;
@@ -275,7 +275,7 @@ function cancelOrder() {
       let status: IShopOrderStatus = 'ABORTED';
       if (asVendor.value) status = 'CANCELED';
       console.log(status);
-      const resp = await $nairdaApi.ShopOrder.updateStatus(order.value.id, {
+      const resp = await $servimavApi.ShopOrder.updateStatus(order.value.id, {
         status,
       });
       order.value = resp.data;

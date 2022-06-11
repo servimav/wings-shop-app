@@ -4,7 +4,7 @@ import {
   IShopOrderPriceRequest,
   IShopOrderPrices,
 } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 import { $shopCartInjectable } from './cart';
@@ -46,7 +46,7 @@ class OrderInjectable {
    * @param param
    */
   async calculatePrices(param: IShopOrderPriceRequest) {
-    const resp = (await $nairdaApi.ShopOrder.prices(param)).data;
+    const resp = (await $servimavApi.ShopOrder.prices(param)).data;
     this.order_price = resp;
   }
   /**
@@ -54,7 +54,7 @@ class OrderInjectable {
    * @param order
    */
   async create(order: IShopOrderCreateRequest) {
-    const resp = await $nairdaApi.ShopOrder.create(order);
+    const resp = await $servimavApi.ShopOrder.create(order);
     this.myOrders.push(resp.data);
     this.order_price = {
       offers_price: 0,
@@ -68,7 +68,7 @@ class OrderInjectable {
    */
   async list() {
     try {
-      const resp = await $nairdaApi.ShopOrder.list();
+      const resp = await $servimavApi.ShopOrder.list();
       this.myOrders = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error, 'No pudimos encontrar ordenes');

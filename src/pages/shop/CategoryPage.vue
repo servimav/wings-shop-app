@@ -27,7 +27,7 @@ import OffersGroup from 'src/components/groups/OffersGroup.vue';
 import StoresGroup from 'src/components/groups/StoresGroup.vue';
 import WidgetSkeleton from 'src/components/widgets/WidgetSkeleton.vue';
 import { IShopOffer, IShopStore } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { ref } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
@@ -58,7 +58,7 @@ const stores = ref<IShopStore[]>([]);
 
 async function init(catTag: string) {
   try {
-    const resp = await $nairdaApi.ShopCategory.find({ tag: catTag });
+    const resp = await $servimavApi.ShopCategory.find({ tag: catTag });
     offers.value = [];
     stores.value = [];
     if (resp.data.offers) offers.value = resp.data.offers;

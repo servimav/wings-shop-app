@@ -3,7 +3,7 @@ import { IShopOffer } from './shopOffer';
 import { IShopStore } from './shopStore';
 import { IUserProfile } from './user';
 /**
- * IShopOrderOffer
+ * Shop Order Offer
  */
 export interface IShopOrderOffer {
   qty: number;
@@ -11,7 +11,7 @@ export interface IShopOrderOffer {
   offer?: IShopOffer;
 }
 /**
- * IShopOrderStatus
+ * Shop Order Status
  */
 export type IShopOrderStatus =
   | 'PROCESSING'
@@ -20,13 +20,13 @@ export type IShopOrderStatus =
   | 'CANCELED'
   | 'ABORTED';
 /**
- * IShopOrder
+ * Shop Order
  */
 export interface IShopOrder {
   id: number;
-  total_price: number;
   offers_price: number;
   service_price: number;
+  shipping_price: number;
   shipping_address: string;
   shipping_coordinate: IMapCoordinate;
   shipping_time: string;
@@ -38,10 +38,10 @@ export interface IShopOrder {
   store?: IShopStore;
 }
 /**
- * IShopORderPrices
+ * Shop Order Prices
  */
 export interface IShopOrderPrices {
-  total_price: number;
+  shipping_price: number;
   service_price: number;
   offers_price: number;
 }
@@ -52,7 +52,7 @@ export interface IShopOrderPrices {
  * -----------------------------------------
  */
 /**
- * IShopOrderPriceRequest
+ * Shop Order Price Request
  */
 export interface IShopOrderPriceRequest {
   store_id: number;
@@ -60,7 +60,7 @@ export interface IShopOrderPriceRequest {
   shipping_coordinate: IMapCoordinate;
 }
 /**
- * IShopOrderCreateRequest
+ * Shop Order Create Request
  */
 export interface IShopOrderCreateRequest {
   store_id: number;
@@ -71,7 +71,7 @@ export interface IShopOrderCreateRequest {
   message?: string;
 }
 /**
- * IShopOrderUpdateRequest
+ * Shop Order Update Request
  */
 export interface IShopOrderUpdateRequest {
   shipping_time?: string;

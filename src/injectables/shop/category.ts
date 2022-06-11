@@ -1,5 +1,5 @@
 import { IShopCategory } from 'src/api/types/shopCategory';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 
@@ -29,7 +29,7 @@ class ShopCategoryInjectable {
    */
   async allAction() {
     try {
-      const resp = await $nairdaApi.ShopCategory.all();
+      const resp = await $servimavApi.ShopCategory.all();
       this.all = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error);
@@ -40,7 +40,7 @@ class ShopCategoryInjectable {
    */
   async availableAction() {
     try {
-      const resp = await $nairdaApi.ShopCategory.available();
+      const resp = await $servimavApi.ShopCategory.available();
       this.available = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error);

@@ -42,6 +42,7 @@ export interface IShopOfferCreateRequest {
   category_tag: string;
   image: string;
   onsale?: boolean;
+  views?: number;
 }
 /**
  * IShopOfferFilterrequest

@@ -3,8 +3,8 @@
     <q-card-section class="q-gutter-y-sm">
       <q-select
         v-model="form.subject"
-        :options="['Soy TCP', 'Represento MiPYME']"
-        label="Cuentanos sobre ti"
+        :options="['TCP', 'MiPYME', 'CNA', 'UBPC', 'Empresa Estatal']"
+        label="Representas a:"
       />
 
       <q-input
@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { IUserRoleRequest } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { ref } from 'vue';
 import TermsSection from 'components/TermsSection.vue';
@@ -66,7 +66,7 @@ const termsDialog = ref(false);
 async function onSubmit() {
   notificationHelper.loading();
   try {
-    await $nairdaApi.User.roleRequest(form.value);
+    await $servimavApi.User.roleRequest(form.value);
     form.value = {
       message: '',
       role: 'shop_vendor',

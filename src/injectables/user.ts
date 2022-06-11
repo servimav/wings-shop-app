@@ -3,7 +3,7 @@ import {
   IUserAuthRegisterRequest,
   IUserProfile,
 } from 'src/api';
-import { $nairdaApi } from 'src/boot/axios';
+import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 
@@ -66,7 +66,7 @@ class UserInjectable {
    * @param loginParams
    */
   async loginAction(loginParams: IUserAuthLoginRequest) {
-    const resp = await $nairdaApi.User.login(loginParams);
+    const resp = await $servimavApi.User.login(loginParams);
     this.profile = resp.data.data;
     this.apiToken = resp.data.api_token;
     this.save();
@@ -78,7 +78,7 @@ class UserInjectable {
    */
   async getProfile() {
     if (!this.apiToken) return;
-    const resp = await $nairdaApi.User.profile();
+    const resp = await $servimavApi.User.profile();
     this.profile = resp.data;
     this.save();
     return resp.data;
@@ -88,7 +88,7 @@ class UserInjectable {
    * @param registerParams
    */
   async registerAction(registerParams: IUserAuthRegisterRequest) {
-    const resp = await $nairdaApi.User.register(registerParams);
+    const resp = await $servimavApi.User.register(registerParams);
     this.profile = resp.data.data;
     this.apiToken = resp.data.api_token;
     this.save();
@@ -100,7 +100,7 @@ class UserInjectable {
    */
   async update(update: Partial<IUserProfile> | FormData) {
     try {
-      const resp = await $nairdaApi.User.update(
+      const resp = await $servimavApi.User.update(
         update as Partial<IUserProfile>
       );
       this.profile = resp.data;
