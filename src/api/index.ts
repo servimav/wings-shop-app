@@ -7,6 +7,7 @@ import { ShopService } from './services/shop';
 import { ShopCategoryService } from './services/shopCategory';
 import { ShopOfferService } from './services/shopOffer';
 import { ShopOrderService } from './services/shopOrder';
+import { ShopStatsService } from './services/shopStats';
 import { ShopStoreService } from './services/shopStore';
 import { UserServices } from './services/user';
 /**
@@ -43,6 +44,10 @@ export default function NairdaApi(api: AxiosInstance) {
    */
   const ShopOffer = new ShopOfferService(api);
   /**
+   * ShopStats
+   */
+  const ShopStats = new ShopStatsService(api);
+  /**
    * Shop Store Service
    */
   const ShopStore = new ShopStoreService(api);
@@ -59,6 +64,7 @@ export default function NairdaApi(api: AxiosInstance) {
     ShopCategory,
     ShopOffer,
     ShopOrder,
+    ShopStats,
     ShopStore,
     User,
   };
@@ -75,6 +81,7 @@ export * from './services/publicity';
 export * from './services/shop';
 export * from './services/shopOrder';
 export * from './services/shopOffer';
+export * from './services/shopStats';
 export * from './services/shopStore';
 export * from './services/user';
 
@@ -91,5 +98,6 @@ export * from './types/publicity';
 export * from './types/responses';
 export * from './types/shopOffer';
 export * from './types/shopOrder';
+export * from './types/shopStats';
 export * from './types/shopStore';
 export * from './types/user';
