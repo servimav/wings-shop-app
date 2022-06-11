@@ -22,7 +22,7 @@
             ¿Qué puedes hacer con nosotros?
           </div>
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-justify">
           <!-- Store -->
           <p>
             <q-chip
@@ -30,7 +30,7 @@
               @click="goTo(ROUTE_NAME.VENDOR_STORES)"
               class="glossy"
               icon="mdi-store"
-              label="Crear Tienda Virtual"
+              label="Administrar Tienda Virtual"
             />
           </p>
           <p>
@@ -42,9 +42,11 @@
           <!-- Ann -->
           <p>
             <q-chip
+              clickable
+              @click="onAdminAnnClick"
               class="glossy"
               icon="mdi-arrange-send-backward"
-              label="Crear Anuncios"
+              label="Administrar Anuncios"
             />
           </p>
           <p>
@@ -98,7 +100,9 @@ import { injectStrict, _vendorInjectable } from 'src/injectables';
 import { computed, onBeforeMount } from 'vue';
 import { notificationHelper, goTo } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 const $vendor = injectStrict(_vendorInjectable);
 /**
  * -----------------------------------------
@@ -106,7 +110,21 @@ const $vendor = injectStrict(_vendorInjectable);
  * -----------------------------------------
  */
 const orders = computed(() => $vendor.ordersOnProccess);
-
+/**
+ * -----------------------------------------
+ *	Methods
+ * -----------------------------------------
+ */
+function onAdminAnnClick() {
+  $q.dialog({
+    title: 'Administrar Anuncios',
+    message:
+      'Aún no tenemos disponible la administración de los anuncios. En próximas versiones podrá usar este servicio',
+  });
+}
+/**
+ * On Before Mount
+ */
 onBeforeMount(async () => {
   try {
     await $vendor.listOrders();

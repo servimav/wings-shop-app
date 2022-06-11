@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section>
-      <div class="text-body1">${{ Number(order.total_price).toFixed(2) }}</div>
+      <div class="text-body1">${{ totalPrice }}</div>
       <div class="absolute-top-right q-pa-xs">
         <q-chip
           class="glossy"
@@ -66,7 +66,7 @@ const status = computed<{
     case 'ABORTED':
       return {
         icon: 'mdi-cancel',
-        text: 'Cancelado por usted',
+        text: $props.asVendor ? 'Cancelado por cliente' : 'Cancelado por usted',
         color: 'negative',
         text_color: 'white',
       };
@@ -80,7 +80,7 @@ const status = computed<{
     case 'CANCELED':
       return {
         icon: 'mdi-cancel',
-        text: 'Cancelado',
+        text: $props.asVendor ? 'Cancelado por usted' : 'Cancelado por Cliente',
         color: 'negative',
         text_color: 'white',
       };
@@ -100,6 +100,19 @@ const status = computed<{
       };
   }
 });
+const totalPrice = computed(() =>
+  (
+    Number(order.value.offers_price) +
+    Number(order.value.service_price) +
+    Number(order.value.shipping_price)
+  ).toFixed(2)
+);
+/**
+ * -----------------------------------------
+ *	Methods
+ * -----------------------------------------
+ */
+
 /**
  * goToOrder
  */

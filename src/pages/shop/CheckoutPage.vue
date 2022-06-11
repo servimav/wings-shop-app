@@ -151,9 +151,20 @@
         </div> -->
         <p>Subtotal: ${{ Number(orderPrices.offers_price).toFixed(2) }}</p>
         <p>
+          Tarifa Envío: ${{ Number(orderPrices.shipping_price).toFixed(2) }}
+        </p>
+        <p v-if="orderPrices.service_price > 0">
           Tarifa Servicio: ${{ Number(orderPrices.service_price).toFixed(2) }}
         </p>
-        <p>Total: ${{ Number(orderPrices.total_price).toFixed(2) }}</p>
+        <p>
+          Total: ${{
+            Number(
+              orderPrices.offers_price +
+                orderPrices.service_price +
+                orderPrices.shipping_price
+            ).toFixed(2)
+          }}
+        </p>
         <q-stepper-navigation class="q-gutter-x-sm">
           <q-btn
             @click="prevStep"

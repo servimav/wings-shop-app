@@ -11,9 +11,7 @@
             :text-color="status.text_color"
           />
         </div>
-        <div class="text-body1">
-          Precio: ${{ Number(order.total_price).toFixed(2) }}
-        </div>
+        <div class="text-body1">Precio: ${{ totalPrice }}</div>
       </q-card-section>
       <q-card-section>
         <div
@@ -26,10 +24,11 @@
       <q-card-section class="q-gutter-y-sm">
         <div class="text-subtitle1" v-if="order.shipping_address">
           <p>Precio de Ofertas: ${{ Number(order.offers_price).toFixed(2) }}</p>
+          <p>Tarifa de Envío: ${{ Number(order.shipping_price).toFixed(2) }}</p>
           <p>
             Tarifa de Servicio: ${{ Number(order.service_price).toFixed(2) }}
           </p>
-          <p>Total: ${{ Number(order.total_price).toFixed(2) }}</p>
+          <p>Total: ${{ Number(totalPrice).toFixed(2) }}</p>
         </div>
         <div class="text-subtitle1" v-if="order.shipping_address">
           Dirección: {{ order.shipping_address }}
@@ -128,6 +127,13 @@ const canCancel = computed(() => {
 const duration = computed(() =>
   getRemainTime(new Date(Date.parse(order.value.shipping_time)))
 );
+const totalPrice = computed(() =>
+  Number(
+    Number(order.value.offers_price) +
+      Number(order.value.service_price) +
+      Number(order.value.shipping_price)
+  ).toFixed(2)
+);
 const initialMarkers = computed(() =>
   latLng(
     order.value.shipping_coordinate.lat,
@@ -142,7 +148,7 @@ const order = ref<IShopOrder>({
   shipping_coordinate: { lat: 0, lng: 0 },
   shipping_time: '',
   status: 'CANCELED',
-  total_price: 0,
+  shipping_price: 0,
   offers_price: 0,
   service_price: 0,
 });
@@ -156,7 +162,7 @@ const status = computed<{
     case 'ABORTED':
       return {
         icon: 'mdi-cancel',
-        text: 'Cancelado por usted',
+        text: asVendor.value ? 'Cancelado por cliente' : 'Cancelado por usted',
         color: 'negative',
         text_color: 'white',
       };
@@ -170,7 +176,7 @@ const status = computed<{
     case 'CANCELED':
       return {
         icon: 'mdi-cancel',
-        text: 'Cancelado',
+        text: asVendor.value ? 'Cancelado por usted' : 'Cancelado por Cliente',
         color: 'negative',
         text_color: 'white',
       };
@@ -274,7 +280,6 @@ function cancelOrder() {
     try {
       let status: IShopOrderStatus = 'ABORTED';
       if (asVendor.value) status = 'CANCELED';
-      console.log(status);
       const resp = await $servimavApi.ShopOrder.updateStatus(order.value.id, {
         status,
       });

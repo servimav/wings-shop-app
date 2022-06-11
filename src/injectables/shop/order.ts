@@ -16,7 +16,7 @@ class OrderInjectable {
   private _order_prices = ref<IShopOrderPrices>({
     offers_price: 0,
     service_price: 0,
-    total_price: 0,
+    shipping_price: 0,
   });
 
   /**
@@ -59,7 +59,7 @@ class OrderInjectable {
     this.order_price = {
       offers_price: 0,
       service_price: 0,
-      total_price: 0,
+      shipping_price: 0,
     };
     $shopCartInjectable.order_offers = [];
   }
