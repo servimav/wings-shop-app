@@ -8,8 +8,8 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-// export const baseURL = 'http://localhost:8000';
-export const baseURL = 'https://api.nairda.net';
+// export const baseURL = 'http://192.168.1.66:8000';
+export const baseURL = 'https://api.servimav.com';
 
 const $api = axios.create({
   baseURL: `${baseURL}`,
@@ -56,6 +56,6 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = $api;
 });
 
-const $nairdaApi = NairdaApi($api);
+const $servimavApi = NairdaApi($api);
 
-export { $api, $nairdaApi };
+export { $api, $servimavApi };
