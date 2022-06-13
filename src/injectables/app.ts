@@ -45,6 +45,7 @@ class AppInjectable {
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);
   private _homeOffers = ref<IShopOffer[]>([]);
   private _homeStores = ref<IShopStore[]>([]);
+  private _loading = ref(false);
   private _locality = ref<IMapLocality>();
   private _mode = ref<IUserRoleName>('user');
 
@@ -97,6 +98,12 @@ class AppInjectable {
   }
   set homeStores(s: IShopStore[]) {
     this._homeStores.value = s;
+  }
+  get loading() {
+    return this._loading.value;
+  }
+  set loading(b: boolean) {
+    this._loading.value = b;
   }
   /**
    * Gets & Sets locality

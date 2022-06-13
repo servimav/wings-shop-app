@@ -63,7 +63,7 @@ class MapInjectable {
    * -----------------------------------------
    */
   async getGpsPosition(intrusive = false) {
-    if (!Platform.is.mobile) return;
+    if (!Platform.is.capacitor) return;
     try {
       const coords = await $capacitor.Geolocation_currentPosition();
       this.gpsPosition = coords;

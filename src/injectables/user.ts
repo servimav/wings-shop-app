@@ -6,6 +6,8 @@ import {
 import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
+import { $app } from './app';
+import { $shopOrderInjectable } from './shop/order';
 
 /**
  * @class UserInjectable
@@ -136,6 +138,12 @@ class UserInjectable {
     this.apiToken = null;
     this.profile = null;
     this.save();
+
+    $app.locality = undefined;
+    $app.save();
+
+    $shopOrderInjectable.myOrders = [];
+    $shopOrderInjectable.save();
   }
   /**
    * save data on localstorage

@@ -1,14 +1,10 @@
 <template>
   <q-page padding>
     <section class="q-gutter-y-sm">
-      <q-card class="no-box-shadow text-grey-9" v-if="orderOffers.length <= 0">
-        <q-card-section class="text-center">
-          <div class="text-h6">Su carrito está vacío</div>
-          <!-- <div class="text-subtitle2 text-primary">
-            ¿Desea seguir buscando ofertas?
-          </div> -->
-        </q-card-section>
-      </q-card>
+      <title-widget
+        :data="{ title: 'Su carrito está vacío' }"
+        v-if="orderOffers.length <= 0"
+      />
       <q-btn
         color="primary"
         icon="mdi-cart"
@@ -55,7 +51,7 @@
 import { injectStrict, _shopCart } from 'src/injectables';
 import { computed } from 'vue';
 import OrderOfferWidget from 'src/components/widgets/shop/OrderOfferWidget.vue';
-// import AuthWidget from 'components/widgets/AuthWidget.vue';
+import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import { goTo } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
 /**

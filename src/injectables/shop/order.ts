@@ -5,9 +5,11 @@ import {
   IShopOrderPrices,
 } from 'src/api';
 import { $servimavApi } from 'src/boot/axios';
-import { notificationHelper } from 'src/helpers';
+import { $capacitor, notificationHelper } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 import { $shopCartInjectable } from './cart';
+
+const STORAGE_KEY = 'capacitor/shopOrders';
 /**
  * OrderInjectable
  */
@@ -35,6 +37,7 @@ class OrderInjectable {
   }
   set order_price(prices: IShopOrderPrices) {
     this._order_prices.value = prices;
+    this.save();
   }
   /**
    * -----------------------------------------
@@ -72,6 +75,30 @@ class OrderInjectable {
       this.myOrders = resp.data;
     } catch (error) {
       notificationHelper.axiosError(error, 'No pudimos encontrar ordenes');
+    }
+  }
+
+  /**
+   * load
+   */
+  async load() {
+    try {
+      const data = await $capacitor.Storage_load<IShopOrder[]>(STORAGE_KEY);
+      if (data) {
+        this.myOrders = data;
+      }
+    } catch (error) {
+      console.log(STORAGE_KEY, error);
+    }
+  }
+  /**
+   * save
+   */
+  async save() {
+    try {
+      await $capacitor.Storage_save<IShopOrder[]>(STORAGE_KEY, this.myOrders);
+    } catch (error) {
+      console.log(STORAGE_KEY, error);
     }
   }
 }

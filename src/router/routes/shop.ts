@@ -1,11 +1,12 @@
 import MainLayoutVue from 'src/layouts/MainLayout.vue';
 import { RouteRecordRaw } from 'vue-router';
 import { ROUTE_NAME } from '../names';
-import { authGuard } from './guards';
+import { authGuard } from '../guards';
 
 const route: RouteRecordRaw = {
   path: '/shop',
   component: MainLayoutVue,
+  beforeEnter: authGuard,
   children: [
     {
       path: 'cart',

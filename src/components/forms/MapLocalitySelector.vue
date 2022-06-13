@@ -1,5 +1,14 @@
 <template>
-  <q-card>
+  <q-select
+    v-model="currentLocality"
+    :options="mapLocalities"
+    label="¿Dónde te encuentras?"
+    map-options
+    option-label="name"
+    @update:model-value="onChange"
+    v-if="$props.inAuth"
+  />
+  <q-card v-else>
     <q-card-section class="q-gutter-y-sm">
       <q-select
         v-model="currentLocality"
@@ -29,11 +38,21 @@ import { computed, onBeforeMount, ref } from 'vue';
 
 const $app = injectStrict(_app);
 const $emit = defineEmits<{ (e: 'complete'): void }>();
+const $props = defineProps<{ inAuth?: boolean }>();
 
 const currentLocality = ref<IMapLocality>();
 const mapLocalities = computed(() => $app.allLocalities);
 const selectedLocality = computed(() => $app.locality);
 
+function onChange(event: IMapLocality) {
+  if ($props.inAuth) {
+    $app.locality = event;
+    $app.save();
+  }
+}
+/**
+ * onConfirm
+ */
 function onConfirm() {
   $app.locality = currentLocality.value;
   $app.save();

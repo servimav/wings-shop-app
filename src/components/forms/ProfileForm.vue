@@ -41,7 +41,7 @@
         />
 
         <q-input v-model="form.phone" type="tel" label="Teléfono" />
-
+        <map-locality-selector in-auth />
         <q-input v-model="form.address" type="text" label="Dirección" />
       </q-card-section>
       <q-card-actions>
@@ -65,6 +65,7 @@ import { IUserProfile } from 'src/api';
 import { notificationHelper } from 'src/helpers';
 import { injectStrict, _user } from 'src/injectables';
 import { ref } from 'vue';
+import MapLocalitySelector from './MapLocalitySelector.vue';
 
 /**
  * -----------------------------------------

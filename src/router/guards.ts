@@ -1,5 +1,5 @@
 import { isAuth, notificationHelper } from 'src/helpers';
-import { ROUTE_NAME } from '../names';
+import { ROUTE_NAME } from './names';
 import { NavigationGuard } from 'vue-router';
 import { $user } from 'src/injectables';
 /**

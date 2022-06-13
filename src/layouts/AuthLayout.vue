@@ -1,9 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lff">
     <q-page-container class="bg-secondary">
-      <div class="absolute-center full-width q-px-sm">
-        <auth-widget @auth="onAuth" />
-      </div>
+      <q-page padding class="q-pa-sm">
+        <q-card-section>
+          <auth-widget @auth="onAuth" />
+        </q-card-section>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>

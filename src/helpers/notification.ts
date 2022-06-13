@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { Notify, QSpinnerGears } from 'quasar';
 import { INotifyPosition } from 'src/types/quasar';
-import { $user } from 'src/injectables';
+import { $app, $user } from 'src/injectables';
 import { $router } from 'src/boot/router';
 import { ROUTE_NAME } from 'src/router';
 /**
@@ -85,11 +85,13 @@ class NotificationHelper {
    */
   loading(
     _load = true,
+    spinner = false,
     message = 'Cargando...',
     timeout = 0,
     position: INotifyPosition = 'center'
   ) {
-    if (_load) {
+    $app.loading = _load;
+    if (_load && spinner) {
       this._loading = Notify.create({
         spinner: QSpinnerGears,
         position,

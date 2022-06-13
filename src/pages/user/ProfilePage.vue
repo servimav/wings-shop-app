@@ -37,6 +37,7 @@
               <q-item-section>{{ profile?.phone }}</q-item-section>
             </q-item>
             <!-- / phone -->
+
             <!-- address -->
             <q-item v-if="profile?.address">
               <q-item-section avatar>
@@ -58,17 +59,6 @@
       </q-card>
     </section>
 
-    <section>
-      <q-card>
-        <q-card-section>
-          <div class="text-h6 text-center">Selecciona tu Localidad</div>
-        </q-card-section>
-        <q-card-section>
-          <map-locality-selector class="q-mt-sm" />
-        </q-card-section>
-      </q-card>
-    </section>
-
     <!-- Edit Dialog -->
     <q-dialog v-model="editDialog" maximized v-if="profile">
       <profile-form :profile="profile" @completed="editDialog = false" />
@@ -82,7 +72,6 @@ import { notificationHelper } from 'src/helpers';
 import { injectStrict, _user } from 'src/injectables';
 import { computed, onBeforeMount, ref } from 'vue';
 import ProfileForm from 'components/forms/ProfileForm.vue';
-import MapLocalitySelector from 'src/components/forms/MapLocalitySelector.vue';
 /**
  * -----------------------------------------
  *	Inject

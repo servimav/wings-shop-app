@@ -59,6 +59,8 @@
           label="Teléfono"
         />
 
+        <map-locality-selector in-auth />
+
         <q-input
           name="address"
           v-model="form.address"
@@ -122,6 +124,8 @@ import { notificationHelper } from 'src/helpers';
 import useVuelidate from '@vuelidate/core';
 import { email, helpers, required, sameAs } from '@vuelidate/validators';
 import { computed } from '@vue/reactivity';
+import MapLocalitySelector from './MapLocalitySelector.vue';
+
 /**
  * -----------------------------------------
  *	Setup

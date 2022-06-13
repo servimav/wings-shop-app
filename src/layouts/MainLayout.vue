@@ -29,6 +29,7 @@ import {
   _app,
   _map,
   _shopCategory,
+  _shopOrder,
   _user,
 } from 'src/injectables';
 import { computed } from '@vue/reactivity';
@@ -38,6 +39,7 @@ import { onBeforeMount } from 'vue';
 const $app = injectStrict(_app);
 const $map = injectStrict(_map);
 const $category = injectStrict(_shopCategory);
+const $order = injectStrict(_shopOrder);
 const $user = injectStrict(_user);
 /**
  * -----------------------------------------
@@ -57,6 +59,7 @@ function onComplete() {
  */
 async function init(done: CallableFunction) {
   $map.getGpsPosition();
+  $order.load();
   if (currentLocality) {
     Promise.all([
       $category.availableAction(),

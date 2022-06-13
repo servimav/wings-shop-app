@@ -11,7 +11,12 @@
     </section>
 
     <section v-if="!offers.length && !stores.length">
-      <widget-skeleton :count="4" />
+      <widget-skeleton :count="4" v-if="loading" />
+      <q-card class="no-box-shadow" v-else>
+        <q-card-section class="text-center">
+          <div class="text-subtitle2">No hay elementos para mostrar</div>
+        </q-card-section>
+      </q-card>
     </section>
   </q-page>
 </template>
@@ -36,6 +41,12 @@ import { injectStrict, _app } from 'src/injectables';
 
 const $app = injectStrict(_app);
 const $route = useRoute();
+/**
+ * -----------------------------------------
+ *	Data
+ * -----------------------------------------
+ */
+const loading = computed(() => $app.loading);
 
 onBeforeRouteUpdate((to, from, next) => {
   if (to.name === from.name && to.query.search)

@@ -42,7 +42,16 @@
     </section>
 
     <section v-if="!offers.length && !stores.length">
-      <widget-skeleton :count="6" />
+      <widget-skeleton :count="6" v-if="loading" />
+      <q-card class="no-box-shadow" v-else>
+        <q-card-section class="text-center">
+          <div class="text-body1">No hay elementos para mostrar</div>
+          <div class="text-subtitle2">Considere cambiar de localidad</div>
+        </q-card-section>
+        <q-card-section>
+          <map-locality-selector @complete="loadData" />
+        </q-card-section>
+      </q-card>
     </section>
   </q-page>
 </template>
@@ -58,6 +67,7 @@ import TitleWidget from 'src/components/widgets/TitleWidget.vue';
 import OffersSlider from 'src/components/sliders/OffersSlider.vue';
 import StoresSlider from 'src/components/sliders/StoresSlider.vue';
 import WidgetSkeleton from 'components/widgets/WidgetSkeleton.vue';
+import MapLocalitySelector from 'src/components/forms/MapLocalitySelector.vue';
 import { isAuth, notificationHelper } from 'src/helpers';
 import { computed, onBeforeMount } from 'vue';
 import { injectStrict, _app, _shopCategory } from 'src/injectables';
@@ -71,16 +81,26 @@ const $categories = injectStrict(_shopCategory);
  */
 const hasCategories = computed(() => $categories.available.length > 3);
 const announcements = computed(() => $app.homeAnn);
+const loading = computed(() => $app.loading);
 const offers = computed(() => $app.homeOffers);
 const stores = computed(() => $app.homeStores);
+/**
+ * -----------------------------------------
+ *	Methods
+ * -----------------------------------------
+ */
+function loadData() {
+  notificationHelper.loading();
+  Promise.all([$app.loadOffers(), $app.loadStores(), $app.loadAnnouncements()])
+    .catch((e) => {
+      notificationHelper.axiosError(e, 'Ha ocurrido un error');
+    })
+    .finally(() => {
+      notificationHelper.loading(false);
+    });
+}
 
 onBeforeMount(() => {
-  Promise.all([
-    $app.loadOffers(),
-    $app.loadStores(),
-    $app.loadAnnouncements(),
-  ]).catch((e) => {
-    notificationHelper.axiosError(e, 'Ha ocurrido un error');
-  });
+  loadData();
 });
 </script>

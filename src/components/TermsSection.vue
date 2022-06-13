@@ -2,7 +2,7 @@
   <q-card-section>
     <div class="text-center">
       <q-img
-        src="images/servimav_logo_only.png"
+        src="images/logo_x240.png"
         spinner-color="primary"
         spinner-size="82px"
         width="4rem"

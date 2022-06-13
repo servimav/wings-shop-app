@@ -1,8 +1,7 @@
 import VendorLayout from 'src/vendors/layouts/VendorLayout.vue';
 import { RouteRecordRaw } from 'vue-router';
 import { ROUTE_NAME } from '../names';
-import { vendorGuard } from './guards';
-// import { authGuard } from './guards';
+import { vendorGuard } from '../guards';
 
 const route: RouteRecordRaw = {
   path: '/vendor',
