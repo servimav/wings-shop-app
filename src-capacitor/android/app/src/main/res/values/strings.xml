@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">S-Tienda</string>
-    <string name="title_activity_main">S-Tienda</string>
-    <string name="package_name">com.servimav.shop.app</string>
-    <string name="custom_url_scheme">com.servimav.shop.app</string>
+    <string name="app_name">S-Shop</string>
+    <string name="title_activity_main">S-Shop</string>
+    <string name="package_name">com.servimav.shop</string>
+    <string name="custom_url_scheme">com.servimav.shop</string>
 </resources>

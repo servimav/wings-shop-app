@@ -1,4 +1,4 @@
-package com.servimav.shop.app;
+package com.servimav.shop;
 
 import android.os.Bundle;
 
