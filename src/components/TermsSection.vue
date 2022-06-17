@@ -1,14 +1,5 @@
 <template>
   <q-card-section>
-    <div class="text-center">
-      <q-img
-        src="images/logo_x240.png"
-        spinner-color="primary"
-        spinner-size="82px"
-        width="4rem"
-      />
-    </div>
-
     <div class="q-my-md text-h6 text-center">
       Términos y Condiciones de Venta
     </div>

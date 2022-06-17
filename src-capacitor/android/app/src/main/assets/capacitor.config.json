@@ -3,5 +3,8 @@
   "appName": "EnTuKsa",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "url": "http://192.168.1.66:8080"
+  }
 }

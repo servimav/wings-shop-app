@@ -8,7 +8,7 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-// export const baseURL = 'http://192.168.1.66:8000';
+// export const baseURL = 'http://127.0.0.1:8000';
 export const baseURL = 'https://api.servimav.com';
 
 const $api = axios.create({
@@ -43,8 +43,8 @@ export default boot(({ app }) => {
       }
     }
     /* Check if app header is set */
-    if (!(_request.headers as AxiosRequestHeaders)['Nairda-Token']) {
-      (_request.headers as AxiosRequestHeaders)['Nairda-Token'] =
+    if (!(_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN']) {
+      (_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN'] =
         '1|$2y$10$G1.nEO.oRi5nrVSpZFAhguSARzeNgcLoDvg.DgnWZKYMYphooKlUW';
     }
 

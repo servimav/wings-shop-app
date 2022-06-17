@@ -2,14 +2,11 @@
   <q-page padding>
     <q-card>
       <q-img
-        src="images/logo_x240.png"
-        :ratio="4 / 3"
+        src="images/logo_white.png"
+        :ratio="1"
         spinner-color="primary"
         spinner-size="82px"
       />
-      <q-card-section>
-        <div class="text-h6 text-center">SERVIMAV S.R.L.</div>
-      </q-card-section>
       <q-card-section>
         <q-list bordered class="rounded-borders">
           <!-- Expansion -->
