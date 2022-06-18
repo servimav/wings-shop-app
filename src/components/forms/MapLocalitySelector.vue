@@ -2,7 +2,7 @@
   <q-select
     v-model="currentLocality"
     :options="mapLocalities"
-    label="¿Dónde te encuentras?"
+    label="Seleccionar Localidad"
     map-options
     option-label="name"
     @update:model-value="onChange"
@@ -13,7 +13,7 @@
       <q-select
         v-model="currentLocality"
         :options="mapLocalities"
-        label="¿Dónde te encuentras?"
+        label="Seleccionar Localidad"
         map-options
         option-label="name"
       />
@@ -22,7 +22,7 @@
       ><q-btn
         color="primary"
         icon="mdi-map-marker"
-        label="Confirmar"
+        label="Seleccionar"
         class="full-width"
         @click="onConfirm"
       />

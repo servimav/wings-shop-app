@@ -52,21 +52,21 @@
           </template>
         </q-input>
 
-        <q-input
+        <!-- <q-input
           name="phone"
           v-model="form.phone"
           type="tel"
           label="Teléfono"
-        />
+        /> -->
 
-        <map-locality-selector in-auth />
+        <!-- <map-locality-selector in-auth /> -->
 
-        <q-input
+        <!-- <q-input
           name="address"
           v-model="form.address"
           type="text"
           label="Dirección"
-        />
+        /> -->
 
         <q-input
           name="password"
@@ -124,7 +124,7 @@ import { notificationHelper } from 'src/helpers';
 import useVuelidate from '@vuelidate/core';
 import { email, helpers, required, sameAs } from '@vuelidate/validators';
 import { computed } from '@vue/reactivity';
-import MapLocalitySelector from './MapLocalitySelector.vue';
+// import MapLocalitySelector from './MapLocalitySelector.vue';
 
 /**
  * -----------------------------------------

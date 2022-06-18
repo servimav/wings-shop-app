@@ -7,7 +7,7 @@
     </q-card-section>
     <q-form @submit.prevent="login">
       <q-card-section class="q-gutter-y-md">
-        <map-locality-selector in-auth />
+        <!-- <map-locality-selector in-auth /> -->
         <q-input
           name="email"
           v-model="loginForm.email"
@@ -62,7 +62,7 @@ import { IUserAuthLoginRequest } from 'src/api';
 import { injectStrict, _user } from 'src/injectables';
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
-import MapLocalitySelector from './MapLocalitySelector.vue';
+// import MapLocalitySelector from './MapLocalitySelector.vue';
 /**
  * -----------------------------------------
  *	Init

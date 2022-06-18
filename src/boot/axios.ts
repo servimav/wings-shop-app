@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
-import NairdaApi from 'src/api';
+import ServimavApi from 'src/api';
 import { $user } from 'src/injectables';
 
 declare module '@vue/runtime-core' {
@@ -45,7 +45,7 @@ export default boot(({ app }) => {
     /* Check if app header is set */
     if (!(_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN']) {
       (_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN'] =
-        '1|$2y$10$G1.nEO.oRi5nrVSpZFAhguSARzeNgcLoDvg.DgnWZKYMYphooKlUW';
+        '1|$2y$10$KGxwdRpK0s5rIG5npShAcOVMsudTIjKjd7zQFmltda8AECs5Fe/9e';
     }
 
     return _request;
@@ -56,6 +56,6 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = $api;
 });
 
-const $servimavApi = NairdaApi($api);
+const $servimavApi = ServimavApi($api);
 
 export { $api, $servimavApi };

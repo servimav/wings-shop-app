@@ -162,7 +162,7 @@ function goToctegory(cat: string) {
  * logout
  */
 function logout() {
-  void $router.push({ name: ROUTE_NAME.HOME });
+  void $router.push({ name: ROUTE_NAME.AUTH });
   $user.logout();
   updateDrawerleft(false);
 }

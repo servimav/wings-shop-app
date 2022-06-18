@@ -53,6 +53,11 @@ const route: RouteRecordRaw = {
       name: ROUTE_NAME.VENDOR_STORE,
       component: () => import('pages/shop/StorePage.vue'),
     },
+    {
+      path: 'telegram-access',
+      name: ROUTE_NAME.TELEGRAM_ACCESS,
+      component: () => import('pages/ConfirmTelegram.vue'),
+    },
   ],
 };
 

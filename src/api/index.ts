@@ -11,10 +11,10 @@ import { ShopStatsService } from './services/shopStats';
 import { ShopStoreService } from './services/shopStore';
 import { UserServices } from './services/user';
 /**
- * NairdaApi
+ * ServimavApi
  * @param api AxiosInstance
  */
-export default function NairdaApi(api: AxiosInstance) {
+export default function ServimavApi(api: AxiosInstance) {
   /**
    * CsrfToken
    */

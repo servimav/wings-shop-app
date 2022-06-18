@@ -19,11 +19,12 @@ import {
   _user,
 } from 'src/injectables';
 import { isAuth } from './helpers';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { computed } from '@vue/reactivity';
 import { ROUTE_NAME } from './router';
 
 const $router = useRouter();
+const $route = useRoute();
 
 provide(_app, $app);
 provide(_user, $user);
@@ -42,7 +43,7 @@ onBeforeMount(async () => {
   $user.load();
   if (isAuth()) $user.getProfile();
   if (appMode.value === 'shop_vendor') {
-    if ($user.isVendor || $user.isAdmin)
+    if (($user.isVendor || $user.isAdmin) && $route.name === ROUTE_NAME.HOME)
       void $router.push({ name: ROUTE_NAME.VENDOR_HOME });
   }
 });

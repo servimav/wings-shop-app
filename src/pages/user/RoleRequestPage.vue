@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-card class="no-box-shadow" v-if="role && role.name === 'user'">
-      <q-card-section>
+      <q-card-section class="q-py-sm">
         <div class="text-h6 text-center">Solicitud de Venta</div>
         <p class="text-subtitle2">
           Le brindamos la oportunidad de llegar a muchos clientes con sus
@@ -12,8 +12,8 @@
           los datos.
         </p>
       </q-card-section>
-      <q-card-section>
-        <div @click="goTo(ROUTE_NAME.USER_PROFILE)">
+      <q-card-section class="q-py-sm">
+        <div @click="editDialog = true">
           <p class="bg-warning q-pa-sm text-dark" v-if="!conditions.address">
             <q-icon name="mdi-map-marker" /> Necesitamos que configure su
             dirección
@@ -54,16 +54,23 @@
         />
       </q-card-section>
     </q-card>
+
+    <!-- Edit Dialog -->
+    <q-dialog v-model="editDialog" maximized v-if="profile">
+      <profile-form :profile="profile" @completed="editDialog = false" />
+    </q-dialog>
+    <!-- / Edit Dialog -->
   </q-page>
 </template>
 
 <script lang="ts" setup>
 import { Dialog } from 'quasar';
 import UserRoleRequestForm from 'src/components/forms/UserRoleRequestForm.vue';
+import ProfileForm from 'components/forms/ProfileForm.vue';
 import { goTo } from 'src/helpers';
 import { injectStrict, _user } from 'src/injectables';
 import { ROUTE_NAME } from 'src/router';
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const $router = useRouter();
@@ -74,6 +81,14 @@ const $user = injectStrict(_user);
  *	Data
  * -----------------------------------------
  */
+
+const allConditions = computed(
+  () =>
+    conditions.value.address &&
+    conditions.value.confirmed &&
+    conditions.value.email &&
+    conditions.value.phone
+);
 const conditions = computed(() => {
   const c = {
     email: false,
@@ -86,13 +101,8 @@ const conditions = computed(() => {
   if ($user.profile?.email) c.email = true;
   return c;
 });
-const allConditions = computed(
-  () =>
-    conditions.value.address &&
-    conditions.value.confirmed &&
-    conditions.value.email &&
-    conditions.value.phone
-);
+const editDialog = ref(false);
+const profile = computed(() => $user.profile);
 const role = computed(() => $user.profile?.role);
 /**
  * -----------------------------------------
