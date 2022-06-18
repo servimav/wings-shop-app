@@ -89,6 +89,17 @@
           :error="$v.category_tag.$error"
           bottom-slots
         >
+          <template v-slot:option="scope">
+            <q-item v-bind="scope.itemProps">
+              <q-item-section avatar>
+                <q-icon :name="scope.opt.icons.mdi" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ scope.opt.title }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+
           <template v-slot:error>
             <div v-for="e of $v.category_tag.$errors" :key="e.$uid">
               {{ e.$message }}
