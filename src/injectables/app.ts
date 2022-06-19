@@ -1,4 +1,5 @@
 import {
+  IAppInfo,
   IMapLocality,
   IPublicityAnnouncement,
   IShopOffer,
@@ -41,6 +42,19 @@ class AppInjectable {
       },
     },
   ]);
+  readonly appInfo: IAppInfo = {
+    id: 1,
+    comments: 'Es',
+    created_at: '',
+    description: '',
+    tax: 0,
+    tax_type: 'FREE',
+    title: 'Wings-Shop',
+    updated_at: '',
+    version: '0.0.1',
+    version_code: 1,
+    token: '1|$2y$10$qYOVdlb.I1CQ0fHsL67kv.JLYVbUmx.0DkU8OBHUA/mT1Vic4X8Ji',
+  };
   private _drawerLeft = ref(false);
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);
   private _homeOffers = ref<IShopOffer[]>([]);

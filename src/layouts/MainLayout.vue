@@ -35,17 +35,21 @@ import {
 import { computed } from '@vue/reactivity';
 import { notificationHelper } from 'src/helpers';
 import { onBeforeMount } from 'vue';
+import { $servimavApi } from 'src/boot/axios';
+import { openURL, useQuasar } from 'quasar';
 
 const $app = injectStrict(_app);
 const $map = injectStrict(_map);
 const $category = injectStrict(_shopCategory);
 const $order = injectStrict(_shopOrder);
+const $q = useQuasar();
 const $user = injectStrict(_user);
 /**
  * -----------------------------------------
  *	Data
  * -----------------------------------------
  */
+const appInfo = computed(() => $app.appInfo);
 const currentLocality = computed(() => $app.locality);
 const isAuth = computed(() => $user.apiToken);
 
@@ -54,8 +58,31 @@ function onComplete() {
 }
 /**
  * -----------------------------------------
- *	Init
+ *	Methods
  * -----------------------------------------
+ */
+/**
+ * Get App Updates
+ */
+async function getAppUpdates() {
+  try {
+    const resp = await $servimavApi.Application.whoami();
+    if (appInfo.value.version_code < resp.data.version_code) {
+      $q.dialog({
+        title: 'Actualizacion de Aplicación',
+        message: `Ya está disponible la versión ${resp.data.version} de la aplicación. ¿Desea descargarla?`,
+        ok: 'Descargar',
+        cancel: 'No',
+      }).onOk(() => {
+        openURL($servimavApi.Application.downloadLink(appInfo.value.token));
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+/**
+ * init
  */
 async function init(done: CallableFunction) {
   $map.getGpsPosition();
@@ -68,6 +95,7 @@ async function init(done: CallableFunction) {
       $app.loadStores(),
       $app.loadAnnouncements(),
       $user.getProfile(),
+      getAppUpdates(),
     ])
       .catch((e) => {
         notificationHelper.axiosError(e, 'Ha ocurrido un error');

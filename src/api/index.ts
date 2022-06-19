@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { ApplicationService } from './services/application';
 
 import { csrfToken } from './services/csrf';
 import { MapLocalityService } from './services/mapLocality';
@@ -16,11 +17,15 @@ import { UserServices } from './services/user';
  */
 export default function ServimavApi(api: AxiosInstance) {
   /**
+   * Application
+   */
+  const Application = new ApplicationService(api);
+  /**
    * CsrfToken
    */
   const CsrfToken = csrfToken(api);
   /**
-   * MapLocality
+   * Map Locality
    */
   const MapLocality = new MapLocalityService(api);
   /**
@@ -32,19 +37,19 @@ export default function ServimavApi(api: AxiosInstance) {
    */
   const Shop = new ShopService(api);
   /**
-   * ShopCategory
+   * Shop Category
    */
   const ShopCategory = new ShopCategoryService(api);
   /**
-   * ShopOrder
+   * Shop Order
    */
   const ShopOrder = new ShopOrderService(api);
   /**
-   * ShopOffer
+   * Shop Offer
    */
   const ShopOffer = new ShopOfferService(api);
   /**
-   * ShopStats
+   * Shop Stats
    */
   const ShopStats = new ShopStatsService(api);
   /**
@@ -52,11 +57,12 @@ export default function ServimavApi(api: AxiosInstance) {
    */
   const ShopStore = new ShopStoreService(api);
   /**
-   * UserServices Instance
+   * User Services Instance
    */
   const User = new UserServices(api);
 
   return {
+    Application,
     CsrfToken,
     MapLocality,
     PublicityAnnouncement,
@@ -75,6 +81,7 @@ export default function ServimavApi(api: AxiosInstance) {
  *	Export individual services
  * -----------------------------------------
  */
+export * from './services/application';
 export * from './services/csrf';
 export * from './services/mapLocality';
 export * from './services/publicity';
@@ -91,6 +98,7 @@ export * from './services/user';
  * -----------------------------------------
  */
 
+export * from './types/application';
 export * from './types/image';
 export * from './types/mapLocality';
 export * from './types/mapPosition';
