@@ -53,7 +53,7 @@ class AppInjectable {
     updated_at: '',
     version: '0.0.1',
     version_code: 1,
-    token: '1|$2y$10$qYOVdlb.I1CQ0fHsL67kv.JLYVbUmx.0DkU8OBHUA/mT1Vic4X8Ji',
+    token: '1|$2y$10$7I10kG839Au.riOQbhyV0eHIBCyhcwocfGGEZ3C1noZPJW4QQNoIe',
   };
   private _drawerLeft = ref(false);
   private _homeAnn = ref<IPublicityAnnouncement[]>([]);

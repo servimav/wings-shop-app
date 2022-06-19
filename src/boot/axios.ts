@@ -43,11 +43,10 @@ export default boot(({ app }) => {
       }
     }
     /* Check if app header is set */
-    if (!(_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN']) {
-      (_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN'] =
+    if (!(_request.headers as AxiosRequestHeaders)['App-Token']) {
+      (_request.headers as AxiosRequestHeaders)['App-Token'] =
         $app.appInfo.token;
     }
-
     return _request;
   });
 
