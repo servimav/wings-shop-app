@@ -1,8 +1,8 @@
 {
-  "name": "servimav-shop-app",
+  "name": "servimav-wings-shop-app",
   "version": "0.0.1",
-  "description": "SERVIMAV SRL Shop ui",
-  "productName": "EnTuKsa",
+  "description": "SERVIMAV SRL Wings Shop GUI",
+  "productName": "Wings-Shop",
   "author": "AdriCQ <adrian.capote95@zoho.com>",
   "private": true,
   "scripts": {

@@ -1,4 +1,4 @@
-package com.servimav.shop;
+package com.servimav.wings;
 
 import android.os.Bundle;
 
