@@ -151,11 +151,16 @@
         </div> -->
         <p>Subtotal: ${{ Number(orderPrices.offers_price).toFixed(2) }}</p>
         <p>
-          Tarifa Envío: ${{ Number(orderPrices.shipping_price).toFixed(2) }}
+          Tarifa Envío: ${{
+            (
+              Number(orderPrices.shipping_price) +
+              Number(orderPrices.service_price)
+            ).toFixed(2)
+          }}
         </p>
-        <p v-if="orderPrices.service_price > 0">
+        <!-- <p v-if="orderPrices.service_price > 0">
           Tarifa Servicio: ${{ Number(orderPrices.service_price).toFixed(2) }}
-        </p>
+        </p> -->
         <p>
           Total: ${{
             Number(

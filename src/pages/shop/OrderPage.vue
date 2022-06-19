@@ -24,10 +24,16 @@
       <q-card-section class="q-gutter-y-sm">
         <div class="text-subtitle1" v-if="order.shipping_address">
           <p>Precio de Ofertas: ${{ Number(order.offers_price).toFixed(2) }}</p>
-          <p>Tarifa de Envío: ${{ Number(order.shipping_price).toFixed(2) }}</p>
           <p>
-            Tarifa de Servicio: ${{ Number(order.service_price).toFixed(2) }}
+            Tarifa de Envío: ${{
+              (
+                Number(order.shipping_price) + Number(order.service_price)
+              ).toFixed(2)
+            }}
           </p>
+          <!-- <p>
+            Tarifa de Servicio: ${{ Number(order.service_price).toFixed(2) }}
+          </p> -->
           <p>Total: ${{ Number(totalPrice).toFixed(2) }}</p>
         </div>
         <div class="text-subtitle1" v-if="order.shipping_address">
