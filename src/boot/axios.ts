@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
 import ServimavApi from 'src/api';
-import { $user } from 'src/injectables';
+import { $app, $user } from 'src/injectables';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -45,7 +45,7 @@ export default boot(({ app }) => {
     /* Check if app header is set */
     if (!(_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN']) {
       (_request.headers as AxiosRequestHeaders)['AUTH_APP-TOKEN'] =
-        '1|$2y$10$KGxwdRpK0s5rIG5npShAcOVMsudTIjKjd7zQFmltda8AECs5Fe/9e';
+        $app.appInfo.token;
     }
 
     return _request;

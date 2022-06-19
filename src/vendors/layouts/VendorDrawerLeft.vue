@@ -54,6 +54,18 @@
       </q-item>
       <!-- / Stats -->
 
+      <!-- Profile -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_PROFILE }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-account" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Mi Perfil</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Profile -->
+
       <!-- Vendor Mode -->
       <q-item exact clickable @click="userMode">
         <q-item-section avatar top>
