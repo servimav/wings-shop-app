@@ -46,7 +46,7 @@ class AppInjectable {
     id: 1,
     comments: 'Es',
     created_at: '',
-    description: '',
+    description: 'Wings Shop. Servicios a domicilio',
     tax: 0,
     tax_type: 'FREE',
     title: 'Wings-Shop',

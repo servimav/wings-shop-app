@@ -9,52 +9,68 @@
       />
       <q-card-section>
         <q-list bordered class="rounded-borders">
-          <!-- Expansion -->
+          <!-- Quiénes Somos -->
           <q-expansion-item
             expand-separator
             label="Quiénes Somos"
-            icon="mdi-fingerprint"
+            icon="mdi-cube-outline"
           >
-            <q-card-section>
+            <q-card-section class="text-justify">
               <p>
-                SERVIMAV S.R.L es una Mediana Empresa Privada fundada en Octubre
-                de 2021
+                Somos un grupo emprendedor que desea poner a tu alcance ofertas
+                de varios proveedores con envío a domicilio para hacer tus días
+                más cómodos.
               </p>
             </q-card-section>
           </q-expansion-item>
-          <!-- / Expansion -->
-          <!-- Expansion -->
-          <q-expansion-item
-            expand-separator
-            label="Dónde encontrarnos"
-            icon="mdi-map-marker"
-          >
-            <q-card-section>
-              Puede visitarnos en Calle Silencio #32 e/ Cerize y Villuendas,
-              Palmira, Cienfuegos
-            </q-card-section>
-          </q-expansion-item>
-          <!-- / Expansion -->
-          <!-- Expansion -->
+          <!-- / Quiénes Somos -->
+          <!-- Cómo contactarnos -->
           <q-expansion-item
             expand-separator
             label="Cómo contactarnos"
-            icon="mdi-phone"
+            icon="mdi-email-outline"
           >
-            <q-card-section>
-              <q-chip class="glossy" icon="mdi-phone" label="+53 59887003" />
-              <q-chip
-                class="glossy"
-                icon="mdi-email-outline"
-                label="servimav@yahoo.com"
-              />
-              <q-chip class="glossy" icon="mdi-whatsapp" label="+53 59887003" />
-              <q-chip class="glossy" icon="mdi-send" label="+53 59887003" />
+            <contact-form />
+          </q-expansion-item>
+          <!-- / Cómo contactarnos -->
+          <!-- App -->
+          <q-expansion-item
+            expand-separator
+            label="Sobre la Aplicación"
+            icon="mdi-cellphone"
+          >
+            <q-card-section class="text-justify">
+              <p class="text-body1">
+                {{ appInfo.title }}
+              </p>
+              <p class="text-justify">{{ appInfo.description }}</p>
+              <p class="text-justify">
+                Versión {{ appInfo.version }}-{{ appInfo.version_code }}
+              </p>
             </q-card-section>
           </q-expansion-item>
-          <!-- / Expansion -->
+          <!-- / App -->
         </q-list>
       </q-card-section>
     </q-card>
   </q-page>
 </template>
+
+<script lang="ts" setup>
+import ContactForm from 'src/components/forms/ContactForm.vue';
+import { injectStrict, _app } from 'src/injectables';
+import { computed } from 'vue';
+/**
+ * -----------------------------------------
+ *	Injectable
+ * -----------------------------------------
+ */
+const $app = injectStrict(_app);
+/**
+ * -----------------------------------------
+ *	Data
+ * -----------------------------------------
+ */
+const appInfo = computed(() => $app.appInfo);
+console.log(appInfo.value);
+</script>
