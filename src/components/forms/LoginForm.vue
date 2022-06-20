@@ -78,7 +78,6 @@ const $user = injectStrict(_user);
 const loginForm = ref<IUserAuthLoginRequest>({
   email: '',
   password: '',
-  service_name: 'MainApp',
 });
 /**
  * -----------------------------------------

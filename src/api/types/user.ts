@@ -39,13 +39,11 @@ export type IUserAuthLoginRequest = {
   readonly email: string;
   readonly password: string;
   readonly auth_mode?: IUserRoleName;
-  readonly service_name: string;
 };
 /**
  * User Auth Register Request
  */
 export type IUserAuthRegisterRequest = {
-  readonly service_name: string;
   readonly first_name: string;
   readonly last_name: string;
   readonly email: string;

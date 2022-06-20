@@ -146,7 +146,6 @@ const form = ref<IUserAuthRegisterRequest>({
   phone: undefined,
   address: undefined,
   password_confirmation: '',
-  service_name: 'nairda-shop',
 });
 /**
  * validator
