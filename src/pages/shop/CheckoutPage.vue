@@ -209,7 +209,13 @@
 import MapWidget from 'src/components/widgets/MapWidget.vue';
 import AuthWidget from 'src/components/widgets/AuthWidget.vue';
 import { computed, onBeforeMount, ref } from 'vue';
-import { injectStrict, _map, _shopCart, _shopOrder } from 'src/injectables';
+import {
+  injectStrict,
+  _map,
+  _shopCart,
+  _shopOrder,
+  _user,
+} from 'src/injectables';
 import { IShopOrderCreateRequest } from 'src/api';
 import { LatLng } from 'leaflet';
 import { date } from 'quasar';
@@ -233,6 +239,7 @@ const $cart = injectStrict(_shopCart);
 const $map = injectStrict(_map);
 const $order = injectStrict(_shopOrder);
 const $router = useRouter();
+const $user = injectStrict(_user);
 /**
  * -----------------------------------------
  *	Data
@@ -382,6 +389,8 @@ function prevStep() {
  */
 onBeforeMount(() => {
   void $map.getGpsPosition();
+  if ($user.profile?.address)
+    form.value.shipping_address = $user.profile.address;
 });
 </script>
 
