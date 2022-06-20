@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-card class="no-box-shadow" v-if="role && role.name === 'user'">
+    <q-card v-if="role && role.name === 'user'">
       <q-card-section class="q-py-sm">
         <div class="text-h6 text-center">Solicitud de Venta</div>
         <p class="text-subtitle2">
@@ -29,7 +29,7 @@
         <user-role-request-form v-if="allConditions" />
       </q-card-section>
     </q-card>
-    <q-card class="no-box-shadow" v-else>
+    <q-card v-else>
       <q-card-section>
         <div class="text-h6">Permisos de Venta Concedidos</div>
         <div class="text-subtitle2">
@@ -115,6 +115,7 @@ const role = computed(() => $user.profile?.role);
 onBeforeMount(() => {
   if (role.value?.name !== 'user') {
     Dialog.create({
+      class: 'text-justify',
       title: 'Permisos',
       message: 'Ya Usted tiene los permisos de venta',
       ok: true,

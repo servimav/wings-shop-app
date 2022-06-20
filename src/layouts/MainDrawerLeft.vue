@@ -180,6 +180,7 @@ function vendorMode() {
   if ($user.isVendor || $user.isAdmin) {
     Dialog.create({
       title: 'Cambiar Modo',
+      class: 'text-justify',
       message: '¿Desea cambiar al Modo Ventas?',
       ok: 'Si',
       cancel: 'No',
@@ -191,6 +192,7 @@ function vendorMode() {
     Dialog.create({
       title: 'Solicitud de ventas',
       message: `${name.value}, usted no tiene permiso de ventas. ¿Desea solicitar permiso a los Administradores?`,
+      class: 'text-justify',
       ok: 'Solicitar',
       cancel: 'Cancelar',
     }).onOk(() => {

@@ -4,7 +4,7 @@
     <section class="q-gutter-y-sm">
       <title-widget :data="{ title: 'Estadísticas' }" />
 
-      <q-card class="no-box-shadow">
+      <q-card>
         <q-card-section>
           <div class="text-body1 text-center">Cantidades</div>
           <q-chip

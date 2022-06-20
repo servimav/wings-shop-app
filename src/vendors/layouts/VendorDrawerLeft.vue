@@ -155,6 +155,7 @@ function updateDrawerleft(open: boolean) {
  */
 function userMode() {
   Dialog.create({
+    class: 'text-justify',
     title: 'Cambiar modo',
     message: '¿Desea cambiar a modo Cliente?',
     ok: 'Si',

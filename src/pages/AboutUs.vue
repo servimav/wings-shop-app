@@ -39,14 +39,11 @@
             label="Sobre la Aplicación"
             icon="mdi-cellphone"
           >
-            <q-card-section class="text-justify">
-              <p class="text-body1">
-                {{ appInfo.title }}
-              </p>
-              <p class="text-justify">{{ appInfo.description }}</p>
-              <p class="text-justify">
-                Versión {{ appInfo.version }}-{{ appInfo.version_code }}
-              </p>
+            <q-card-section class="text-center">
+              <p class="text-body1">{{ appInfo.title }}</p>
+              <p>Versión {{ appInfo.version }}-{{ appInfo.version_code }}</p>
+              <p>{{ appInfo.description }}</p>
+              <p>{{ appInfo.comments }}</p>
             </q-card-section>
           </q-expansion-item>
           <!-- / App -->
@@ -72,5 +69,4 @@ const $app = injectStrict(_app);
  * -----------------------------------------
  */
 const appInfo = computed(() => $app.appInfo);
-console.log(appInfo.value);
 </script>

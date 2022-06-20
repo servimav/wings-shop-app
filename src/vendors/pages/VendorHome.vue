@@ -16,7 +16,7 @@
     <!-- Default View  -->
     <section v-else class="q-gutter-y-sm">
       <title-widget :data="{ title: 'Modo Vendedor' }" />
-      <q-card class="no-box-shadow">
+      <q-card>
         <q-card-section>
           <div class="text-body1 text-center">
             ¿Qué puedes hacer con nosotros?
@@ -118,6 +118,7 @@ const orders = computed(() => $vendor.ordersOnProccess);
 function onAdminAnnClick() {
   $q.dialog({
     title: 'Administrar Anuncios',
+    class: 'text-justify',
     message:
       'Aún no tenemos disponible la administración de los anuncios. En próximas versiones podrá usar este servicio',
   });

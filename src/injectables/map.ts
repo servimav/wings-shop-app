@@ -70,6 +70,7 @@ class MapInjectable {
     } catch (error) {
       Dialog.create({
         title: 'Activación de GPS',
+        class: 'text-justify',
         message: 'Necesitamos que active su conexión de GPS',
         ok: true,
         persistent: true,

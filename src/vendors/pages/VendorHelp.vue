@@ -2,7 +2,7 @@
   <q-page padding class="q-gutter-y-sm">
     <title-widget :data="{ title: 'Ayuda' }" />
 
-    <q-card class="no-box-shadow">
+    <q-card>
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
         <div class="text-subtitle2">by John Doe</div>

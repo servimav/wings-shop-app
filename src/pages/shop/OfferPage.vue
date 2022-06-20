@@ -189,6 +189,7 @@ function addToCart() {
       void $router.push({ name: ROUTE_NAME.SHOP_CART });
     } else {
       Dialog.create({
+        class: 'text-justify',
         title: 'Conflicto de Tiendas',
         message:
           'Solamente puede tener ofertas de una sola tienda en el carrito. ¿Desea Continuar?',
@@ -236,6 +237,7 @@ async function loadOffer() {
       // Check if offer belongs to current store
       if (!addToCartNormal.value) {
         Dialog.create({
+          class: 'text-justify',
           title: 'Tienda Diferente',
           message:
             'Tiene en el carrito ofertas de una tienda diferente. Solamente puede tener ofertas de una sola tienda en el carrito',

@@ -242,6 +242,7 @@ const $v = useVuelidate(
  */
 async function onRemove() {
   Dialog.create({
+    class: 'text-justify',
     title: 'Eliminar Oferta',
     message: '¿Está seguro que desea eliminar la oferta?',
     ok: 'Si',

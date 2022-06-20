@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="q-gutter-y-sm">
-    <q-card class="no-box-shadow">
+    <q-card>
       <q-card-section>
         <div class="text-h6 text-center">Total {{ total }}</div>
         <!-- <div class="text-subtitle2 text-center">

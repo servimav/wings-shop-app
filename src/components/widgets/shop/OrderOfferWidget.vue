@@ -77,6 +77,7 @@ function goToOffer() {
 function remove() {
   Dialog.create({
     cancel: 'No',
+    class: 'text-justify',
     ok: 'Sí',
     title: 'Eliminar Oferta',
     message: '¿Desea eliminar la oferta del carrito?',

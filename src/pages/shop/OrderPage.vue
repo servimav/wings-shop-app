@@ -230,6 +230,7 @@ async function init() {
 function acceptOrder() {
   Dialog.create({
     cancel: 'No',
+    class: 'text-justify',
     ok: 'Si',
     message: '¿Desea Aceptar el pedido?',
     title: 'Aceptar Pedido',
@@ -252,6 +253,7 @@ function acceptOrder() {
  */
 function completetOrder() {
   Dialog.create({
+    class: 'text-justify',
     cancel: 'No',
     ok: 'Si',
     message: '¿Desea Completar el pedido?',
@@ -276,6 +278,7 @@ function completetOrder() {
  */
 function cancelOrder() {
   Dialog.create({
+    class: 'text-justify',
     cancel: 'No',
     ok: 'Si',
     message: '¿Desea cancelar el pedido?',
