@@ -30,7 +30,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: ['axios', 'router'],
+    boot: ['preload', 'axios', 'router'],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
     css: ['app.scss'],
@@ -86,7 +86,9 @@ module.exports = configure(function (ctx) {
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-framework
     framework: {
-      config: {},
+      config: {
+        // dark: false,
+      },
 
       iconSet: 'mdi-v6', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -137,8 +139,8 @@ module.exports = configure(function (ctx) {
       // chainWebpackCustomSW (/* chain */) {},
 
       manifest: {
-        name: 'EnTuKsa',
-        short_name: 'EnTuKsa',
+        name: 'Wings-Shop',
+        short_name: 'Wings-Shop',
         description: '',
         display: 'standalone',
         orientation: 'portrait',
@@ -202,7 +204,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'servimav-shop-app',
+        appId: 'servimav-wings-shop-app',
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
