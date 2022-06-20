@@ -4,10 +4,18 @@ import {
   IUserProfile,
 } from 'src/api';
 import { $servimavApi } from 'src/boot/axios';
-import { notificationHelper } from 'src/helpers';
+import { $capacitor, notificationHelper } from 'src/helpers';
 import { InjectionKey, ref } from 'vue';
 import { $app } from './app';
 import { $shopOrderInjectable } from './shop/order';
+/**
+ * Interface Storage
+ */
+interface IStorage {
+  profile: IUserProfile | null;
+  apiToken: string | null;
+}
+const STORAGE_KEY = 'storage/UserInjectable';
 
 /**
  * @class UserInjectable
@@ -120,15 +128,11 @@ class UserInjectable {
   /**
    * save data from localstorage
    */
-  load() {
-    const store = localStorage.getItem('UserInjectable');
+  async load() {
+    const store = await $capacitor.Storage_load<IStorage>(STORAGE_KEY);
     if (store) {
-      const { profile, apiToken } = JSON.parse(store) as {
-        profile: IUserProfile | null;
-        apiToken: string | null;
-      };
-      this.profile = profile;
-      this.apiToken = apiToken;
+      this.apiToken = store.apiToken;
+      this.profile = store.profile;
     }
   }
   /**
@@ -148,14 +152,15 @@ class UserInjectable {
   /**
    * save data on localstorage
    */
-  save() {
-    localStorage.setItem(
-      'UserInjectable',
-      JSON.stringify({
-        profile: this.profile,
+  async save() {
+    try {
+      await $capacitor.Storage_save<IStorage>(STORAGE_KEY, {
         apiToken: this.apiToken,
-      })
-    );
+        profile: this.profile,
+      });
+    } catch (error) {
+      console.log(STORAGE_KEY, error);
+    }
   }
 }
 
