@@ -3,21 +3,6 @@
     <q-form @submit="onSubmit" v-if="form">
       <q-card-section class="q-gutter-y-sm">
         <q-toggle v-model="form.onsale" label="En Venta" color="green" />
-        <!-- Title -->
-        <q-input
-          v-model="form.title"
-          type="text"
-          label="Nombre de la oferta"
-          :error="$v.title.$error"
-          bottom-slots
-        >
-          <template v-slot:error>
-            <div v-for="e of $v.title.$errors" :key="e.$uid">
-              {{ e.$message }}
-            </div>
-          </template>
-        </q-input>
-        <!--/ Title -->
         <!-- Type -->
         <q-select
           v-model="form.type"
@@ -58,15 +43,21 @@
           </template>
         </q-select>
         <!-- / Category -->
-        <!-- Image -->
-        <q-file
-          v-model="image"
-          label="Imagen"
-          use-chips
-          accept=".jpg, image/*"
+        <!-- Title -->
+        <q-input
+          v-model="form.title"
+          type="text"
+          label="Nombre de la oferta"
+          :error="$v.title.$error"
           bottom-slots
-        />
-        <!-- / Image -->
+        >
+          <template v-slot:error>
+            <div v-for="e of $v.title.$errors" :key="e.$uid">
+              {{ e.$message }}
+            </div>
+          </template>
+        </q-input>
+        <!--/ Title -->
         <!-- Description -->
         <q-input
           v-model="form.description"
@@ -82,6 +73,15 @@
           </template>
         </q-input>
         <!--/ Description -->
+        <!-- Image -->
+        <q-file
+          v-model="image"
+          label="Imagen"
+          use-chips
+          accept=".jpg, image/*"
+          bottom-slots
+        />
+        <!-- / Image -->
         <!-- Stock -->
         <q-select
           v-model="form.stock_type"

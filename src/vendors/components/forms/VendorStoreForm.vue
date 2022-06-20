@@ -58,6 +58,7 @@
             :initial-markers="initialMarkers"
             :button="false"
             @add-position="setCoordinate"
+            @current-gps="setCoordinate"
           />
         </q-card>
         <!-- / map_address -->
