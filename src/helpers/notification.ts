@@ -16,16 +16,30 @@ class NotificationHelper {
     _error: unknown,
     _default: string | undefined = 'Verifique su conexión'
   ) {
-    console.log({ AxiosError: _error });
     const error = _error as AxiosError<T>;
     if (error.response) {
+      // Unauthorized
       if (error.response.status === 401) {
         $user.logout();
-        void $router.push({ name: ROUTE_NAME.AUTH });
+        return $router.push({ name: ROUTE_NAME.AUTH });
       }
-    }
-    if (_default) {
-      this.error([_default]);
+      // Client Error
+      else if (error.response.status >= 400 && error.response.status < 500) {
+        if (error.response.data) {
+          const responseData = error.response.data;
+          if (Array.isArray(responseData)) {
+            return this.error(responseData);
+          }
+        }
+      }
+      // Server Error
+      else {
+        return this.error([
+          'Los servicios no están disponibles por el momento',
+        ]);
+      }
+    } else if (_default) {
+      return this.error([_default]);
     }
   }
   /**
