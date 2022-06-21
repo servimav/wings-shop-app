@@ -3,17 +3,17 @@
     <q-form @submit.prevent="onSubmit">
       <q-card-section class="q-gutter-y-sm">
         <!-- Contact email -->
-        <q-input v-model="form.email" required type="email" label="Su Email" />
+        <!-- <q-input v-model="form.email" required type="email" label="Su Email" /> -->
         <!-- / Contact email -->
         <!-- Contact phone -->
-        <q-input v-model="form.phone" required type="tel" label="Su Teléfono" />
+        <!-- <q-input v-model="form.phone" required type="tel" label="Su Teléfono" /> -->
         <!-- / Contact phone -->
         <!-- Contact Message -->
         <q-input
           v-model="form.message"
           required
           type="textarea"
-          label="Mensaje"
+          label="Deje su mensaje"
         />
         <!-- / Contact Message -->
       </q-card-section>
@@ -30,25 +30,22 @@
 </template>
 
 <script setup lang="ts">
-import { injectStrict, _user } from 'src/injectables';
-import { computed, onBeforeMount, ref } from 'vue';
+import { $servimavApi } from 'src/boot/axios';
+import { notificationHelper } from 'src/helpers';
+import { ref } from 'vue';
 /**
  * -----------------------------------------
  *	Inject
  * -----------------------------------------
  */
-const $user = injectStrict(_user);
 /**
  * -----------------------------------------
  *	Data
  * -----------------------------------------
  */
-const form = ref<{ email: string; phone: string; message: string }>({
-  email: '',
+const form = ref<{ message: string }>({
   message: '',
-  phone: '',
 });
-const profile = computed(() => $user.profile);
 /**
  * -----------------------------------------
  *	Methods
@@ -58,15 +55,13 @@ const profile = computed(() => $user.profile);
  * On Submit
  */
 async function onSubmit() {
-  console.log('onSubmit');
-}
-/**
- * On Before Mount
- */
-onBeforeMount(() => {
-  if (profile.value) {
-    form.value.email = profile.value.email;
-    if (profile.value.phone) form.value.phone = profile.value.phone;
+  notificationHelper.loading();
+  try {
+    await $servimavApi.User.message(form.value.message);
+    notificationHelper.success(['Mensaje enviado']);
+  } catch (error) {
+    notificationHelper.axiosError(error);
   }
-});
+  notificationHelper.loading(false);
+}
 </script>

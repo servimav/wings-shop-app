@@ -28,6 +28,14 @@ export class UserServices {
     return this.api.post<IUserAuthResponse>('/api/users/login', credentials);
   }
   /**
+   * send profile
+   * @param message
+   */
+  async message(message: string) {
+    await csrfToken(this.api);
+    return this.api.post('/api/users/message', { message });
+  }
+  /**
    * get profile
    */
   async profile() {
