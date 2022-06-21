@@ -31,9 +31,9 @@
               ).toFixed(2)
             }}
           </p>
-          <!-- <p>
+          <p v-if="asVendor">
             Tarifa de Servicio: ${{ Number(order.service_price).toFixed(2) }}
-          </p> -->
+          </p>
           <p>Total: ${{ Number(totalPrice).toFixed(2) }}</p>
         </div>
         <div class="text-subtitle1" v-if="order.shipping_address">

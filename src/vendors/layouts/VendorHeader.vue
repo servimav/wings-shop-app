@@ -15,7 +15,7 @@
       <q-btn
         flat
         dense
-        icon="mdi-bell-outline"
+        icon="mdi-cart-outline"
         @click="goTo(ROUTE_NAME.VENDOR_ORDERS)"
       >
         <q-badge v-if="orderCounter" color="red" floating>{{

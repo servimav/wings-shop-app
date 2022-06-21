@@ -7,7 +7,12 @@ import { ROUTE_NAME } from 'src/router';
 export default boot(async ({ redirect, urlPath }) => {
   await $app.load();
   await $user.load();
-  if ($user.apiToken) $user.getProfile();
+  // if ($user.apiToken) {
+  //   $user.getProfile().catch((e: AxiosError) => {
+  //     console.log('Profile error', e);
+  //     if (e.response?.status === 401) void redirect({ name: ROUTE_NAME.AUTH });
+  //   });
+  // }
   if ($app.mode === 'shop_vendor') {
     if (
       ($user.isVendor || $user.isAdmin) &&

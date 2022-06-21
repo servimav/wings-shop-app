@@ -96,16 +96,10 @@ async function init(done: CallableFunction) {
   }
 }
 
-onBeforeMount(() => {
-  if (currentLocality) {
-    Promise.all([
-      $category.availableAction(),
-      $category.allAction(),
-      $user.getProfile(),
-    ]).catch((e) => {
-      notificationHelper.axiosError(e, 'Ha ocurrido un error');
-    });
-  }
+onBeforeMount(async () => {
+  await init(() => {
+    console.log('onBeforeMonunt');
+  });
   $app.setMode('user');
 });
 </script>
