@@ -79,7 +79,7 @@
       <!-- / Vendor Mode -->
 
       <!-- Help -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_HELP }">
+      <!-- <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_HELP }">
         <q-item-section avatar top>
           <q-avatar
             size="md"
@@ -91,7 +91,7 @@
         <q-item-section>
           <q-item-label lines="1">Ayuda</q-item-label>
         </q-item-section>
-      </q-item>
+      </q-item> -->
       <!-- / Help -->
 
       <!-- Logout -->
