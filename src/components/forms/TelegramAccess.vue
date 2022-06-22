@@ -22,6 +22,7 @@ import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
 import { onBeforeMount, ref } from 'vue';
 
+const $emit = defineEmits<{ (e: 'completed'): void }>();
 const $props = defineProps<{ code?: string }>();
 
 const form = ref('');
@@ -29,11 +30,14 @@ const form = ref('');
  * On Submit
  */
 async function onSubmit() {
+  notificationHelper.loading();
   try {
     await $servimavApi.PublicityAnnouncement.confirmTelgramCode(form.value);
+    $emit('completed');
   } catch (error) {
     notificationHelper.axiosError(error);
   }
+  notificationHelper.loading(false);
 }
 /**
  * On Before Mount

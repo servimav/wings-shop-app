@@ -17,6 +17,7 @@ class NotificationHelper {
     _default: string | undefined = 'Verifique su conexión'
   ) {
     const error = _error as AxiosError<T>;
+    console.log({ error });
     if (error.response) {
       // Unauthorized
       if (error.response.status === 401) {
@@ -99,7 +100,7 @@ class NotificationHelper {
    */
   loading(
     _load = true,
-    spinner = false,
+    spinner = true,
     message = 'Cargando...',
     timeout = 0,
     position: INotifyPosition = 'center'
