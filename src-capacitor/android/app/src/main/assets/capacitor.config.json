@@ -1,6 +1,6 @@
 {
   "appId": "com.servimav.wings",
-  "appName": "EnTuKsa",
+  "appName": "Wings-Shop",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www"
