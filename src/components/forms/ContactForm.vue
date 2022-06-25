@@ -59,6 +59,7 @@ async function onSubmit() {
   try {
     await $servimavApi.User.message(form.value.message);
     notificationHelper.success(['Mensaje enviado']);
+    form.value.message = '';
   } catch (error) {
     notificationHelper.axiosError(error);
   }

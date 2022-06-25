@@ -44,14 +44,14 @@ class AppInjectable {
   ]);
   readonly appInfo: IAppInfo = {
     id: 1,
-    comments: 'Es',
+    comments: '',
     created_at: '',
     description: 'Wings Shop. Servicios a domicilio',
-    tax: 0,
-    tax_type: 'FREE',
+    tax: 5,
+    tax_type: 'ORDER_FIX',
     title: 'Wings-Shop',
     updated_at: '',
-    version: '0.0.1',
+    version: '24.06.30',
     version_code: 1,
     token: '1|$2y$10$7I10kG839Au.riOQbhyV0eHIBCyhcwocfGGEZ3C1noZPJW4QQNoIe',
   };
