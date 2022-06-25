@@ -1,6 +1,6 @@
 {
   "appId": "com.servimav.wings",
-  "appName": "Wings-Shop",
+  "appName": "Wings Shop",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www"

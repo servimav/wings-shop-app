@@ -1,7 +1,7 @@
 {
-  "name": "servimav-wings-shop-app",
+  "name": "com-servimav-wings",
   "version": "0.0.1",
-  "description": "SERVIMAV SRL Wings Shop GUI",
+  "description": "Wings Shop GUI",
   "author": "AdriCQ <adrian.capote95@zoho.com>",
   "private": true,
   "dependencies": {
