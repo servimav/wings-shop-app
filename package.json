@@ -8,7 +8,9 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "build": "quasar build",
+    "build:android": "quasar build --mode capacitor --target android --ide"
   },
   "dependencies": {
     "@capacitor/core": "^2.0.0",
