@@ -55,8 +55,8 @@
       </q-img>
       <q-card-section>
         <div class="text-h6">{{ store.title }}</div>
-        <div class="text-subtitle">
-          Nos encontramos en: {{ store.map_address }}
+        <div class="text-subtitle" v-if="store.map_address">
+          Nos encontramos en {{ store.map_address }}
         </div>
         <div class="text-subtitle"></div>
       </q-card-section>
