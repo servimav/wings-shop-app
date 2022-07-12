@@ -7,10 +7,8 @@
       spinner-size="82px"
     >
       <div class="absolute-bottom custom-caption">
-        <div class="text-h6">{{ $props.data.title }}</div>
-        <div class="text-subtitle1" v-if="$props.data.subtitle">
-          {{ $props.data.subtitle }}
-        </div>
+        <div class="text-h6">{{ ann.title }}</div>
+        <div class="text-subtitle1" v-if="ann.subtitle">{{ ann.subtitle }}</div>
       </div>
     </q-img>
   </q-card>
@@ -29,7 +27,7 @@ const $router = useRouter();
  *	Data
  * -----------------------------------------
  */
-
+const ann = computed(() => $props.data);
 const image = computed<string | null>(() => {
   if ($props.data.image) return $props.data.image;
   if ($props.data.related && $props.data.related.model?.image)
