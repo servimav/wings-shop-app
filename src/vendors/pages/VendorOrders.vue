@@ -1,12 +1,9 @@
 <template>
   <q-page padding class="q-gutter-y-sm">
     <q-card>
-      <q-card-section>
+      <!-- <q-card-section>
         <div class="text-h6 text-center">Total {{ total }}</div>
-        <!-- <div class="text-subtitle2 text-center">
-          <q-chip class="glossy" icon="mdi-plus" label="Más Datos" />
-        </div> -->
-      </q-card-section>
+      </q-card-section> -->
       <q-card-section>
         <q-tabs v-model="tabSelector" dense align="center" mobile-arrows>
           <q-tab name="PROCESSING" icon="mdi-star" label="Nuevos">
@@ -85,13 +82,13 @@ const orders = computed<ISelector>(() => ({
   COMPLETED: $vendor.ordersCompleted,
   PROCESSING: $vendor.ordersOnProccess,
 }));
-const total = computed(
-  () =>
-    orders.value.ABORTED.length +
-    orders.value.ACCEPTED.length +
-    orders.value.CANCELED.length +
-    orders.value.COMPLETED.length +
-    orders.value.PROCESSING.length
-);
+// const total = computed(
+//   () =>
+//     orders.value.ABORTED.length +
+//     orders.value.ACCEPTED.length +
+//     orders.value.CANCELED.length +
+//     orders.value.COMPLETED.length +
+//     orders.value.PROCESSING.length
+// );
 const tabSelector = ref<keyof ISelector>('PROCESSING');
 </script>
