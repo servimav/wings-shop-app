@@ -14,6 +14,11 @@ const route: RouteRecordRaw = {
       component: () => import('src/vendors/pages/VendorHome.vue'),
     },
     {
+      path: 'billings',
+      name: ROUTE_NAME.VENDOR_BILLINGS,
+      component: () => import('src/vendors/pages/BillingsPage.vue'),
+    },
+    {
       path: 'help',
       name: ROUTE_NAME.VENDOR_HELP,
       component: () => import('src/vendors/pages/VendorHelp.vue'),

@@ -54,6 +54,18 @@
       </q-item>
       <!-- / Stats -->
 
+      <!-- Stats -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_BILLINGS }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-newspaper" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Facturas</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Stats -->
+
       <!-- Profile -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.VENDOR_PROFILE }">
         <q-item-section avatar top>
