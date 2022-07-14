@@ -75,17 +75,33 @@
           <p>
             <q-chip
               clickable
-              @click="goTo(ROUTE_NAME.VENDOR_HELP)"
+              @click="openHelp"
               class="glossy"
               icon="mdi-help-circle-outline"
               label="Ayuda"
             />
           </p>
           <p>
+            Consulta nuestros materiales de ayuda para que aprendas a ganar con
+            Wings Shop
+          </p>
+          <!-- / Help -->
+
+          <!-- Contact -->
+          <p>
+            <q-chip
+              clickable
+              @click="goTo(ROUTE_NAME.VENDOR_HELP)"
+              class="glossy"
+              icon="mdi-email-outline"
+              label="Contacto"
+            />
+          </p>
+          <p>
             Estamos disponibles para ayudarte en lo que necesites para mejorar
             tus ventas y nuestros servicios
           </p>
-          <!-- / Help -->
+          <!-- / Contact -->
         </q-card-section>
       </q-card>
     </section>
@@ -100,7 +116,7 @@ import { injectStrict, _vendorInjectable } from 'src/injectables';
 import { computed, onBeforeMount } from 'vue';
 import { notificationHelper, goTo } from 'src/helpers';
 import { ROUTE_NAME } from 'src/router';
-import { useQuasar } from 'quasar';
+import { openURL, useQuasar } from 'quasar';
 
 const $q = useQuasar();
 const $vendor = injectStrict(_vendorInjectable);
@@ -122,6 +138,12 @@ function onAdminAnnClick() {
     message:
       'Aún no tenemos disponible la administración de los anuncios. En próximas versiones podrá usar este servicio',
   });
+}
+/**
+ * Open Help
+ */
+function openHelp() {
+  openURL('https://help.wings.servimav.com');
 }
 /**
  * On Before Mount
