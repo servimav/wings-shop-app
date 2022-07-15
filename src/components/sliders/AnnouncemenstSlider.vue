@@ -18,7 +18,7 @@
       <q-card @click="goTo(slider)">
         <q-img
           v-if="image(slider)"
-          :src="image(slider)"
+          :src="(image(slider) as string)"
           :ratio="4 / 3"
           spinner-color="primary"
           spinner-size="82px"
