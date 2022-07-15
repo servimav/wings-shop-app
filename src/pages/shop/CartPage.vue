@@ -29,7 +29,6 @@
         <q-card-section class="q-pa-xs">
           <q-btn
             color="primary"
-            text-color="dark"
             class="full-width"
             icon="mdi-cart"
             label="Comprar"
