@@ -5,12 +5,14 @@
         v-model="form.subject"
         :options="['TCP', 'MiPYME', 'CNA', 'UBPC', 'Empresa Estatal']"
         label="Representas a:"
+        required
       />
-
+      <q-input v-model="nit" required type="text" label="NIT" />
       <q-input
         v-model="form.message"
         type="textarea"
         label="Actividades que realiza"
+        required
       />
       <q-checkbox v-model="agreements">
         Acepto los
@@ -19,7 +21,7 @@
     </q-card-section>
     <q-card-actions>
       <q-btn
-        :disable="!agreements"
+        :disable="!canSubmit"
         color="primary"
         class="full-width"
         type="submit"
@@ -44,7 +46,7 @@
 import { IUserRoleRequest } from 'src/api';
 import { $servimavApi } from 'src/boot/axios';
 import { notificationHelper } from 'src/helpers';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import TermsSection from 'components/TermsSection.vue';
 import { injectStrict, _user } from 'src/injectables';
 import { ROUTE_NAME } from 'src/router';
@@ -54,11 +56,16 @@ const $user = injectStrict(_user);
 const $router = useRouter();
 
 const agreements = ref(false);
+const canSubmit = computed(
+  () =>
+    agreements.value && form.value.message && form.value.subject && nit.value
+);
 const form = ref<IUserRoleRequest>({
   message: '',
   role: 'shop_vendor',
   subject: '',
 });
+const nit = ref('');
 const termsDialog = ref(false);
 /**
  * On Submit
@@ -66,6 +73,7 @@ const termsDialog = ref(false);
 async function onSubmit() {
   notificationHelper.loading();
   try {
+    form.value.message += `(NIT: ${nit.value}`;
     await $servimavApi.User.roleRequest(form.value);
     form.value = {
       message: '',
