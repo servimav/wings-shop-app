@@ -15,8 +15,9 @@ export interface IPublicityAnnouncement {
     model?: IShopOffer | IShopStore;
     id?: number;
   };
-  user: IUserProfile;
+  user?: IUserProfile;
   active: boolean;
+  url?: string;
   created_at: string;
 }
 /**
