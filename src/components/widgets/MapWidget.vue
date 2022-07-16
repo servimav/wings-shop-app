@@ -41,7 +41,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, onBeforeMount } from 'vue';
 import 'leaflet/dist/leaflet.css';
-import { LatLng, LocationEvent, Icon } from 'leaflet';
+import { LatLng, LocationEvent } from 'leaflet';
 import {
   LControl,
   // LControlZoom,
@@ -51,21 +51,6 @@ import {
 } from '@vue-leaflet/vue-leaflet';
 import { injectStrict, _map } from 'src/injectables';
 
-/* Fix leaflet icons */
-type D = Icon.Default & {
-  _getIconUrl: string;
-};
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-delete (Icon.Default.prototype as D)._getIconUrl;
-Icon.Default.mergeOptions({
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
 /**
  * ATTRIBUTION
  */
