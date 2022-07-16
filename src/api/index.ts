@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { ApplicationService } from './services/application';
+import { BillingsService } from './services/billings';
 
 import { csrfToken } from './services/csrf';
 import { MapLocalityService } from './services/mapLocality';
@@ -20,6 +21,10 @@ export default function ServimavApi(api: AxiosInstance) {
    * Application
    */
   const Application = new ApplicationService(api);
+  /**
+   * Billings
+   */
+  const Billings = new BillingsService(api);
   /**
    * CsrfToken
    */
@@ -63,6 +68,7 @@ export default function ServimavApi(api: AxiosInstance) {
 
   return {
     Application,
+    Billings,
     CsrfToken,
     MapLocality,
     PublicityAnnouncement,
@@ -82,6 +88,7 @@ export default function ServimavApi(api: AxiosInstance) {
  * -----------------------------------------
  */
 export * from './services/application';
+export * from './services/billings';
 export * from './services/csrf';
 export * from './services/mapLocality';
 export * from './services/publicity';
@@ -99,6 +106,7 @@ export * from './services/user';
  */
 
 export * from './types/application';
+export * from './types/billings';
 export * from './types/image';
 export * from './types/mapLocality';
 export * from './types/mapPosition';
