@@ -1,9 +1,6 @@
 <template>
   <q-page padding class="q-gutter-y-sm">
     <q-card>
-      <!-- <q-card-section>
-        <div class="text-h6 text-center">Total {{ total }}</div>
-      </q-card-section> -->
       <q-card-section>
         <q-tabs v-model="tabSelector" dense align="center" mobile-arrows>
           <q-tab name="PROCESSING" icon="mdi-star" label="Nuevos">

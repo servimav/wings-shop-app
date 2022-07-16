@@ -36,16 +36,6 @@
             :label="`$${Number(basicStats?.earn.shipping).toFixed(2)} Envíos`"
           />
         </q-card-section>
-        <!-- <q-card-section>
-          <div class="text-body1 text-center">Pagos</div>
-
-          <q-chip
-            class="glossy"
-            icon="mdi-cash"
-            :label="`$${Number(basicStats?.pay.service).toFixed(2)} Servicios`"
-          />
-          <q-chip class="glossy" icon="mdi-eye-outline" label="100 Visualizaciones" />
-        </q-card-section> -->
       </q-card>
     </section>
     <!-- / Basic Data -->

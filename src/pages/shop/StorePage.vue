@@ -58,7 +58,7 @@
         <div class="text-subtitle" v-if="store.map_address">
           Nos encontramos en {{ store.map_address }}
         </div>
-        <div class="text-subtitle"></div>
+        <!-- <div class="text-subtitle"></div> -->
       </q-card-section>
       <q-card-section v-html="store.description" />
     </q-card>

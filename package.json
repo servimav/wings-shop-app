@@ -12,7 +12,9 @@
     "build": "quasar build",
     "dev": "quasar dev",
     "icons": "icongenie g -i ./public/images/logo.png -b ./public/images/bg.png --skip-trim",
-    "build:android": "quasar build --mode capacitor --target android --ide"
+    "build": "quasar build",
+    "build:android": "quasar build --mode capacitor --target android --ide",
+    "dev": "quasar dev"
   },
   "dependencies": {
     "@capacitor/core": "^2.0.0",

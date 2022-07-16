@@ -42,7 +42,6 @@
 import { computed, defineComponent, PropType, onBeforeMount } from 'vue';
 import 'leaflet/dist/leaflet.css';
 import { LatLng, LocationEvent } from 'leaflet';
-
 import {
   LControl,
   // LControlZoom,
