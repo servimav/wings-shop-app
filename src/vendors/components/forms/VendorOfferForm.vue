@@ -6,10 +6,7 @@
         <!-- Type -->
         <q-select
           v-model="form.type"
-          :options="[
-            { label: 'Producto', value: 'PRODUCT' },
-            { label: 'Servicio', value: 'SERVICE' },
-          ]"
+          :options="[{ label: 'Producto', value: 'PRODUCT' }]"
           map-options
           label="Tipo de oferta"
           use-chips
